@@ -1,0 +1,1933 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./image-slot.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+<style>
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+</style>
+</helmet>
+
+<div style="background: var(--bg); color: var(--ink); font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh">
+
+  <sc-if value="{{ esLogin }}" hint-placeholder-val="{{ true }}">
+    <div style="min-height: 100vh; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr))">
+      <div style="display: flex; align-items: center; justify-content: center; padding: 48px 28px">
+        <div style="width: 100%; max-width: 380px">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 32px">
+            <span style="width: 32px; height: 32px; border-radius: 10px; background: var(--brand-solid); display: grid; place-items: center; box-shadow: var(--sh-1)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M8 3v4M16 3v4M3 11h18"></path><circle cx="12" cy="16" r="1.6" fill="#fff" stroke="none"></circle></svg>
+            </span>
+            <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.025em">Turnalia</span>
+          </div>
+          <h1 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.1; letter-spacing: -0.035em; margin: 0 0 8px">Entrar al panel</h1>
+          <p style="font-size: 15px; line-height: 1.6; color: var(--ink-2); margin: 0 0 26px">Con tu usuario del local. Cada rol ve solo lo que le corresponde.</p>
+
+          <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px" for="usuario">Correo</label>
+          <input id="usuario" type="email" placeholder="vos@tulocal.com" style="{{ inputStyle }}" style-focus="{{ inputFocus }}">
+          <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin: 16px 0 6px" for="clave">Contraseña</label>
+          <input id="clave" type="password" placeholder="••••••••" style="{{ inputStyle }}" style-focus="{{ inputFocus }}">
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 16px 0 22px">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: var(--ink-2); cursor: pointer">
+              <input type="checkbox" checked="{{ recordar }}" onChange="{{ onRecordar }}" style="width: 16px; height: 16px; accent-color: var(--brand)">
+              No cerrar sesión
+            </label>
+            <a href="#" style="font-size: 13.5px; text-decoration: none">¿Olvidaste la contraseña?</a>
+          </div>
+
+          <button type="button" onClick="{{ entrar }}" style="{{ botonPrimario }}" style-hover="{{ hCtaBig }}">Entrar</button>
+
+          <div style="margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line-soft)">
+            <div style="font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 10px">Entrar como (demo)</div>
+            <div style="display: flex; gap: 7px; flex-wrap: wrap">
+              <sc-for list="{{ roles }}" as="rol" hint-placeholder-count="4">
+                <button type="button" onClick="{{ rol.onClick }}" style="{{ rol.style }}" style-hover="{{ rol.hover }}">{{ rol.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: var(--brand-solid); color: #fff; padding: 48px 40px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden">
+        <div style="position: absolute; inset: 0; pointer-events: none; opacity: .18; background-image: radial-gradient(circle at 1px 1px, #fff 1.2px, transparent 0); background-size: 22px 22px; mask-image: radial-gradient(90% 90% at 90% 10%, #000 0%, transparent 70%)"></div>
+        <div style="position: relative; max-width: 420px">
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85; margin-bottom: 18px">Turnalia · gestión de turnos</div>
+          <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.08; letter-spacing: -0.035em; margin-bottom: 26px">Tu agenda, tus fichas y tu caja, en un solo lugar.</div>
+          <div style="display: grid; gap: 10px">
+            <div style="background: rgba(255,255,255,.14); border-radius: var(--r-md); padding: 14px 16px; display: flex; align-items: center; gap: 12px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" style="flex: none"><path d="m4 12.5 5 5L20 6.5"></path></svg>
+              <span style="font-size: 14px">Turnos sin doble reserva</span>
+            </div>
+            <div style="background: rgba(255,255,255,.14); border-radius: var(--r-md); padding: 14px 16px; display: flex; align-items: center; gap: 12px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" style="flex: none"><path d="m4 12.5 5 5L20 6.5"></path></svg>
+              <span style="font-size: 14px">Reserva online para tus clientes</span>
+            </div>
+            <div style="background: rgba(255,255,255,.14); border-radius: var(--r-md); padding: 14px 16px; display: flex; align-items: center; gap: 12px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" style="flex: none"><path d="m4 12.5 5 5L20 6.5"></path></svg>
+              <span style="font-size: 14px">Caja al cierre del día</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ esPanel }}">
+  <div style="display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 100vh">
+
+    <aside style="border-right: 1px solid var(--line-soft); background: var(--surface); display: flex; flex-direction: column; min-width: 0; position: sticky; top: 0; height: 100vh">
+      <div style="padding: 16px 18px 14px; border-bottom: 1px solid var(--line-soft)">
+        <div style="display: flex; align-items: center; gap: 9px; margin-bottom: 14px">
+          <span style="width: 28px; height: 28px; border-radius: 9px; background: var(--brand-solid); display: grid; place-items: center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.1" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+          </span>
+          <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.025em">Turnalia</span>
+        </div>
+        <button type="button" style="{{ selectorLocal }}" style-hover="{{ hSurface }}">
+          <span style="min-width: 0">
+            <span style="display: block; font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Studio Kuña</span>
+            <span style="display: block; font-size: 11.5px; color: var(--ink-2)">Peluquería · Villa Morra</span>
+          </span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ink-2)" stroke-width="2.2" stroke-linecap="round" style="flex: none"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+      </div>
+
+      <nav style="padding: 6px 0 18px; overflow-y: auto; flex: 1">
+        <sc-for list="{{ grupos }}" as="g" hint-placeholder-count="6">
+          <div style="padding: 15px 18px 6px; font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2)">{{ g.titulo }}</div>
+          <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="3">
+            <button type="button" onClick="{{ it.onClick }}" style="{{ it.style }}" style-hover="{{ it.hover }}">
+              <span style="min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap">{{ it.label }}</span>
+              <span style="{{ it.badgeStyle }}">{{ it.badge }}</span>
+            </button>
+          </sc-for>
+        </sc-for>
+      </nav>
+
+      <div style="border-top: 1px solid var(--line-soft); padding: 14px 18px">
+        <div style="font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2)">Plan Equipo</div>
+        <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 3px">Vence 12/10/2026 · <a href="#" style="text-decoration: none">renovar</a></div>
+      </div>
+    </aside>
+
+    <main style="min-width: 0; display: flex; flex-direction: column">
+      <header style="border-bottom: 1px solid var(--line-soft); padding: 11px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 8; backdrop-filter: blur(14px); background: color-mix(in oklab, var(--bg) 84%, transparent)">
+        <div style="display: flex; align-items: baseline; gap: 9px; min-width: 0; font-size: 12.5px; color: var(--ink-2)">
+          <span>Studio Kuña</span>
+          <span>/</span>
+          <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 15.5px; letter-spacing: -0.02em; color: var(--ink)">{{ tituloVista }}</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px">
+          <label style="position: relative; display: block">
+            <input type="search" placeholder="Buscar cliente, turno o cobro" style="{{ buscador }}" style-focus="{{ inputFocus }}">
+            <span style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 10.5px; font-weight: 700; color: var(--ink-2); border: 1px solid var(--line); border-radius: 6px; padding: 1px 5px">⌘K</span>
+          </label>
+          <button type="button" data-om-noop="1" style="{{ botonIcono }}" style-hover="{{ hIcon }}" title="Avisos">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 15v-4a6 6 0 1 0-12 0v4l-1.5 3h15z"></path><path d="M10 21h4"></path></svg>
+            <span style="position: absolute; top: -3px; right: -3px; min-width: 17px; height: 17px; border-radius: 999px; background: var(--warm-solid); color: #fff; font-size: 10px; font-weight: 700; display: grid; place-items: center; padding: 0 4px">4</span>
+          </button>
+          <button type="button" onClick="{{ toggleTema }}" style="{{ botonIcono }}" style-hover="{{ hIcon }}" title="Cambiar tema">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"></path></svg>
+          </button>
+          <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">+ Nuevo turno</button>
+          <button type="button" onClick="{{ salir }}" style="display: flex; align-items: center; gap: 8px; background: none; border: 0; border-left: 1px solid var(--line-soft); padding: 4px 0 4px 10px; cursor: pointer; font-family: inherit; color: var(--ink)" style-hover="{{ hLinkSoft }}" title="Salir">
+            <span style="width: 30px; height: 30px; border-radius: 999px; background: var(--brand-solid); color: #fff; font-size: 11.5px; font-weight: 700; display: grid; place-items: center">{{ usuarioIni }}</span>
+            <span style="font-size: 12.5px; line-height: 1.2; text-align: left">
+              <span style="display: block; font-weight: 600">{{ usuarioNombre }}</span>
+              <span style="display: block; color: var(--ink-2)">{{ rolActual }}</span>
+            </span>
+          </button>
+        </div>
+      </header>
+
+      <div style="border-bottom: 1px solid var(--line-soft); padding: 9px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; background: var(--surface)">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+          <div style="display: flex; gap: 4px">
+            <button type="button" style="{{ navDia }}" style-hover="{{ hSurface }}">←</button>
+            <button type="button" style="{{ navHoy }}" style-hover="{{ hSurface }}">Hoy</button>
+            <button type="button" style="{{ navDia }}" style-hover="{{ hSurface }}">→</button>
+          </div>
+          <span style="font-size: 13px; font-weight: 600">Viernes 5 de septiembre de 2026</span>
+        </div>
+        <div style="font-size: 12.5px; color: var(--ink-2); display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+          <span style="display: inline-flex; align-items: center; gap: 6px; background: var(--brand-50); color: var(--brand-700); border-radius: 999px; padding: 4px 11px; font-weight: 600">
+            <span style="width: 6px; height: 6px; border-radius: 999px; background: var(--brand-solid); animation: pulseDot 2.4s ease-in-out infinite"></span>
+            Caja abierta 08:12
+          </span>
+          <span>14 turnos</span>
+          <span>·</span>
+          <span>3 en sala de espera</span>
+        </div>
+      </div>
+
+      <div style="padding: 22px 24px 40px; min-width: 0">
+
+        <sc-if value="{{ esIndicadores }}" hint-placeholder-val="{{ true }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 215px), 1fr)); gap: 12px; margin-bottom: 20px">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="{{ k.card }}">
+                <div style="font-size: 10.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2)">{{ k.label }}</div>
+                <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-top: 10px">
+                  <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 27px; line-height: 1; letter-spacing: -0.035em; font-variant-numeric: tabular-nums">{{ k.valor }}</span>
+                  <span style="{{ k.deltaStyle }}">{{ k.delta }}</span>
+                </div>
+                <div style="display: flex; align-items: flex-end; gap: 3px; height: 26px; margin-top: 13px">
+                  <sc-for list="{{ k.spark }}" as="b" hint-placeholder-count="7">
+                    <span style="{{ b }}"></span>
+                  </sc-for>
+                </div>
+                <div style="font-size: 11.5px; color: var(--ink-2); margin-top: 8px">{{ k.nota }}</div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 16px; margin-bottom: 20px">
+            <div style="{{ panel }}">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px">
+                <h3 style="{{ tituloPanel }}">Ingresos · últimos 14 días</h3>
+                <span style="font-size: 12px; color: var(--ink-2)">Total Gs. 14.860.000</span>
+              </div>
+              <div style="display: flex; align-items: flex-end; gap: 4px; height: 130px; border-bottom: 1px solid var(--line-soft); padding-bottom: 2px">
+                <sc-for list="{{ barras }}" as="b" hint-placeholder-count="14">
+                  <span style="{{ b.style }}" title="{{ b.title }}" style-hover="{{ b.hover }}"></span>
+                </sc-for>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--ink-2); margin-top: 7px">
+                <span>23 ago</span><span>30 ago</span><span>5 set</span>
+              </div>
+            </div>
+            <div style="{{ panel }}">
+              <h3 style="{{ tituloPanel }}">Requiere atención</h3>
+              <sc-for list="{{ alertas }}" as="a" hint-placeholder-count="4">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="min-width: 0">
+                    <span style="display: block; font-size: 14px; font-weight: 600">{{ a.titulo }}</span>
+                    <span style="display: block; font-size: 12.5px; color: var(--ink-2)">{{ a.detalle }}</span>
+                  </span>
+                  <span style="display: flex; align-items: center; gap: 9px; flex: none">
+                    <span style="{{ a.tagStyle }}">{{ a.tag }}</span>
+                    <button type="button" style="{{ botonMini }}" style-hover="{{ hSoftCta }}">Resolver</button>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px">
+                <h3 style="{{ tituloPanel }}">Próximos turnos</h3>
+                <button type="button" onClick="{{ irAgenda }}" style="{{ botonMini }}" style-hover="{{ hSoftCta }}">Ver agenda →</button>
+              </div>
+              <sc-for list="{{ proximos }}" as="p" hint-placeholder-count="6">
+                <div style="display: flex; align-items: center; gap: 11px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="font-size: 12.5px; font-weight: 600; font-variant-numeric: tabular-nums; width: 42px; flex: none">{{ p.hora }}</span>
+                  <span style="{{ p.avatar }}">{{ p.ini }}</span>
+                  <span style="min-width: 0; flex: 1">
+                    <span style="display: block; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ p.cliente }}</span>
+                    <span style="display: block; font-size: 12px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ p.servicio }} · {{ p.prof }}</span>
+                  </span>
+                  <span style="{{ p.estadoStyle }}">{{ p.estado }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Ocupación por profesional</h3>
+                <sc-for list="{{ ocupacion }}" as="o" hint-placeholder-count="3">
+                  <div style="padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                    <div style="display: flex; justify-content: space-between; font-size: 13.5px">
+                      <span style="font-weight: 600">{{ o.nombre }}</span>
+                      <span style="font-variant-numeric: tabular-nums">{{ o.pct }}</span>
+                    </div>
+                    <div style="height: 7px; background: var(--surface-2); border-radius: 999px; margin-top: 7px; overflow: hidden"><div style="{{ o.barra }}"></div></div>
+                    <div style="font-size: 11.5px; color: var(--ink-2); margin-top: 5px">{{ o.nota }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Servicios más vendidos · septiembre</h3>
+                <sc-for list="{{ ranking }}" as="s" hint-placeholder-count="5">
+                  <div style="display: flex; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line-soft); font-size: 13.5px">
+                    <span style="font-size: 11px; font-weight: 700; color: var(--brand); width: 18px; flex: none">{{ s.n }}</span>
+                    <span style="flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ s.nombre }}</span>
+                    <span style="font-size: 12px; color: var(--ink-2); flex: none">{{ s.cant }}</span>
+                    <span style="font-weight: 600; font-variant-numeric: tabular-nums; flex: none">{{ s.monto }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esAgenda }}">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px">
+            <div style="display: flex; gap: 7px; flex-wrap: wrap">
+              <sc-for list="{{ filtros }}" as="f" hint-placeholder-count="4">
+                <button type="button" onClick="{{ f.onClick }}" style="{{ f.style }}" style-hover="{{ f.hover }}">{{ f.label }}</button>
+              </sc-for>
+            </div>
+            <div style="display: flex; gap: 14px; font-size: 12px; color: var(--ink-2); align-items: center; flex-wrap: wrap">
+              <span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 3px; background: var(--brand-solid); display: block"></span>Confirmado</span>
+              <span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 3px; background: var(--warm-solid); display: block"></span>Reserva online</span>
+              <span style="display: flex; align-items: center; gap: 6px"><span style="width: 10px; height: 10px; border-radius: 3px; border: 1.5px dashed var(--ink-2); display: block"></span>Sin confirmar</span>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: minmax(0, 1fr) 236px; gap: 16px; align-items: start">
+            <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: 20px; box-shadow: var(--sh-1); overflow: hidden">
+              <div style="display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); border-bottom: 1px solid var(--line-soft)">
+                <div style="padding: 9px; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-2); border-right: 1px solid var(--line-soft)">Hora</div>
+                <sc-for list="{{ profesionales }}" as="pr" hint-placeholder-count="3">
+                  <div style="padding: 9px 11px; display: flex; align-items: center; gap: 8px; border-right: 1px solid var(--line-soft)">
+                    <span style="{{ pr.avatar }}">{{ pr.ini }}</span>
+                    <span style="min-width: 0">
+                      <span style="display: block; font-family: Outfit, sans-serif; font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ pr.nombre }}</span>
+                      <span style="display: block; font-size: 11px; color: var(--ink-2)">{{ pr.carga }}</span>
+                    </span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display: grid; grid-template-columns: 56px repeat(3, minmax(0, 1fr)); position: relative">
+                <div style="border-right: 1px solid var(--line-soft)">
+                  <sc-for list="{{ horas }}" as="h" hint-placeholder-count="12">
+                    <div style="height: 52px; border-bottom: 1px solid var(--line-soft); padding: 3px 7px; font-size: 11px; color: var(--ink-2); font-variant-numeric: tabular-nums">{{ h }}</div>
+                  </sc-for>
+                </div>
+                <sc-for list="{{ columnas }}" as="col" hint-placeholder-count="3">
+                  <div style="{{ col.style }}">
+                    <sc-for list="{{ col.bloques }}" as="b" hint-placeholder-count="3">
+                      <div style="{{ b.style }}" style-hover="{{ b.hover }}">
+                        <div style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 12.5px; line-height: 1.15">{{ b.cliente }}</div>
+                        <div style="font-size: 11.5px; line-height: 1.25; opacity: .9">{{ b.servicio }}</div>
+                        <div style="font-size: 10.5px; margin-top: auto; opacity: .8; font-variant-numeric: tabular-nums">{{ b.rango }} · {{ b.precio }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+                <div style="{{ lineaAhora }}">
+                  <span style="position: absolute; left: 0; top: -9px; background: var(--warm-solid); color: #fff; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 999px; font-variant-numeric: tabular-nums">10:20</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 4px">
+                  <h3 style="{{ tituloPanel }}">Sala de espera</h3>
+                  <span style="font-size: 11px; color: var(--ink-2)">3</span>
+                </div>
+                <sc-for list="{{ sala }}" as="s" hint-placeholder-count="3">
+                  <div style="padding: 10px 0; border-top: 1px solid var(--line-soft)">
+                    <div style="display: flex; justify-content: space-between; gap: 8px; align-items: baseline">
+                      <span style="font-size: 13.5px; font-weight: 600">{{ s.cliente }}</span>
+                      <span style="{{ s.esperaStyle }}">{{ s.espera }}</span>
+                    </div>
+                    <div style="font-size: 11.5px; color: var(--ink-2); margin-top: 2px">{{ s.detalle }}</div>
+                  </div>
+                </sc-for>
+                <button type="button" style="{{ botonSecundarioBloque }}" style-hover="{{ hSoft }}">Llamar al siguiente</button>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Lista de espera</h3>
+                <div style="padding: 10px 0; border-top: 1px solid var(--line-soft); font-size: 13px">Belén Ortiz<span style="display: block; font-size: 11.5px; color: var(--ink-2)">Color raíz · avisar si se libera hoy</span></div>
+                <div style="padding: 10px 0; border-top: 1px solid var(--line-soft); font-size: 13px">Kevin Mora<span style="display: block; font-size: 11.5px; color: var(--ink-2)">Corte · cualquier horario</span></div>
+              </div>
+              <div style="background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 20px; padding: 18px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 14.5px; margin: 0 0 6px; color: var(--brand-700)">Hueco libre</h3>
+                <div style="font-size: 13.5px; line-height: 1.5; color: var(--ink-2)">11:00 a 12:15 con Mauro. Hay 2 clientes en lista de espera que entran ahí.</div>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Ofrecer por WhatsApp</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esClientes }}">
+          <div style="{{ panel }}">
+            <div style="display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap">
+              <span style="width: 60px; height: 60px; border-radius: 999px; background: var(--brand-solid); color: #fff; font-family: Outfit, sans-serif; font-weight: 700; font-size: 21px; display: grid; place-items: center; flex: none">LB</span>
+              <div style="min-width: 0; flex: 1">
+                <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap">
+                  <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 25px; letter-spacing: -0.03em; margin: 0">Lucía Benítez</h2>
+                  <span style="font-size: 12.5px; color: var(--ink-2)">0981 234 567 · lucia.benitez@gmail.com</span>
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px">
+                  <sc-for list="{{ chips }}" as="c" hint-placeholder-count="4">
+                    <span style="{{ c.style }}">{{ c.label }}</span>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">Registrar cobro</button>
+                <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">WhatsApp</button>
+                <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Editar</button>
+              </div>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 2px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line-soft)">
+              <sc-for list="{{ fichaStats }}" as="f" hint-placeholder-count="5">
+                <div>
+                  <div style="font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2)">{{ f.label }}</div>
+                  <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 18px; margin-top: 3px; font-variant-numeric: tabular-nums">{{ f.valor }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 7px; flex-wrap: wrap; margin: 18px 0">
+            <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+              <button type="button" onClick="{{ t.onClick }}" style="{{ t.style }}" style-hover="{{ t.hover }}">{{ t.label }}</button>
+            </sc-for>
+          </div>
+
+          <sc-if value="{{ tabResumen }}">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Ficha técnica · peluquería</h3>
+                <sc-for list="{{ tecnica }}" as="t" hint-placeholder-count="5">
+                  <div style="display: flex; justify-content: space-between; gap: 14px; padding: 10px 0; border-top: 1px solid var(--line-soft); font-size: 13.5px">
+                    <span style="color: var(--ink-2)">{{ t.label }}</span>
+                    <span style="font-weight: 600; text-align: right">{{ t.valor }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 16px">
+                <div style="background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 20px; padding: 18px">
+                  <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 14.5px; margin: 0 0 6px; color: var(--brand-700)">Alerta clínica</h3>
+                  <div style="font-size: 14px; line-height: 1.55">Alergia a amoníaco declarada en agosto 2024. Usar línea sin amoníaco y prueba de mecha 48 h antes.</div>
+                </div>
+                <div style="{{ panel }}">
+                  <h3 style="{{ tituloPanel }}">Próximo turno</h3>
+                  <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em">Hoy 10:30 · Color raíz</div>
+                  <div style="font-size: 13px; color: var(--ink-2); margin-top: 3px">Con Sofía Ramírez · 150 min · Gs. 250.000</div>
+                  <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Recordar por WhatsApp</button>
+                </div>
+                <div style="{{ panel }}">
+                  <h3 style="{{ tituloPanel }}">Preferencias</h3>
+                  <div style="font-size: 13.5px; line-height: 1.55; color: var(--ink-2)">Turnos después de las 17:00. Prefiere a Sofía. Llegó por Instagram, campaña de agosto.</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ tabHistorial }}">
+            <div style="{{ panel }}">
+              <div style="border-left: 2px solid var(--line); padding-left: 20px; margin-left: 5px">
+                <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="5">
+                  <div style="position: relative; padding: 0 0 20px">
+                    <span style="position: absolute; left: -26px; top: 5px; width: 10px; height: 10px; border-radius: 999px; background: var(--brand-solid); display: block"></span>
+                    <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap">
+                      <span style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px">{{ t.servicio }}</span>
+                      <span style="font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums">{{ t.fecha }} · {{ t.monto }}</span>
+                    </div>
+                    <div style="font-size: 13.5px; line-height: 1.5; margin-top: 3px">{{ t.nota }}</div>
+                    <div style="font-size: 12px; color: var(--ink-2); margin-top: 3px">{{ t.prof }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ tabFotos }}">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px">
+              <sc-for list="{{ fotos }}" as="f" hint-placeholder-count="6">
+                <div style="background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r-md); aspect-ratio: 4 / 5; display: flex; flex-direction: column; justify-content: flex-end; padding: 12px">
+                  <div style="font-size: 12.5px; font-weight: 600">{{ f.label }}</div>
+                  <div style="font-size: 11px; color: var(--ink-2)">{{ f.fecha }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <p style="font-size: 13px; color: var(--ink-2); margin-top: 14px">Espacios para las fotos de antes y después. Las imágenes reales las sube el profesional desde el celular.</p>
+          </sc-if>
+
+          <sc-if value="{{ tabCobros }}">
+            <div style="{{ panel }}">
+              <sc-for list="{{ cobros }}" as="c" hint-placeholder-count="5">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                  <span style="font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; width: 88px; flex: none">{{ c.fecha }}</span>
+                  <span style="flex: 1; min-width: 140px; font-size: 14px">{{ c.concepto }}</span>
+                  <span style="{{ c.medioStyle }}">{{ c.medio }}</span>
+                  <a href="#" style="font-size: 12.5px; text-decoration: none; flex: none">{{ c.nro }}</a>
+                  <span style="font-weight: 600; font-variant-numeric: tabular-nums; flex: none; min-width: 96px; text-align: right">{{ c.monto }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </sc-if>
+
+        <sc-if value="{{ esCaja }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div>
+              <div style="{{ panel }}">
+                <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 4px">
+                  <div>
+                    <div style="font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2)">Turno de caja</div>
+                    <div style="font-size: 14px; font-weight: 600; margin-top: 3px">Abierta 08:12 · Recepción · inicial Gs. 100.000</div>
+                  </div>
+                  <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Registrar egreso</button>
+                </div>
+                <sc-for list="{{ movimientos }}" as="m" hint-placeholder-count="7">
+                  <div style="display: flex; align-items: center; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                    <span style="font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; width: 44px; flex: none">{{ m.hora }}</span>
+                    <span style="flex: 1; min-width: 150px">
+                      <span style="display: block; font-size: 14px; font-weight: 600">{{ m.concepto }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ m.cliente }}</span>
+                    </span>
+                    <span style="{{ m.medioStyle }}">{{ m.medio }}</span>
+                    <span style="{{ m.montoStyle }}">{{ m.monto }}</span>
+                    <span style="font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; flex: none; min-width: 88px; text-align: right">{{ m.saldo }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Total del día</h3>
+                <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums">Gs. 1.240.000</div>
+                <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px">6 cobros · 1 egreso · ticket promedio Gs. 206.000</div>
+                <sc-for list="{{ medios }}" as="md" hint-placeholder-count="3">
+                  <div style="padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                    <div style="display: flex; justify-content: space-between; font-size: 13.5px">
+                      <span>{{ md.nombre }}</span>
+                      <span style="font-weight: 600; font-variant-numeric: tabular-nums">{{ md.monto }}</span>
+                    </div>
+                    <div style="height: 6px; background: var(--surface-2); border-radius: 999px; margin-top: 6px; overflow: hidden"><div style="{{ md.barra }}"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 10px; color: var(--brand-700)">Arqueo y cierre</h3>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding-bottom: 10px; border-bottom: 1px solid var(--brand-100); margin-bottom: 12px">
+                  <span>Efectivo esperado</span>
+                  <span style="font-weight: 700; font-variant-numeric: tabular-nums">Gs. 375.000</span>
+                </div>
+                <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px" for="contado">Efectivo contado</label>
+                <input id="contado" type="text" inputmode="numeric" placeholder="0" value="{{ contado }}" onInput="{{ onContado }}" style="{{ inputStyle }}" style-focus="{{ inputFocus }}">
+                <div style="display: flex; justify-content: space-between; font-size: 14px; margin: 14px 0">
+                  <span>Diferencia</span>
+                  <span style="{{ difStyle }}">{{ diferencia }}</span>
+                </div>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Cerrar turno de caja</button>
+                <p style="font-size: 12px; color: var(--ink-2); margin: 10px 0 0; line-height: 1.5">Al cerrar se guarda el corte con tu usuario y la hora, y se puede imprimir.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esServicios }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">Catálogo del local</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">18 servicios activos · se usan en la agenda, el link y el cobro</div>
+                </div>
+                <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">Nuevo servicio</button>
+              </div>
+              <sc-for list="{{ servicios }}" as="s" hint-placeholder-count="6">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                  <span style="flex: 1; min-width: 160px">
+                    <span style="display: block; font-size: 14.5px; font-weight: 600">{{ s.nombre }}</span>
+                    <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ s.categoria }} · {{ s.prof }}</span>
+                  </span>
+                  <span style="font-size: 12.5px; color: var(--ink-2); flex: none; min-width: 62px; text-align: right">{{ s.dur }}</span>
+                  <span style="font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; flex: none; min-width: 100px; text-align: right">{{ s.precio }}</span>
+                  <span style="{{ s.chip }}">{{ s.estado }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Más vendidos del mes</h3>
+                <sc-for list="{{ topServicios }}" as="t" hint-placeholder-count="4">
+                  <div style="padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                    <div style="display: flex; justify-content: space-between; font-size: 13.5px; gap: 12px">
+                      <span style="min-width: 0">{{ t.nombre }}</span>
+                      <span style="font-weight: 600; font-variant-numeric: tabular-nums; flex: none">{{ t.monto }}</span>
+                    </div>
+                    <div style="height: 6px; background: var(--surface-2); border-radius: 999px; margin-top: 6px; overflow: hidden"><div style="{{ t.barra }}"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--brand-700)">Cambio de precios</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px">Podés subir un porcentaje a toda una categoría de una vez. Los turnos ya agendados mantienen el precio con el que se cargaron.</p>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Ajustar por categoría</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esStock }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">Insumos y productos</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">Se descuenta al cobrar el servicio o la venta</div>
+                </div>
+                <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">Cargar ingreso</button>
+              </div>
+              <sc-for list="{{ stock }}" as="p" hint-placeholder-count="6">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                  <span style="flex: 1; min-width: 150px">
+                    <span style="display: block; font-size: 14.5px; font-weight: 600">{{ p.nombre }}</span>
+                    <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ p.detalle }}</span>
+                  </span>
+                  <span style="font-size: 13.5px; font-weight: 700; font-variant-numeric: tabular-nums; flex: none; min-width: 74px; text-align: right">{{ p.cantidad }}</span>
+                  <span style="font-size: 12px; color: var(--ink-2); flex: none; min-width: 74px; text-align: right">mín. {{ p.minimo }}</span>
+                  <span style="{{ p.chip }}">{{ p.estado }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="background: var(--warm-50); border: 1px solid var(--warm); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--warm-700)">4 productos por debajo del mínimo</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px">El sistema te avisa cuando un insumo llega al mínimo que definiste, así no te enterás cuando ya no hay.</p>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Armar lista de compra</button>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Valor del inventario</h3>
+                <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums">Gs. 8.640.000</div>
+                <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px">142 unidades · 31 productos distintos</div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft); margin-top: 10px">
+                  <span>Consumo del mes</span>
+                  <span style="font-weight: 600; font-variant-numeric: tabular-nums">Gs. 1.980.000</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span>Venta de productos</span>
+                  <span style="font-weight: 600; font-variant-numeric: tabular-nums">Gs. 2.310.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esRecall }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">Clientes que no vuelven</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">38 personas sin visita hace más de 6 meses</div>
+                </div>
+                <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Exportar lista</button>
+              </div>
+              <sc-for list="{{ recall }}" as="c" hint-placeholder-count="6">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                  <span style="{{ c.avatar }}">{{ c.ini }}</span>
+                  <span style="flex: 1; min-width: 150px">
+                    <span style="display: block; font-size: 14.5px; font-weight: 600">{{ c.nombre }}</span>
+                    <span style="display: block; font-size: 11.5px; color: var(--ink-2)">Última visita {{ c.ultima }} · {{ c.servicio }}</span>
+                  </span>
+                  <span style="font-size: 12.5px; color: var(--ink-2); flex: none; min-width: 90px; text-align: right">{{ c.gastado }}</span>
+                  <button type="button" style="{{ botonMini }}" style-hover="{{ hSoft }}">Escribir</button>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Mensaje que se envía</h3>
+                <div style="background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 16px; padding: 16px; font-size: 13.5px; line-height: 1.6; color: var(--ink-2)">Hola Belén, ¿cómo estás? Te escribimos de Studio Kuña. Vimos que hace un tiempo no venís y queríamos saber si querés reservar un turno. Tenemos lugar esta semana.</div>
+                <p style="font-size: 12px; color: var(--ink-2); margin: 12px 0 0; line-height: 1.5">Se personaliza con el nombre y el último servicio. Abre tu WhatsApp con el texto cargado: vos apretás enviar.</p>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Resultado del último envío</h3>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span>Mensajes enviados</span>
+                  <span style="font-weight: 600">24</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span>Volvieron a reservar</span>
+                  <span style="font-weight: 600">9</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span>Facturado por el recall</span>
+                  <span style="font-weight: 700; font-variant-numeric: tabular-nums">Gs. 1.720.000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esUsuarios }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">Equipo del local</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">6 usuarios · cada rol ve lo que le corresponde</div>
+                </div>
+                <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">Invitar usuario</button>
+              </div>
+              <sc-for list="{{ usuarios }}" as="u" hint-placeholder-count="6">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                  <span style="{{ u.avatar }}">{{ u.ini }}</span>
+                  <span style="flex: 1; min-width: 150px">
+                    <span style="display: block; font-size: 14.5px; font-weight: 600">{{ u.nombre }}</span>
+                    <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ u.mail }}</span>
+                  </span>
+                  <span style="{{ u.chip }}">{{ u.rol }}</span>
+                  <span style="font-size: 12px; color: var(--ink-2); flex: none; min-width: 110px; text-align: right">{{ u.acceso }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="{{ panel }}">
+              <h3 style="{{ tituloPanel }}">Qué puede hacer cada rol</h3>
+              <sc-for list="{{ permisos }}" as="p" hint-placeholder-count="4">
+                <div style="padding: 14px 0; border-top: 1px solid var(--line-soft)">
+                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px">
+                    <span style="{{ p.chip }}">{{ p.rol }}</span>
+                  </div>
+                  <div style="display: flex; flex-wrap: wrap; gap: 7px">
+                    <sc-for list="{{ p.puede }}" as="x" hint-placeholder-count="4">
+                      <span style="font-size: 12.5px; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line-soft); padding: 6px 12px; border-radius: 999px">{{ x }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+              <p style="font-size: 12px; color: var(--ink-2); margin: 14px 0 0; line-height: 1.5">Los permisos se pueden ajustar uno por uno si tu local trabaja distinto.</p>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esInformes }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                  <div>
+                    <h3 style="{{ tituloPanel }}">Producción por profesional · septiembre</h3>
+                    <div style="font-size: 12.5px; color: var(--ink-2)">Base para liquidar comisiones</div>
+                  </div>
+                  <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Exportar CSV</button>
+                </div>
+                <sc-for list="{{ produccion }}" as="p" hint-placeholder-count="3">
+                  <div style="padding: 13px 0; border-top: 1px solid var(--line-soft)">
+                    <div style="display: flex; align-items: center; gap: 11px; flex-wrap: wrap">
+                      <span style="{{ p.avatar }}">{{ p.ini }}</span>
+                      <span style="flex: 1; min-width: 130px">
+                        <span style="display: block; font-size: 14.5px; font-weight: 600">{{ p.nombre }}</span>
+                        <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ p.turnos }} turnos · comisión {{ p.comision }}</span>
+                      </span>
+                      <span style="font-size: 14.5px; font-weight: 700; font-variant-numeric: tabular-nums; flex: none">{{ p.monto }}</span>
+                    </div>
+                    <div style="height: 6px; background: var(--surface-2); border-radius: 999px; margin-top: 8px; overflow: hidden"><div style="{{ p.barra }}"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">De dónde vienen los turnos</h3>
+                <sc-for list="{{ origenes }}" as="o" hint-placeholder-count="4">
+                  <div style="padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                    <div style="display: flex; justify-content: space-between; font-size: 13.5px; gap: 12px">
+                      <span>{{ o.nombre }}</span>
+                      <span style="font-weight: 600; flex: none">{{ o.valor }}</span>
+                    </div>
+                    <div style="height: 6px; background: var(--surface-2); border-radius: 999px; margin-top: 6px; overflow: hidden"><div style="{{ o.barra }}"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Cierre del mes</h3>
+                <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums">Gs. 31.480.000</div>
+                <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px">14% más que agosto · 184 turnos atendidos</div>
+                <sc-for list="{{ cierre }}" as="c" hint-placeholder-count="5">
+                  <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft); gap: 12px">
+                    <span style="color: var(--ink-2)">{{ c.label }}</span>
+                    <span style="font-weight: 600; font-variant-numeric: tabular-nums; flex: none">{{ c.valor }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Ausencias y cancelaciones</h3>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">No vinieron sin avisar</span>
+                  <span style="font-weight: 700">11 turnos</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Cancelados con aviso</span>
+                  <span style="font-weight: 700">19 turnos</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Perdido por ausencias</span>
+                  <span style="font-weight: 700; font-variant-numeric: tabular-nums">Gs. 1.870.000</span>
+                </div>
+                <p style="font-size: 12px; color: var(--ink-2); margin: 12px 0 0; line-height: 1.5">Los clientes con dos ausencias en el año quedan marcados en su ficha.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esTodos }}">
+          <div style="{{ panel }}">
+            <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+              <div>
+                <h3 style="{{ tituloPanel }}">Todos los turnos</h3>
+                <div style="font-size: 12.5px; color: var(--ink-2)">Semana del 1 al 7 de septiembre · 96 turnos</div>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Filtrar</button>
+                <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">Nuevo turno</button>
+              </div>
+            </div>
+            <sc-for list="{{ todosTurnos }}" as="t" hint-placeholder-count="8">
+              <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                <span style="font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; flex: none; min-width: 96px">{{ t.cuando }}</span>
+                <span style="{{ t.avatar }}">{{ t.ini }}</span>
+                <span style="flex: 1; min-width: 150px">
+                  <span style="display: block; font-size: 14.5px; font-weight: 600">{{ t.cliente }}</span>
+                  <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ t.servicio }} · {{ t.prof }}</span>
+                </span>
+                <span style="font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; flex: none; min-width: 96px; text-align: right">{{ t.precio }}</span>
+                <span style="{{ t.chip }}">{{ t.estado }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esComunicacion }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">Mensajes por enviar</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">Se abren en tu WhatsApp con el texto cargado</div>
+                </div>
+                <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">Enviar todos</button>
+              </div>
+              <sc-for list="{{ mensajes }}" as="m" hint-placeholder-count="5">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                  <span style="{{ m.avatar }}">{{ m.ini }}</span>
+                  <span style="flex: 1; min-width: 150px">
+                    <span style="display: block; font-size: 14.5px; font-weight: 600">{{ m.cliente }}</span>
+                    <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ m.motivo }}</span>
+                  </span>
+                  <span style="{{ m.chip }}">{{ m.tipo }}</span>
+                  <button type="button" style="{{ botonMini }}" style-hover="{{ hSoft }}">Enviar</button>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Cuándo se avisa</h3>
+                <sc-for list="{{ avisos }}" as="a" hint-placeholder-count="4">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft)">
+                    <span style="min-width: 0">
+                      <span style="display: block; font-size: 14px; font-weight: 600">{{ a.nombre }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ a.cuando }}</span>
+                    </span>
+                    <span style="{{ a.chip }}">{{ a.estado }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--brand-700)">Por qué no se envía solo</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0">Los mensajes salen de tu propio WhatsApp, con tu número. Eso evita el costo por mensaje de un proveedor y que tus clientes reciban avisos desde un número desconocido. El precio es que alguien tiene que apretar enviar.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esMiDia }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">Tus turnos de hoy</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">4 turnos · terminás 19:30</div>
+                </div>
+                <button type="button" onClick="{{ irAgenda }}" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Ver la agenda</button>
+              </div>
+              <sc-for list="{{ miDia }}" as="t" hint-placeholder-count="4">
+                <div style="padding: 14px 0; border-top: 1px solid var(--line-soft)">
+                  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+                    <span style="font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink-2); flex: none; min-width: 46px">{{ t.hora }}</span>
+                    <span style="{{ t.avatar }}">{{ t.ini }}</span>
+                    <span style="flex: 1; min-width: 140px">
+                      <span style="display: block; font-size: 14.5px; font-weight: 600">{{ t.cliente }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ t.servicio }} · {{ t.dur }}</span>
+                    </span>
+                    <span style="{{ t.chip }}">{{ t.estado }}</span>
+                  </div>
+                  <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 8px; padding-left: 58px; line-height: 1.5">{{ t.nota }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Tu producción · septiembre</h3>
+                <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.035em; line-height: 1; font-variant-numeric: tabular-nums">Gs. 12.940.000</div>
+                <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px">68 turnos atendidos · comisión 35%</div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft); margin-top: 10px">
+                  <span style="color: var(--ink-2)">Te corresponde</span>
+                  <span style="font-weight: 700; font-variant-numeric: tabular-nums">Gs. 4.529.000</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Ticket promedio</span>
+                  <span style="font-weight: 600; font-variant-numeric: tabular-nums">Gs. 190.000</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Clientas que volvieron</span>
+                  <span style="font-weight: 600">52 de 68</span>
+                </div>
+                <p style="font-size: 12px; color: var(--ink-2); margin: 12px 0 0; line-height: 1.5">Solo ves tus propios números. Los del local los ve la dueña.</p>
+              </div>
+              <div style="background: var(--warm-50); border: 1px solid var(--warm); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--warm-700)">Tenés 11:00 libre</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px">Hay dos personas en lista de espera que aceptan ese horario con vos.</p>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Ver quiénes son</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esMiPerfil }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Cómo te ven tus clientas</h3>
+                <p style="font-size: 13px; color: var(--ink-2); margin: 0 0 16px; line-height: 1.55">Esto aparece en el link de reserva cuando eligen con quién atenderse.</p>
+                <div style="display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap">
+                  <span style="flex: none; width: 74px; height: 74px; border-radius: 999px; overflow: hidden; border: 1px solid var(--line-soft); background: var(--surface-2)">
+                    <image-slot id="perfil-sofia" shape="circle" placeholder="Foto"></image-slot>
+                  </span>
+                  <span style="flex: 1; min-width: 180px">
+                    <span style="display: block; font-family: Outfit, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em">Sofía Ramírez</span>
+                    <span style="display: block; font-size: 13px; color: var(--brand); font-weight: 600; margin-top: 2px">Colorista · 9 años de oficio</span>
+                    <span style="display: block; font-size: 13px; color: var(--ink-2); margin-top: 8px; line-height: 1.55">Trabajo sobre todo color y balayage. Me gusta tomarme el tiempo de ver la base antes de decidir la fórmula.</span>
+                  </span>
+                </div>
+                <button type="button" style="{{ botonSecundarioBloque }}" style-hover="{{ hSoft }}">Editar mi presentación</button>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Tu link propio</h3>
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px">
+                  <span style="flex: 1; min-width: 160px; font-size: 13.5px; font-weight: 600; word-break: break-all">turnalia.com.py/studiokuna/sofia</span>
+                  <button type="button" style="{{ botonMini }}" style-hover="{{ hSoft }}">Copiar</button>
+                </div>
+                <p style="font-size: 12.5px; color: var(--ink-2); margin: 0; line-height: 1.55">Abre la reserva contigo ya elegida. Sirve para tu propio Instagram: las clientas que te siguen a vos no tienen que buscarte en la lista.</p>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Tu acuerdo</h3>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Comisión</span>
+                  <span style="font-weight: 700">35% sobre servicios</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Venta de productos</span>
+                  <span style="font-weight: 700">10%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Liquidación</span>
+                  <span style="font-weight: 600">Fin de mes</span>
+                </div>
+                <p style="font-size: 12px; color: var(--ink-2); margin: 12px 0 0; line-height: 1.5">Lo define la dueña. Vos lo ves, pero no lo editás.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                  <div>
+                    <h3 style="{{ tituloPanel }}">Tu horario</h3>
+                    <div style="font-size: 12.5px; color: var(--ink-2)">Dentro del horario del local</div>
+                  </div>
+                  <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Editar</button>
+                </div>
+                <sc-for list="{{ miHorario }}" as="h" hint-placeholder-count="7">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                    <span style="font-size: 13.5px; font-weight: 600">{{ h.dia }}</span>
+                    <span style="{{ h.chip }}">{{ h.rango }}</span>
+                  </div>
+                </sc-for>
+                <div style="margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line-soft)">
+                  <div style="font-size: 12.5px; font-weight: 700; margin-bottom: 5px">Días libres cargados</div>
+                  <div style="font-size: 12.5px; color: var(--ink-2); line-height: 1.55">28 al 30 de septiembre · vacaciones. Esos días no aparecen en la reserva online.</div>
+                </div>
+              </div>
+              <div style="{{ panel }}">
+                <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                  <div>
+                    <h3 style="{{ tituloPanel }}">Servicios que hacés</h3>
+                    <div style="font-size: 12.5px; color: var(--ink-2)">Los que no hacés no se te pueden agendar</div>
+                  </div>
+                  <button type="button" style="{{ botonSecundario }}" style-hover="{{ hSoft }}">Editar</button>
+                </div>
+                <sc-for list="{{ misServicios }}" as="x" hint-placeholder-count="7">
+                  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+                    <span style="flex: 1; min-width: 140px">
+                      <span style="display: block; font-size: 14.5px; font-weight: 600">{{ x.nombre }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ x.dur }}</span>
+                    </span>
+                    <span style="font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; flex: none; min-width: 100px; text-align: right">{{ x.precio }}</span>
+                    <span style="{{ x.chip }}">{{ x.etiqueta }}</span>
+                  </div>
+                </sc-for>
+                <p style="font-size: 12px; color: var(--ink-2); margin: 14px 0 0; line-height: 1.5">Si cobrás distinto que el resto del equipo por el mismo servicio, el precio de acá es el que se usa cuando la clienta reserva con vos.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esIntegraciones }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <h3 style="{{ tituloPanel }}">Con qué se conecta</h3>
+              <p style="font-size: 13px; color: var(--ink-2); margin: 0 0 6px; line-height: 1.55">Solo lo que usás de verdad. No hay integraciones que sirvan para llenar una lista.</p>
+              <sc-for list="{{ integraciones }}" as="i" hint-placeholder-count="7">
+                <div style="padding: 14px 0; border-top: 1px solid var(--line-soft)">
+                  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+                    <span style="flex: 1; min-width: 160px">
+                      <span style="display: block; font-size: 14.5px; font-weight: 600">{{ i.nombre }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ i.nota }}</span>
+                    </span>
+                    <span style="{{ i.chip }}">{{ i.estado }}</span>
+                  </div>
+                  <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 7px; line-height: 1.5">{{ i.detalle }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="background: var(--warm-50); border: 1px solid var(--warm); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--warm-700)">Google Calendar sin conectar</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px">Cada profesional lo conecta desde su propio usuario. Los turnos aparecen en su calendario, pero editarlos ahí no cambia nada acá.</p>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Conectar mi calendario</button>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Lo que falta y por qué</h3>
+                <p style="font-size: 13px; line-height: 1.6; color: var(--ink-2); margin: 0 0 12px">La factura legal y el cobro con tarjeta online dependen de trámites con la DNIT y con la procesadora de pagos, no del sistema. Cuando estén, se avisa acá.</p>
+                <p style="font-size: 13px; line-height: 1.6; color: var(--ink-2); margin: 0">Si necesitás conectar algo puntual que tu local ya usa, escribinos y lo vemos caso por caso.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esEspera }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">Esperando un lugar</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">Si se libera un horario que les sirve, el sistema te avisa</div>
+                </div>
+                <button type="button" style="{{ botonNuevo }}" style-hover="{{ hCta }}">Anotar a alguien</button>
+              </div>
+              <sc-for list="{{ listaEspera }}" as="e" hint-placeholder-count="4">
+                <div style="padding: 13px 0; border-top: 1px solid var(--line-soft)">
+                  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+                    <span style="{{ e.avatar }}">{{ e.ini }}</span>
+                    <span style="flex: 1; min-width: 150px">
+                      <span style="display: block; font-size: 14.5px; font-weight: 600">{{ e.cliente }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ e.servicio }} · {{ e.prof }}</span>
+                    </span>
+                    <span style="{{ e.chip }}">{{ e.estado }}</span>
+                    <button type="button" style="{{ botonMini }}" style-hover="{{ hSoft }}">Ofrecer turno</button>
+                  </div>
+                  <div style="font-size: 12px; color: var(--ink-2); margin-top: 7px">Acepta: {{ e.disponibilidad }} · anotado {{ e.desde }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="background: var(--warm-50); border: 1px solid var(--warm); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--warm-700)">Se liberó el sábado 11:30</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0 0 14px">Nadia Vera canceló. Hay dos personas en espera que aceptan ese horario con Andrea.</p>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Avisar a los dos</button>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Cómo funciona</h3>
+                <p style="font-size: 13px; line-height: 1.6; color: var(--ink-2); margin: 0">Cuando cancelás un turno, el sistema busca en la lista de espera a quién le sirve ese hueco: mismo servicio, mismo profesional si lo pidió, y horario dentro de su disponibilidad. Vos elegís a quién le escribís.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esSala }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; align-items: center; margin-bottom: 6px">
+                <div>
+                  <h3 style="{{ tituloPanel }}">En el local ahora</h3>
+                  <div style="font-size: 12.5px; color: var(--ink-2)">Se marca al llegar, desde el mostrador</div>
+                </div>
+                <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 22px">3</span>
+              </div>
+              <sc-for list="{{ salaLlena }}" as="s" hint-placeholder-count="3">
+                <div style="padding: 13px 0; border-top: 1px solid var(--line-soft)">
+                  <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap">
+                    <span style="{{ s.avatar }}">{{ s.ini }}</span>
+                    <span style="flex: 1; min-width: 150px">
+                      <span style="display: block; font-size: 14.5px; font-weight: 600">{{ s.cliente }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ s.servicio }} · {{ s.prof }} · turno {{ s.hora }}</span>
+                    </span>
+                    <span style="{{ s.chip }}">{{ s.estado }}</span>
+                    <button type="button" style="{{ botonMini }}" style-hover="{{ hSoft }}">{{ s.accion }}</button>
+                  </div>
+                  <div style="font-size: 12px; color: var(--ink-2); margin-top: 7px">Llegó {{ s.llego }} · esperando {{ s.espera }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Espera de hoy</h3>
+                <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.035em; line-height: 1">9 min</div>
+                <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px">promedio desde que llegan hasta que entran</div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft); margin-top: 10px">
+                  <span style="color: var(--ink-2)">Atendidos hoy</span>
+                  <span style="font-weight: 600">6 de 14</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 13.5px; padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="color: var(--ink-2)">Espera más larga</span>
+                  <span style="font-weight: 600">21 min</span>
+                </div>
+              </div>
+              <div style="background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--brand-700)">Sofía va 15 minutos atrasada</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0">Su turno de las 10:30 se pasó. Los dos siguientes se corren solos en la vista de agenda, pero conviene avisarles.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esReserva }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Tu link de reserva</h3>
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px">
+                  <span style="flex: 1; min-width: 160px; font-size: 13.5px; font-weight: 600; word-break: break-all">turnalia.com.py/studiokuna</span>
+                  <button type="button" style="{{ botonMini }}" style-hover="{{ hSoft }}">Copiar</button>
+                </div>
+                <p style="font-size: 12.5px; color: var(--ink-2); margin: 0 0 14px; line-height: 1.55">Pegalo en la bio de Instagram, en el estado de WhatsApp o en tu ficha de Google.</p>
+                <button type="button" style="{{ botonPrimarioBloque }}" style-hover="{{ hCta }}">Ver cómo lo ve el cliente</button>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Reglas de la reserva online</h3>
+                <sc-for list="{{ reglasReserva }}" as="r" hint-placeholder-count="5">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft)">
+                    <span style="min-width: 0">
+                      <span style="display: block; font-size: 14px; font-weight: 600">{{ r.nombre }}</span>
+                      <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ r.detalle }}</span>
+                    </span>
+                    <span style="{{ r.chip }}">{{ r.valor }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Rendimiento del link · septiembre</h3>
+                <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; letter-spacing: -0.035em; line-height: 1">76 turnos</div>
+                <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 4px">41% de todos los turnos del mes</div>
+                <sc-for list="{{ embudo }}" as="e" hint-placeholder-count="4">
+                  <div style="padding: 11px 0; border-top: 1px solid var(--line-soft)">
+                    <div style="display: flex; justify-content: space-between; font-size: 13.5px; gap: 12px">
+                      <span style="color: var(--ink-2)">{{ e.nombre }}</span>
+                      <span style="font-weight: 600; flex: none">{{ e.valor }}</span>
+                    </div>
+                    <div style="height: 6px; background: var(--surface-2); border-radius: 999px; margin-top: 6px; overflow: hidden"><div style="{{ e.barra }}"></div></div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Cuándo reservan</h3>
+                <p style="font-size: 13px; line-height: 1.6; color: var(--ink-2); margin: 0">El 38% de las reservas entran entre las 21:00 y la medianoche, cuando el local está cerrado. Son turnos que antes se perdían o se resolvían al día siguiente por WhatsApp.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esAjustes }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <h3 style="{{ tituloPanel }}">Datos del local</h3>
+              <sc-for list="{{ datosLocal }}" as="d" hint-placeholder-count="6">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="font-size: 13.5px; color: var(--ink-2)">{{ d.label }}</span>
+                  <span style="font-size: 14px; font-weight: 600; text-align: right">{{ d.valor }}</span>
+                </div>
+              </sc-for>
+              <button type="button" style="{{ botonSecundarioBloque }}" style-hover="{{ hSoft }}">Editar datos</button>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Horario de atención</h3>
+                <sc-for list="{{ horario }}" as="h" hint-placeholder-count="7">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line-soft)">
+                    <span style="font-size: 13.5px; font-weight: 600">{{ h.dia }}</span>
+                    <span style="{{ h.chip }}">{{ h.horas }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Feriados y cierres</h3>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line-soft); font-size: 13.5px">
+                  <span>Lunes 15 · feriado</span>
+                  <span style="font-size: 12px; color: var(--ink-2)">cerrado</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-top: 1px solid var(--line-soft); font-size: 13.5px">
+                  <span>28 al 31 · vacaciones de Sofía</span>
+                  <span style="font-size: 12px; color: var(--ink-2)">agenda bloqueada</span>
+                </div>
+                <p style="font-size: 12px; color: var(--ink-2); margin: 12px 0 0; line-height: 1.5">Los días bloqueados no aparecen en la reserva online.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esDatos }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <h3 style="{{ tituloPanel }}">Exportar</h3>
+              <p style="font-size: 13px; color: var(--ink-2); margin: 0 0 6px; line-height: 1.55">Todo sale en CSV, listo para abrir en planilla o pasarle a tu contador.</p>
+              <sc-for list="{{ exportables }}" as="e" hint-placeholder-count="5">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="min-width: 0">
+                    <span style="display: block; font-size: 14px; font-weight: 600">{{ e.nombre }}</span>
+                    <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ e.detalle }}</span>
+                  </span>
+                  <button type="button" style="{{ botonMini }}" style-hover="{{ hSoft }}">Descargar</button>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div style="{{ panel }}">
+                <h3 style="{{ tituloPanel }}">Importar</h3>
+                <p style="font-size: 13px; color: var(--ink-2); margin: 0 0 14px; line-height: 1.55">Si tenés tus clientes en una planilla, subila y los cargamos. Te mostramos qué columna va a qué campo antes de confirmar.</p>
+                <div style="border: 1px dashed var(--line); border-radius: 14px; padding: 24px; text-align: center; background: var(--surface-2)">
+                  <div style="font-size: 13.5px; font-weight: 600; margin-bottom: 4px">Arrastrá tu archivo acá</div>
+                  <div style="font-size: 12px; color: var(--ink-2)">CSV o Excel, hasta 5.000 filas</div>
+                </div>
+              </div>
+              <div style="background: var(--brand-50); border: 1px solid var(--brand-100); border-radius: 20px; padding: 20px">
+                <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15px; margin: 0 0 8px; color: var(--brand-700)">Tus datos son tuyos</h3>
+                <p style="font-size: 13px; line-height: 1.55; color: var(--ink-2); margin: 0">Si dejás de usar el sistema, podés exportar todo antes de irte. No se borra de golpe ni queda retenido.</p>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ esSuscripcion }}">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 16px">
+            <div style="{{ panel }}">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px">
+                <h3 style="{{ tituloPanel }}">Tu plan</h3>
+                <span style="{{ chipActivo }}">Activo</span>
+              </div>
+              <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.03em; line-height: 1.1">Equipo</div>
+              <div style="font-size: 13px; color: var(--ink-2); margin-top: 3px">Gs. 350.000 por mes · usuarios ilimitados</div>
+              <sc-for list="{{ datosPlan }}" as="d" hint-placeholder-count="4">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line-soft); margin-top: 4px">
+                  <span style="font-size: 13.5px; color: var(--ink-2)">{{ d.label }}</span>
+                  <span style="font-size: 14px; font-weight: 600; text-align: right">{{ d.valor }}</span>
+                </div>
+              </sc-for>
+              <button type="button" style="{{ botonSecundarioBloque }}" style-hover="{{ hSoft }}">Cambiar de plan</button>
+            </div>
+            <div style="{{ panel }}">
+              <h3 style="{{ tituloPanel }}">Pagos</h3>
+              <sc-for list="{{ pagos }}" as="p" hint-placeholder-count="5">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; border-top: 1px solid var(--line-soft)">
+                  <span style="min-width: 0">
+                    <span style="display: block; font-size: 14px; font-weight: 600">{{ p.mes }}</span>
+                    <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ p.medio }}</span>
+                  </span>
+                  <span style="font-size: 13.5px; font-weight: 600; font-variant-numeric: tabular-nums; flex: none">{{ p.monto }}</span>
+                  <span style="{{ p.chip }}">{{ p.estado }}</span>
+                </div>
+              </sc-for>
+              <p style="font-size: 12px; color: var(--ink-2); margin: 14px 0 0; line-height: 1.5">Es mes a mes, sin plazo mínimo. Si das de baja, el sistema sigue funcionando hasta el final del período pagado.</p>
+            </div>
+          </div>
+        </sc-if>
+
+      </div>
+    </main>
+  </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1400,&quot;height&quot;:940}}">
+// roles: quién ve cada ítem. Sin la clave, lo ve todo el mundo.
+const GRUPOS = [
+  { titulo: "Mi trabajo", items: [
+    { label: "Mi día", vista: "midia", roles: ["Profesional"] },
+    { label: "Mi perfil", vista: "miperfil", roles: ["Profesional"] } ] },
+  { titulo: "Cuadro de mandos", items: [
+    { label: "Indicadores", vista: "indicadores", roles: ["Dueño"] },
+    { label: "Informes", vista: "informes", roles: ["Dueño"] } ] },
+  { titulo: "Turnos", items: [
+    { label: "Agenda del día", vista: "agenda" },
+    { label: "Todos los turnos", vista: "todos", roles: ["Dueño", "Recepción"] },
+    { label: "Lista de espera", vista: "espera", badge: "2", roles: ["Dueño", "Recepción"] },
+    { label: "Sala de espera", vista: "sala", badge: "3", roles: ["Dueño", "Recepción"] } ] },
+  { titulo: "Clientes", items: [
+    { label: "Todos los clientes", vista: "clientes" },
+    { label: "Comunicación", vista: "comunicacion", badge: "5", roles: ["Dueño", "Recepción"] } ] },
+  { titulo: "Economía", items: [
+    { label: "Caja", vista: "caja", roles: ["Dueño", "Cajero"] },
+    { label: "Servicios y precios", vista: "servicios", roles: ["Dueño"] },
+    { label: "Stock de productos", vista: "stock", badge: "4", roles: ["Dueño", "Cajero"] } ] },
+  { titulo: "Marketing", items: [
+    { label: "Recall", vista: "recall", badge: "38", roles: ["Dueño"] },
+    { label: "Reserva online", vista: "reserva", roles: ["Dueño", "Recepción"] } ] },
+  { titulo: "Ajustes", items: [
+    { label: "Ajustes del local", vista: "ajustes", roles: ["Dueño"] },
+    { label: "Usuarios y permisos", vista: "usuarios", roles: ["Dueño"] },
+    { label: "Datos (exportar)", vista: "datos", roles: ["Dueño"] },
+    { label: "Suscripción", vista: "suscripcion", roles: ["Dueño"] },
+    { label: "Integraciones", vista: "integraciones", roles: ["Dueño"] } ] }
+];
+
+const MI_DIA = [
+  { hora: "09:30", cliente: "Elena Franco", ini: "EF", servicio: "Color raíz", dur: "2 h 30 min", estado: "En atención", tono: "brand", nota: "Fórmula 7.1 + 6.0 · alergia al amoníaco" },
+  { hora: "12:30", cliente: "Paola Núñez", ini: "PN", servicio: "Corte + brushing", dur: "1 h 15 min", estado: "Confirmado", tono: "brand", nota: "Primera vez con vos" },
+  { hora: "14:00", cliente: "Rocío Cabral", ini: "RC", servicio: "Brushing", dur: "45 min", estado: "Por el link", tono: "warm", nota: "Viene cada 15 días" },
+  { hora: "16:00", cliente: "Belén Ortiz", ini: "BO", servicio: "Balayage", dur: "3 h 30 min", estado: "Señado", tono: "warm", nota: "Seña Gs. 200.000 cobrada" }
+];
+
+const MIS_SERVICIOS = [
+  { nombre: "Color raíz", dur: "150 min", precio: "Gs. 250.000", hace: true },
+  { nombre: "Balayage", dur: "210 min", precio: "Gs. 780.000", hace: true },
+  { nombre: "Corte de dama", dur: "45 min", precio: "Gs. 120.000", hace: true },
+  { nombre: "Brushing", dur: "40 min", precio: "Gs. 90.000", hace: true },
+  { nombre: "Peinado de fiesta", dur: "60 min", precio: "Gs. 180.000", hace: true },
+  { nombre: "Alisado orgánico", dur: "120 min", precio: "Gs. 620.000", hace: false },
+  { nombre: "Corte de caballero", dur: "30 min", precio: "Gs. 90.000", hace: false }
+];
+
+const MI_HORARIO = [
+  { dia: "Lunes", rango: "Local cerrado", tono: "neutro" },
+  { dia: "Martes", rango: "09:00 – 19:00", tono: "brand" },
+  { dia: "Miércoles", rango: "09:00 – 19:00", tono: "brand" },
+  { dia: "Jueves", rango: "12:00 – 20:00", tono: "warm" },
+  { dia: "Viernes", rango: "09:00 – 20:00", tono: "brand" },
+  { dia: "Sábado", rango: "08:00 – 14:00", tono: "warm" },
+  { dia: "Domingo", rango: "No trabajo", tono: "neutro" }
+];
+
+const TITULOS = {
+  indicadores: "Indicadores", agenda: "Agenda del día", clientes: "Ficha del cliente", caja: "Caja",
+  informes: "Informes", todos: "Todos los turnos", espera: "Lista de espera", sala: "Sala de espera",
+  comunicacion: "Comunicación", servicios: "Servicios y precios", stock: "Stock de productos",
+  recall: "Recall", reserva: "Reserva online", ajustes: "Ajustes del local",
+  usuarios: "Usuarios y permisos", datos: "Datos (exportar)", suscripcion: "Suscripción",
+  integraciones: "Integraciones", midia: "Mi día", miperfil: "Mi perfil"
+};
+
+const INTEGRACIONES = [
+  { nombre: "WhatsApp del local", detalle: "Los recordatorios y el recall abren tu WhatsApp con el texto cargado", estado: "Conectado", tono: "brand", nota: "0981 000 000" },
+  { nombre: "Link de reserva online", detalle: "La página pública donde tus clientes eligen servicio y horario", estado: "Conectado", tono: "brand", nota: "turnalia.com.py/studiokuna" },
+  { nombre: "Instagram", detalle: "Botón de reserva en tu perfil, apuntando al link", estado: "Conectado", tono: "brand", nota: "@studiokuna" },
+  { nombre: "Google Calendar", detalle: "Espeja la agenda de cada profesional en su calendario personal", estado: "Disponible", tono: "warm", nota: "Solo lectura" },
+  { nombre: "Ficha de Google", detalle: "El botón Reservar de tu ficha en Maps y en la búsqueda", estado: "Disponible", tono: "warm", nota: "Requiere verificar el local" },
+  { nombre: "Facturación electrónica", detalle: "Emitir factura legal desde el cobro, en vez del comprobante interno", estado: "En desarrollo", tono: "neutro", nota: "Sin fecha" },
+  { nombre: "Pagos con tarjeta online", detalle: "Cobrar la seña al reservar, sin que el cliente venga al local", estado: "En desarrollo", tono: "neutro", nota: "Sin fecha" }
+];
+
+const HORAS = ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30"];
+const PX = 52 / 30;
+
+const COLUMNAS = [
+  [ { cliente: "Marcos Ayala", servicio: "Corte + barba", precio: "Gs. 110.000", inicio: 0, dur: 60, estado: "conf" },
+    { cliente: "Camila Duarte", servicio: "Manicura", precio: "Gs. 75.000", inicio: 90, dur: 45, estado: "conf" },
+    { cliente: "Nadia Vera", servicio: "Corte + peinado", precio: "Gs. 140.000", inicio: 210, dur: 60, estado: "sin" } ],
+  [ { cliente: "Lucía Benítez", servicio: "Color raíz", precio: "Gs. 250.000", inicio: 30, dur: 150, estado: "conf" },
+    { cliente: "Rocío Cabral", servicio: "Brushing", precio: "Gs. 80.000", inicio: 210, dur: 45, estado: "online" } ],
+  [ { cliente: "Tamara Rojas", servicio: "Alisado", precio: "Gs. 620.000", inicio: 0, dur: 120, estado: "online" },
+    { cliente: "Diego Torres", servicio: "Corte", precio: "Gs. 90.000", inicio: 255, dur: 30, estado: "conf" } ]
+];
+
+const FILTROS = ["Todos", "Andrea", "Sofía", "Mauro"];
+const TABS = ["Resumen", "Historial", "Fotos", "Cobros"];
+const ROLES = ["Dueño", "Profesional", "Recepción", "Cajero"];
+
+// Quién entra con cada rol, y a qué vista cae al iniciar sesión.
+const USUARIO_POR_ROL = {
+  "Dueño": { nombre: "Carla Domínguez", ini: "CD", inicio: "indicadores" },
+  "Profesional": { nombre: "Sofía Ramírez", ini: "SR", inicio: "midia" },
+  "Recepción": { nombre: "Rocío Cabral", ini: "RC", inicio: "agenda" },
+  "Cajero": { nombre: "Mirta Sosa", ini: "MS", inicio: "caja" }
+};
+
+const fmt = n => "Gs. " + n.toLocaleString("es-PY");
+
+const SERVICIOS = [
+  { nombre: "Corte de dama", categoria: "Cabello", prof: "Todas", dur: "45 min", precio: "Gs. 120.000", estado: "Activo", tono: "brand" },
+  { nombre: "Color raíz", categoria: "Color", prof: "Sofía, Andrea", dur: "150 min", precio: "Gs. 250.000", estado: "Activo", tono: "brand" },
+  { nombre: "Balayage", categoria: "Color", prof: "Sofía", dur: "210 min", precio: "Gs. 780.000", estado: "Activo", tono: "brand" },
+  { nombre: "Brushing", categoria: "Peinado", prof: "Todas", dur: "40 min", precio: "Gs. 90.000", estado: "Activo", tono: "brand" },
+  { nombre: "Alisado orgánico", categoria: "Tratamiento", prof: "Andrea", dur: "120 min", precio: "Gs. 620.000", estado: "Activo", tono: "brand" },
+  { nombre: "Corte de caballero", categoria: "Cabello", prof: "Mauro", dur: "30 min", precio: "Gs. 90.000", estado: "Activo", tono: "brand" },
+  { nombre: "Peinado de fiesta", categoria: "Peinado", prof: "Sofía", dur: "60 min", precio: "Gs. 180.000", estado: "Solo con seña", tono: "warm" },
+  { nombre: "Extensiones", categoria: "Tratamiento", prof: "Andrea", dur: "240 min", precio: "a presupuestar", estado: "Pausado", tono: "neutro" }
+];
+
+const TOP_SERVICIOS = [
+  { nombre: "Color raíz", monto: "Gs. 9.250.000", pct: "100%" },
+  { nombre: "Corte de dama", monto: "Gs. 6.480.000", pct: "70%" },
+  { nombre: "Balayage", monto: "Gs. 5.460.000", pct: "59%" },
+  { nombre: "Brushing", monto: "Gs. 3.150.000", pct: "34%" }
+];
+
+const STOCK = [
+  { nombre: "Tinte 7.1 ceniza", detalle: "Color · tubo 60 ml", cantidad: "3 u", minimo: "6 u", estado: "Reponer", tono: "warm" },
+  { nombre: "Agua oxigenada 20 vol", detalle: "Color · bidón 1 L", cantidad: "1 u", minimo: "3 u", estado: "Reponer", tono: "warm" },
+  { nombre: "Shampoo matizador", detalle: "Venta · 300 ml", cantidad: "12 u", minimo: "6 u", estado: "En stock", tono: "brand" },
+  { nombre: "Ampolla de keratina", detalle: "Tratamiento · caja x12", cantidad: "2 cajas", minimo: "2 cajas", estado: "Justo", tono: "warm" },
+  { nombre: "Guantes de nitrilo", detalle: "Insumo · caja x100", cantidad: "5 cajas", minimo: "2 cajas", estado: "En stock", tono: "brand" },
+  { nombre: "Toallas descartables", detalle: "Insumo · paquete x50", cantidad: "0 u", minimo: "4 u", estado: "Sin stock", tono: "warm" },
+  { nombre: "Serum de puntas", detalle: "Venta · 100 ml", cantidad: "9 u", minimo: "4 u", estado: "En stock", tono: "brand" }
+];
+
+const RECALL = [
+  { nombre: "Belén Ortiz", ini: "BO", ultima: "04/03", servicio: "Color raíz", gastado: "Gs. 1.840.000" },
+  { nombre: "Kevin Mora", ini: "KM", ultima: "19/02", servicio: "Corte de caballero", gastado: "Gs. 540.000" },
+  { nombre: "Silvia Aquino", ini: "SA", ultima: "28/01", servicio: "Alisado orgánico", gastado: "Gs. 2.480.000" },
+  { nombre: "Nadia Vera", ini: "NV", ultima: "15/01", servicio: "Balayage", gastado: "Gs. 3.120.000" },
+  { nombre: "Tamara Rojas", ini: "TR", ultima: "09/01", servicio: "Brushing", gastado: "Gs. 720.000" },
+  { nombre: "Julia Meza", ini: "JM", ultima: "22/12", servicio: "Peinado de fiesta", gastado: "Gs. 960.000" }
+];
+
+const USUARIOS = [
+  { nombre: "Carla Domínguez", ini: "CD", mail: "carla@studiokuna.com.py", rol: "Dueña", acceso: "Ahora", tono: "brand", destacado: true },
+  { nombre: "Sofía Ramírez", ini: "SR", mail: "sofia@studiokuna.com.py", rol: "Profesional", acceso: "Hace 20 min", tono: "brand" },
+  { nombre: "Andrea Giménez", ini: "AG", mail: "andrea@studiokuna.com.py", rol: "Profesional", acceso: "Hace 2 h", tono: "brand" },
+  { nombre: "Mauro Duarte", ini: "MD", mail: "mauro@studiokuna.com.py", rol: "Profesional", acceso: "Ayer", tono: "brand" },
+  { nombre: "Rocío Cabral", ini: "RC", mail: "recepcion@studiokuna.com.py", rol: "Recepción", acceso: "Hace 5 min", tono: "neutro" },
+  { nombre: "Mirta Sosa", ini: "MS", mail: "caja@studiokuna.com.py", rol: "Cajero", acceso: "Hace 1 h", tono: "warm" }
+];
+
+const LISTA_ESPERA = [
+  { cliente: "Belén Ortiz", ini: "BO", servicio: "Color raíz", prof: "Sofía", estado: "Prioridad", tono: "warm", disponibilidad: "cualquier tarde", desde: "hace 2 días" },
+  { cliente: "Kevin Mora", ini: "KM", servicio: "Corte de caballero", prof: "cualquiera", estado: "En espera", tono: "neutro", disponibilidad: "sábados a la mañana", desde: "hace 5 días" },
+  { cliente: "Silvia Aquino", ini: "SA", servicio: "Alisado orgánico", prof: "Andrea", estado: "En espera", tono: "neutro", disponibilidad: "lunes o martes", desde: "hace 1 semana" },
+  { cliente: "Julia Meza", ini: "JM", servicio: "Peinado de fiesta", prof: "Sofía", estado: "Con fecha tope", tono: "warm", disponibilidad: "antes del 20/09", desde: "hace 3 días" }
+];
+
+const SALA = [
+  { cliente: "Lucía Benítez", ini: "LB", servicio: "Color raíz", prof: "Sofía", hora: "10:30", estado: "En atención", tono: "brand", accion: "Cobrar", llego: "10:22", espera: "8 min" },
+  { cliente: "Camila Duarte", ini: "CD", servicio: "Manicura", prof: "Andrea", hora: "11:00", estado: "Esperando", tono: "warm", accion: "Hacer pasar", llego: "10:48", espera: "14 min" },
+  { cliente: "Diego Torres", ini: "DT", servicio: "Corte", prof: "Mauro", hora: "11:30", estado: "Llegó temprano", tono: "neutro", accion: "Hacer pasar", llego: "11:05", espera: "3 min" }
+];
+
+const REGLAS_RESERVA = [
+  { nombre: "Aviso mínimo", detalle: "Cuánto antes puede reservar", valor: "2 horas", tono: "brand" },
+  { nombre: "Hasta cuándo", detalle: "Qué tan lejos se puede agendar", valor: "60 días", tono: "brand" },
+  { nombre: "Seña obligatoria", detalle: "Solo en servicios de más de 3 horas", valor: "30%", tono: "warm" },
+  { nombre: "Cancelación sin costo", detalle: "Hasta 24 horas antes del turno", valor: "24 h", tono: "brand" },
+  { nombre: "Elegir profesional", detalle: "El cliente puede pedir a alguien puntual", valor: "Permitido", tono: "brand" },
+  { nombre: "Servicios ocultos", detalle: "Extensiones y presupuestos no se reservan online", valor: "2 servicios", tono: "neutro" }
+];
+
+const EMBUDO = [
+  { nombre: "Abrieron el link", valor: "412", pct: "100%" },
+  { nombre: "Eligieron un servicio", valor: "198", pct: "48%" },
+  { nombre: "Llegaron al horario", valor: "104", pct: "25%" },
+  { nombre: "Confirmaron el turno", valor: "76", pct: "18%" }
+];
+
+const DATOS_LOCAL = [
+  { label: "Nombre", valor: "Studio Kuña" },
+  { label: "Rubro", valor: "Peluquería" },
+  { label: "Dirección", valor: "Malutín 1240, Villa Morra" },
+  { label: "WhatsApp del local", valor: "0981 000 000" },
+  { label: "Instagram", valor: "@studiokuna" },
+  { label: "Moneda", valor: "Guaraníes (Gs.)" },
+  { label: "Zona horaria", valor: "Asunción (GMT−3)" }
+];
+
+const HORARIO = [
+  { dia: "Lunes", horas: "Cerrado", tono: "neutro" },
+  { dia: "Martes", horas: "09:00 – 19:00", tono: "brand" },
+  { dia: "Miércoles", horas: "09:00 – 19:00", tono: "brand" },
+  { dia: "Jueves", horas: "09:00 – 20:00", tono: "brand" },
+  { dia: "Viernes", horas: "09:00 – 20:00", tono: "brand" },
+  { dia: "Sábado", horas: "08:00 – 17:00", tono: "brand" },
+  { dia: "Domingo", horas: "Cerrado", tono: "neutro" }
+];
+
+const EXPORTABLES = [
+  { nombre: "Clientes", detalle: "1.284 registros con datos de contacto" },
+  { nombre: "Turnos", detalle: "Historial completo desde marzo 2024" },
+  { nombre: "Cobros y caja", detalle: "Movimientos con medio de pago y usuario" },
+  { nombre: "Servicios y precios", detalle: "Catálogo actual con duraciones" },
+  { nombre: "Stock", detalle: "Existencias y movimientos de insumos" }
+];
+
+const PAGOS = [
+  { mes: "Septiembre 2026", medio: "Transferencia · Banco Itaú", monto: "Gs. 350.000", estado: "Pagado", tono: "brand" },
+  { mes: "Agosto 2026", medio: "Transferencia · Banco Itaú", monto: "Gs. 350.000", estado: "Pagado", tono: "brand" },
+  { mes: "Julio 2026", medio: "Transferencia · Banco Itaú", monto: "Gs. 350.000", estado: "Pagado", tono: "brand" },
+  { mes: "Junio 2026", medio: "Depósito", monto: "Gs. 350.000", estado: "Pagado", tono: "brand" },
+  { mes: "Mayo 2026", medio: "Depósito", monto: "Gs. 300.000", estado: "Plan anterior", tono: "neutro" }
+];
+
+const PRODUCCION = [
+  { nombre: "Sofía Ramírez", ini: "SR", turnos: "68", comision: "35%", monto: "Gs. 12.940.000", pct: "100%" },
+  { nombre: "Andrea Giménez", ini: "AG", turnos: "61", comision: "35%", monto: "Gs. 10.310.000", pct: "80%" },
+  { nombre: "Mauro Duarte", ini: "MD", turnos: "55", comision: "30%", monto: "Gs. 8.230.000", pct: "64%" }
+];
+
+const ORIGENES = [
+  { nombre: "Reserva online (link)", valor: "41%", pct: "41%", warm: true },
+  { nombre: "Cargado en el mostrador", valor: "33%", pct: "33%" },
+  { nombre: "WhatsApp al local", valor: "19%", pct: "19%" },
+  { nombre: "Recall de inactivos", valor: "7%", pct: "7%" }
+];
+
+const TODOS_TURNOS = [
+  { cuando: "Lun 1 · 09:00", cliente: "Marcos Ayala", ini: "MA", servicio: "Corte de caballero", prof: "Mauro", precio: "Gs. 90.000", estado: "Atendido", tono: "neutro", online: false },
+  { cuando: "Lun 1 · 14:30", cliente: "Belén Ortiz", ini: "BO", servicio: "Color raíz", prof: "Sofía", precio: "Gs. 250.000", estado: "Atendido", tono: "neutro", online: true },
+  { cuando: "Mar 2 · 10:00", cliente: "Camila Duarte", ini: "CD", servicio: "Brushing", prof: "Andrea", precio: "Gs. 90.000", estado: "No vino", tono: "warm", online: false },
+  { cuando: "Mié 3 · 08:30", cliente: "Julia Meza", ini: "JM", servicio: "Peinado de fiesta", prof: "Sofía", precio: "Gs. 180.000", estado: "Señado", tono: "warm", online: true },
+  { cuando: "Jue 4 · 16:00", cliente: "Tamara Rojas", ini: "TR", servicio: "Balayage", prof: "Sofía", precio: "Gs. 780.000", estado: "Atendido", tono: "neutro", online: false },
+  { cuando: "Vie 5 · 10:30", cliente: "Lucía Benítez", ini: "LB", servicio: "Color raíz", prof: "Sofía", precio: "Gs. 250.000", estado: "En atención", tono: "brand", online: false },
+  { cuando: "Vie 5 · 13:00", cliente: "Rocío Cabral", ini: "RC", servicio: "Brushing", prof: "Sofía", precio: "Gs. 90.000", estado: "Confirmado", tono: "brand", online: true },
+  { cuando: "Sáb 6 · 09:00", cliente: "Nadia Vera", ini: "NV", servicio: "Corte + peinado", prof: "Andrea", precio: "Gs. 210.000", estado: "Sin confirmar", tono: "neutro", online: true },
+  { cuando: "Sáb 6 · 11:00", cliente: "Iván Cabrera", ini: "IC", servicio: "Corte + lavado", prof: "Mauro", precio: "Gs. 110.000", estado: "Confirmado", tono: "brand", online: true }
+];
+
+const MENSAJES = [
+  { cliente: "Rocío Cabral", ini: "RC", motivo: "Turno mañana 13:00 · Brushing", tipo: "Recordatorio", tono: "brand" },
+  { cliente: "Nadia Vera", ini: "NV", motivo: "Turno sin confirmar del sábado", tipo: "Confirmación", tono: "warm" },
+  { cliente: "Camila Duarte", ini: "CD", motivo: "Retoque vence en 3 días", tipo: "Retoque", tono: "brand" },
+  { cliente: "Belén Ortiz", ini: "BO", motivo: "Sin volver hace 6 meses", tipo: "Recall", tono: "warm" },
+  { cliente: "Julia Meza", ini: "JM", motivo: "Seña pendiente del peinado", tipo: "Cobro", tono: "warm" }
+];
+
+const AVISOS = [
+  { nombre: "Recordatorio de turno", cuando: "24 horas antes", estado: "Activo", tono: "brand" },
+  { nombre: "Pedido de confirmación", cuando: "48 horas antes, si no confirmó", estado: "Activo", tono: "brand" },
+  { nombre: "Aviso de retoque", cuando: "3 semanas después del servicio", estado: "Activo", tono: "brand" },
+  { nombre: "Recall de inactivos", cuando: "Manual, cuando lo pedís", estado: "Manual", tono: "neutro" },
+  { nombre: "Saludo de cumpleaños", cuando: "El día, a las 9:00", estado: "Apagado", tono: "neutro" }
+];
+
+const PERMISOS = [
+  { rol: "Dueña", tono: "brand", puede: ["Reportes de ingresos", "Precios y servicios", "Usuarios y permisos", "Caja y arqueo", "Exportar datos", "Suscripción"] },
+  { rol: "Profesional", tono: "brand", puede: ["Su agenda", "Fichas de sus clientes", "Su propia producción"] },
+  { rol: "Recepción", tono: "neutro", puede: ["Agenda de todo el local", "Clientes y confirmaciones", "Lista y sala de espera"] },
+  { rol: "Cajero", tono: "warm", puede: ["Cobros del turno", "Apertura y cierre de caja", "Comprobantes"] }
+];
+
+class Component extends DCLogic {
+  chip(tono) {
+    const warm = tono === "warm", neutro = tono === "neutro";
+    return {
+      flex: "none", fontSize: "11.5px", fontWeight: 700, padding: "5px 11px", borderRadius: "999px", whiteSpace: "nowrap",
+      background: warm ? "var(--warm-50)" : neutro ? "var(--surface-2)" : "var(--brand-50)",
+      color: warm ? "var(--warm-700)" : neutro ? "var(--ink-2)" : "var(--brand-700)",
+      border: "1px solid " + (warm ? "var(--warm)" : neutro ? "var(--line-soft)" : "var(--brand-100)")
+    };
+  }
+
+  state = { pantalla: "login", vista: "indicadores", filtro: 0, tab: "Resumen", contado: "375000", rol: "Dueño", recordar: true };
+
+  componentDidMount() {
+    try {
+      const t = localStorage.getItem("turnalia:tema") === "dark" ? "dark" : "light";
+      document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  }
+
+  toggleTema = () => {
+    const oscuro = document.documentElement.dataset.theme !== "dark";
+    document.documentElement.dataset.theme = oscuro ? "dark" : "light";
+    try { localStorage.setItem("turnalia:tema", oscuro ? "dark" : "light"); } catch (e) {}
+  };
+
+  tag(tono) {
+    const map = {
+      teal: ["var(--brand-50)", "var(--brand-700)", "var(--brand-100)"],
+      coral: ["color-mix(in oklab, var(--warm) 16%, transparent)", "var(--warm-700)", "color-mix(in oklab, var(--warm) 32%, transparent)"],
+      neutro: ["var(--surface-2)", "var(--ink-2)", "var(--line-soft)"],
+      tinta: ["var(--brand-solid)", "#fff", "var(--brand-solid)"]
+    };
+    const [bg, fg, bd] = map[tono] || map.neutro;
+    return { display: "inline-block", background: bg, color: fg, border: "1px solid " + bd, fontSize: "11px", fontWeight: 600, padding: "2px 9px", borderRadius: "999px", whiteSpace: "nowrap", flex: "none" };
+  }
+
+  avatar(bg, size) {
+    const s = size || 26;
+    return { width: s + "px", height: s + "px", flex: "none", background: bg, color: "#fff", fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: (s <= 26 ? 10.5 : 12) + "px", display: "grid", placeItems: "center", borderRadius: "999px" };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const v = s.vista;
+
+    const grupos = GRUPOS.map(g => ({
+      titulo: g.titulo,
+      items: g.items.filter(it => !it.roles || it.roles.indexOf(s.rol) >= 0).map(it => {
+        const activo = it.vista === v;
+        return {
+          label: it.label,
+          badge: it.pronto ? "Pronto" : (it.badge || ""),
+          badgeStyle: (it.pronto || it.badge)
+            ? { fontSize: "10.5px", fontWeight: 700, padding: "1px 7px", borderRadius: "999px", flex: "none",
+                background: activo ? "rgba(255,255,255,.22)" : (it.pronto ? "transparent" : "var(--surface-2)"),
+                color: activo ? "#fff" : "var(--ink-2)",
+                border: it.pronto ? "1px solid var(--line)" : "0" }
+            : { display: "none" },
+          onClick: it.pronto ? (e => e.preventDefault()) : (() => this.setState({ vista: it.vista })),
+          hover: it.pronto ? {} : (activo ? { background: "var(--brand-solid-700)" } : { background: "var(--brand-50)", color: "var(--brand-700)" }),
+          style: {
+            appearance: "none", border: 0, width: "calc(100% - 16px)", margin: "1px 8px", textAlign: "left",
+            display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px",
+            padding: "9px 12px", fontSize: "13.5px", fontFamily: "inherit", borderRadius: "10px",
+            fontWeight: activo ? 600 : 400,
+            background: activo ? "var(--brand-solid)" : "transparent",
+            color: activo ? "#fff" : (it.pronto ? "var(--ink-2)" : "var(--ink)"),
+            cursor: it.pronto ? "default" : "pointer",
+            transition: "transform .16s, box-shadow .16s, border-color .16s"
+          }
+        };
+      })
+    })).filter(g => g.items.length);
+
+    const spark = vals => {
+      const max = Math.max.apply(null, vals);
+      return vals.map((x, i) => ({
+        flex: 1, height: Math.max(3, Math.round((x / max) * 26)) + "px", borderRadius: "2px",
+        background: i === vals.length - 1 ? "var(--brand)" : "var(--brand-100)"
+      }));
+    };
+
+    const delta = bueno => ({
+      fontSize: "11.5px", fontWeight: 700, padding: "2px 8px", borderRadius: "999px", whiteSpace: "nowrap",
+      background: bueno ? "var(--brand-50)" : "color-mix(in oklab, var(--warm) 16%, transparent)",
+      color: bueno ? "var(--brand-700)" : "var(--warm-700)"
+    });
+
+    const dias14 = [820, 640, 980, 1120, 760, 1340, 1180, 540, 900, 1260, 1040, 1420, 980, 1240];
+    const maxDia = Math.max.apply(null, dias14);
+    const barras = dias14.map((x, i) => ({
+      style: { flex: 1, height: Math.round((x / maxDia) * 128) + "px", borderRadius: "4px 4px 0 0", background: i === 13 ? "var(--brand)" : "var(--brand-100)", transition: "background .16s" },
+      title: fmt(x * 1000),
+      hover: { background: "var(--brand-solid-700)" }
+    }));
+
+    const pastilla = (activo) => ({
+      appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "13px",
+      fontWeight: activo ? 600 : 500, padding: "8px 15px", borderRadius: "999px",
+      border: "1px solid " + (activo ? "var(--brand)" : "var(--line)"),
+      background: activo ? "var(--brand-solid)" : "var(--surface)",
+      color: activo ? "#fff" : "var(--ink-2)",
+      transition: "transform .16s, box-shadow .16s, border-color .16s"
+    });
+
+    const filtros = FILTROS.map((label, i) => ({
+      label,
+      onClick: () => this.setState({ filtro: i }),
+      style: pastilla(s.filtro === i),
+      hover: s.filtro === i ? { background: "var(--brand-solid-700)" } : { background: "var(--brand-50)", color: "var(--brand-700)", borderColor: "var(--brand-100)" }
+    }));
+
+    const tabs = TABS.map(label => ({
+      label,
+      onClick: () => this.setState({ tab: label }),
+      style: pastilla(s.tab === label),
+      hover: s.tab === label ? { background: "var(--brand-solid-700)" } : { background: "var(--brand-50)", color: "var(--brand-700)", borderColor: "var(--brand-100)" }
+    }));
+
+    const roles = ROLES.map(label => ({
+      label,
+      onClick: () => this.setState({ pantalla: "panel", rol: label, vista: (USUARIO_POR_ROL[label] || {}).inicio || "agenda" }),
+      style: {
+        appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "13px", fontWeight: 500,
+        padding: "8px 14px", borderRadius: "999px", border: "1px solid var(--line)",
+        background: "var(--surface)", color: "var(--ink-2)", transition: "transform .16s, box-shadow .16s, border-color .16s"
+      },
+      hover: { background: "var(--brand-50)", color: "var(--brand-700)", borderColor: "var(--brand-100)" }
+    }));
+
+    const visible = i => s.filtro === 0 || s.filtro === i + 1;
+    const hh = m => String(8 + Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+
+    const columnas = COLUMNAS.map((bloques, ci) => ({
+      style: {
+        borderRight: "1px solid var(--line-soft)", position: "relative", minWidth: 0,
+        opacity: visible(ci) ? 1 : 0.28,
+        transition: "opacity .2s",
+        backgroundImage: "repeating-linear-gradient(to bottom, transparent 0 51px, var(--line-soft) 51px 52px)"
+      },
+      bloques: bloques.map(b => {
+        const online = b.estado === "online";
+        const sin = b.estado === "sin";
+        return {
+          cliente: b.cliente, servicio: b.servicio, precio: b.precio,
+          rango: hh(b.inicio) + "–" + hh(b.inicio + b.dur),
+          style: {
+            position: "absolute", left: "4px", right: "4px",
+            top: (b.inicio * PX + 2) + "px", height: (b.dur * PX - 4) + "px",
+            background: sin ? "var(--surface)" : (online ? "var(--warm-solid)" : "var(--brand-solid)"),
+            color: sin ? "var(--ink)" : "#fff",
+            border: sin ? "1.5px dashed var(--ink-2)" : "0",
+            borderRadius: "10px", padding: "7px 9px", overflow: "hidden", cursor: "pointer",
+            display: "flex", flexDirection: "column",
+            transition: "transform .18s cubic-bezier(.2,.7,.3,1), box-shadow .18s"
+          },
+          hover: { transform: "translateY(-1px) scale(1.012)", boxShadow: "var(--sh-2)" }
+        };
+      })
+    }));
+
+    const contadoNum = parseInt(String(s.contado).replace(/\D/g, ""), 10) || 0;
+    const dif = contadoNum - 375000;
+    const bar = (pct, tono) => ({ width: pct + "%", height: "100%", borderRadius: "999px", background: tono || "var(--brand)" });
+
+    const panel = { background: "var(--surface)", border: "1px solid var(--line-soft)", borderRadius: "20px", padding: "18px 20px", boxShadow: "var(--sh-1)" };
+    const tituloPanel = { fontFamily: "Outfit, sans-serif", fontWeight: 600, fontSize: "14.5px", letterSpacing: "-0.01em", margin: "0 0 8px" };
+    const inputBase = { width: "100%", boxSizing: "border-box", fontFamily: "inherit", fontSize: "14px", padding: "11px 13px", borderRadius: "10px", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink)", outline: "none", transition: "transform .16s, box-shadow .16s, border-color .16s" };
+
+    return {
+      esLogin: s.pantalla === "login",
+      esPanel: s.pantalla === "panel",
+      grupos, barras, filtros, columnas, tabs, roles,
+      horas: HORAS,
+      panel, tituloPanel,
+      inputStyle: inputBase,
+      buscador: Object.assign({}, inputBase, { width: "250px", padding: "8px 44px 8px 13px", fontSize: "13px", background: "var(--surface)" }),
+      inputFocus: { borderColor: "var(--brand)", boxShadow: "0 0 0 3px var(--brand-50)" },
+      botonPrimario: { width: "100%", appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "15px", fontWeight: 600, padding: "13px", borderRadius: "999px", border: 0, background: "var(--brand-solid)", color: "#fff", boxShadow: "var(--sh-2)", transition: "transform .2s, box-shadow .2s, border-color .2s" },
+      botonPrimarioBloque: { width: "100%", marginTop: "14px", appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "14px", fontWeight: 600, padding: "11px", borderRadius: "999px", border: 0, background: "var(--brand-solid)", color: "#fff", transition: "transform .2s, box-shadow .2s, border-color .2s" },
+      botonSecundarioBloque: { width: "100%", marginTop: "14px", appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "14px", fontWeight: 500, padding: "10px", borderRadius: "999px", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink)", transition: "transform .2s, box-shadow .2s, border-color .2s" },
+      botonSecundario: { appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "13.5px", fontWeight: 500, padding: "9px 15px", borderRadius: "999px", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink)", transition: "transform .2s, box-shadow .2s, border-color .2s" },
+      botonNuevo: { appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "13.5px", fontWeight: 600, padding: "9px 16px", borderRadius: "999px", border: 0, background: "var(--brand-solid)", color: "#fff", boxShadow: "var(--sh-1)", transition: "transform .2s, box-shadow .2s, border-color .2s" },
+      botonMini: { appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "12.5px", fontWeight: 600, padding: "4px 11px", borderRadius: "999px", border: "1px solid var(--brand-100)", background: "var(--brand-50)", color: "var(--brand-700)", transition: "transform .16s, box-shadow .16s, border-color .16s", flex: "none" },
+      botonIcono: { position: "relative", width: "36px", height: "36px", borderRadius: "999px", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink-2)", display: "grid", placeItems: "center", cursor: "pointer", transition: "transform .2s, box-shadow .2s, border-color .2s", flex: "none" },
+      navDia: { appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "13px", padding: "6px 11px", borderRadius: "9px", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink-2)", transition: "transform .16s, box-shadow .16s, border-color .16s" },
+      navHoy: { appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "13px", fontWeight: 600, padding: "6px 13px", borderRadius: "9px", border: "1px solid var(--line)", background: "var(--surface)", color: "var(--ink)", transition: "transform .16s, box-shadow .16s, border-color .16s" },
+      selectorLocal: { appearance: "none", width: "100%", textAlign: "left", cursor: "pointer", fontFamily: "inherit", color: "var(--ink)", background: "var(--surface-2)", border: "1px solid var(--line-soft)", borderRadius: "10px", padding: "9px 11px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", transition: "transform .16s, box-shadow .16s, border-color .16s" },
+
+      tituloVista: TITULOS[v] || "",
+      usuarioNombre: (USUARIO_POR_ROL[s.rol] || USUARIO_POR_ROL["Dueño"]).nombre,
+      usuarioIni: (USUARIO_POR_ROL[s.rol] || USUARIO_POR_ROL["Dueño"]).ini,
+      rolActual: s.rol.toLowerCase(),
+      esIndicadores: v === "indicadores",
+      esAgenda: v === "agenda",
+      esClientes: v === "clientes",
+      esCaja: v === "caja",
+      esMiDia: v === "midia",
+      esMiPerfil: v === "miperfil",
+      miDia: MI_DIA.map(t => Object.assign({}, t, {
+        chip: this.chip(t.tono),
+        avatar: this.avatar(t.tono === "warm" ? "var(--warm-solid)" : "var(--neutral-solid)")
+      })),
+      misServicios: MIS_SERVICIOS.map(x => Object.assign({}, x, {
+        chip: this.chip(x.hace ? "brand" : "neutro"),
+        etiqueta: x.hace ? "Lo hago" : "No lo hago"
+      })),
+      miHorario: MI_HORARIO.map(h => Object.assign({}, h, { chip: this.chip(h.tono) })),
+      esIntegraciones: v === "integraciones",
+      integraciones: INTEGRACIONES.map(i => Object.assign({}, i, { chip: this.chip(i.tono) })),
+      esEspera: v === "espera",
+      esSala: v === "sala",
+      esReserva: v === "reserva",
+      esAjustes: v === "ajustes",
+      esDatos: v === "datos",
+      esSuscripcion: v === "suscripcion",
+      listaEspera: LISTA_ESPERA.map(e => Object.assign({}, e, {
+        avatar: this.avatar("var(--neutral-solid)"), chip: this.chip(e.tono)
+      })),
+      salaLlena: SALA.map(s => Object.assign({}, s, {
+        avatar: this.avatar(s.tono === "warm" ? "var(--warm-solid)" : "var(--neutral-solid)"), chip: this.chip(s.tono)
+      })),
+      reglasReserva: REGLAS_RESERVA.map(r => Object.assign({}, r, { chip: this.chip(r.tono) })),
+      embudo: EMBUDO.map(e => Object.assign({}, e, {
+        barra: { height: "100%", width: e.pct, borderRadius: "999px", background: "var(--brand-solid)" }
+      })),
+      datosLocal: DATOS_LOCAL,
+      horario: HORARIO.map(h => Object.assign({}, h, { chip: this.chip(h.tono) })),
+      exportables: EXPORTABLES,
+      datosPlan: [
+        { label: "Usuarios en uso", valor: "6" },
+        { label: "Próximo cobro", valor: "1 de octubre" },
+        { label: "Forma de pago", valor: "Transferencia" },
+        { label: "Cliente desde", valor: "Marzo 2024" }
+      ],
+      pagos: PAGOS.map(p => Object.assign({}, p, { chip: this.chip(p.tono) })),
+      chipActivo: this.chip("brand"),
+      esInformes: v === "informes",
+      esTodos: v === "todos",
+      esComunicacion: v === "comunicacion",
+      produccion: PRODUCCION.map((p, i) => Object.assign({}, p, {
+        avatar: this.avatar(i === 0 ? "var(--brand-solid)" : i === 1 ? "var(--neutral-solid)" : "var(--warm-solid)"),
+        barra: { height: "100%", width: p.pct, borderRadius: "999px", background: "var(--brand-solid)" }
+      })),
+      origenes: ORIGENES.map(o => Object.assign({}, o, {
+        barra: { height: "100%", width: o.pct, borderRadius: "999px", background: o.warm ? "var(--warm-solid)" : "var(--brand-solid)" }
+      })),
+      cierre: [
+        { label: "Servicios", valor: "Gs. 27.190.000" },
+        { label: "Venta de productos", valor: "Gs. 2.310.000" },
+        { label: "Señas cobradas", valor: "Gs. 1.980.000" },
+        { label: "Ticket promedio", valor: "Gs. 171.000" },
+        { label: "Clientes nuevos", valor: "23" }
+      ],
+      todosTurnos: TODOS_TURNOS.map(t => Object.assign({}, t, {
+        avatar: this.avatar(t.online ? "var(--warm-solid)" : "var(--neutral-solid)"),
+        chip: this.chip(t.tono)
+      })),
+      mensajes: MENSAJES.map(m => Object.assign({}, m, {
+        avatar: this.avatar("var(--neutral-solid)"),
+        chip: this.chip(m.tono)
+      })),
+      avisos: AVISOS.map(a => Object.assign({}, a, { chip: this.chip(a.tono) })),
+      esServicios: v === "servicios",
+      esStock: v === "stock",
+      esRecall: v === "recall",
+      esUsuarios: v === "usuarios",
+      servicios: SERVICIOS.map(s => Object.assign({}, s, { chip: this.chip(s.tono) })),
+      topServicios: TOP_SERVICIOS.map(t => Object.assign({}, t, {
+        barra: { height: "100%", width: t.pct, borderRadius: "999px", background: "var(--brand-solid)" }
+      })),
+      stock: STOCK.map(p => Object.assign({}, p, { chip: this.chip(p.tono) })),
+      recall: RECALL.map(c => Object.assign({}, c, { avatar: this.avatar("var(--neutral-solid)") })),
+      usuarios: USUARIOS.map(u => Object.assign({}, u, {
+        avatar: this.avatar(u.destacado ? "var(--brand-solid)" : "var(--neutral-solid)"),
+        chip: this.chip(u.tono)
+      })),
+      permisos: PERMISOS.map(p => Object.assign({}, p, { chip: this.chip(p.tono) })),
+      irAgenda: () => this.setState({ vista: "agenda" }),
+      entrar: () => this.setState({ pantalla: "panel" }),
+      salir: () => this.setState({ pantalla: "login" }),
+      recordar: s.recordar,
+      onRecordar: () => this.setState({ recordar: !s.recordar }),
+      toggleTema: this.toggleTema,
+      lineaAhora: { position: "absolute", left: "56px", right: 0, top: (140 * PX) + "px", height: "2px", background: "var(--warm-solid)", pointerEvents: "none" },
+
+      kpis: [
+        { label: "Turnos hoy", valor: "14", delta: "+3", deltaStyle: delta(true), nota: "3 por reserva online", spark: spark([9, 11, 8, 12, 10, 13, 14]), card: panel },
+        { label: "Ingresos del día", valor: "1,24 M", delta: "+18%", deltaStyle: delta(true), nota: "vs. viernes pasado", spark: spark([820, 980, 760, 1120, 1040, 980, 1240]), card: panel },
+        { label: "Ausencias", valor: "2", delta: "+1", deltaStyle: delta(false), nota: "14% de los turnos de la semana", spark: spark([1, 1, 2, 1, 3, 1, 2]), card: panel },
+        { label: "Sin volver", valor: "38", delta: "6 m", deltaStyle: delta(false), nota: "clientes listos para recall", spark: spark([31, 33, 34, 36, 35, 37, 38]), card: panel }
+      ],
+      alertas: [
+        { titulo: "3 clientes en mora de paquete", detalle: "Sesiones de alisado con saldo vencido", tag: "Cobros", tagStyle: this.tag("coral") },
+        { titulo: "Tintura 7.1 por debajo del mínimo", detalle: "Quedan 2 unidades · consumo semanal 5", tag: "Stock", tagStyle: this.tag("coral") },
+        { titulo: "4 turnos de mañana sin confirmar", detalle: "Sábado 08:00 a 11:00", tag: "Agenda", tagStyle: this.tag("neutro") },
+        { titulo: "Cumpleaños de Rocío Cabral", detalle: "Hoy · cliente frecuente desde 2022", tag: "Marketing", tagStyle: this.tag("neutro") }
+      ],
+      proximos: [
+        { hora: "10:30", cliente: "Lucía Benítez", ini: "LB", prof: "Sofía", servicio: "Color raíz", estado: "En atención", estadoStyle: this.tag("tinta"), avatar: this.avatar("var(--brand-solid)") },
+        { hora: "11:00", cliente: "Camila Duarte", ini: "CD", prof: "Andrea", servicio: "Manicura", estado: "Confirmado", estadoStyle: this.tag("neutro"), avatar: this.avatar("var(--neutral-solid)") },
+        { hora: "11:30", cliente: "Diego Torres", ini: "DT", prof: "Mauro", servicio: "Corte", estado: "Confirmado", estadoStyle: this.tag("neutro"), avatar: this.avatar("var(--neutral-solid)") },
+        { hora: "13:00", cliente: "Rocío Cabral", ini: "RC", prof: "Sofía", servicio: "Brushing", estado: "Online", estadoStyle: this.tag("coral"), avatar: this.avatar("var(--warm-solid)") },
+        { hora: "15:30", cliente: "Nadia Vera", ini: "NV", prof: "Andrea", servicio: "Corte + peinado", estado: "Sin confirmar", estadoStyle: this.tag("neutro"), avatar: this.avatar("var(--neutral-solid)") },
+        { hora: "17:00", cliente: "Iván Cabrera", ini: "IC", prof: "Mauro", servicio: "Corte + lavado", estado: "Online", estadoStyle: this.tag("coral"), avatar: this.avatar("var(--warm-solid)") }
+      ],
+      ocupacion: [
+        { nombre: "Sofía Ramírez", pct: "94%", barra: bar(94), nota: "8 h 30 de 9 h · sin huecos" },
+        { nombre: "Andrea Giménez", pct: "78%", barra: bar(78), nota: "7 h de 9 h · hueco 16:00" },
+        { nombre: "Mauro Duarte", pct: "61%", barra: bar(61, "var(--warm)"), nota: "5 h 30 de 9 h · hueco 11:00" }
+      ],
+      ranking: [
+        { n: "01", nombre: "Color raíz", cant: "19", monto: "Gs. 4.800.000" },
+        { n: "02", nombre: "Corte + barba", cant: "28", monto: "Gs. 3.150.000" },
+        { n: "03", nombre: "Alisado", cant: "4", monto: "Gs. 2.400.000" },
+        { n: "04", nombre: "Brushing", cant: "20", monto: "Gs. 1.600.000" },
+        { n: "05", nombre: "Manicura", cant: "13", monto: "Gs. 980.000" }
+      ],
+      profesionales: [
+        { nombre: "Andrea Giménez", ini: "AG", carga: "6 turnos · 78%", avatar: this.avatar("var(--neutral-solid)") },
+        { nombre: "Sofía Ramírez", ini: "SR", carga: "5 turnos · 94%", avatar: this.avatar("var(--brand-solid)") },
+        { nombre: "Mauro Duarte", ini: "MD", carga: "3 turnos · 61%", avatar: this.avatar("var(--warm-solid)") }
+      ],
+      sala: [
+        { cliente: "Lucía Benítez", detalle: "Color raíz · 10:30 con Sofía", espera: "en atención", esperaStyle: this.tag("tinta") },
+        { cliente: "Camila Duarte", detalle: "Manicura · 11:00 con Andrea", espera: "espera 6 min", esperaStyle: this.tag("neutro") },
+        { cliente: "Diego Torres", detalle: "Corte · 11:30 con Mauro", espera: "llegó temprano", esperaStyle: this.tag("neutro") }
+      ],
+      chips: [
+        { label: "Cliente frecuente", style: this.tag("teal") },
+        { label: "Llegó por Instagram", style: this.tag("neutro") },
+        { label: "Alergia: amoníaco", style: this.tag("coral") },
+        { label: "Portal habilitado", style: this.tag("neutro") }
+      ],
+      fichaStats: [
+        { label: "Visitas", valor: "27" },
+        { label: "Gasto acumulado", valor: "Gs. 5.470.000" },
+        { label: "Ticket promedio", valor: "Gs. 202.000" },
+        { label: "Frecuencia", valor: "42 días" },
+        { label: "Ausencias", valor: "1" }
+      ],
+      tecnica: [
+        { label: "Fórmula de color", valor: "7.1 + 6% · sin amoníaco" },
+        { label: "Frecuencia de raíz", valor: "cada 5 semanas" },
+        { label: "Tipo de cabello", valor: "Fino, ondulado" },
+        { label: "Profesional habitual", valor: "Sofía Ramírez" },
+        { label: "Última visita", valor: "22/08/2026" }
+      ],
+      timeline: [
+        { fecha: "22/08/2026", servicio: "Color raíz + brushing", monto: "Gs. 320.000", prof: "Sofía Ramírez · 165 min", nota: "Se agregó brushing en el momento. Fórmula sin cambios." },
+        { fecha: "18/07/2026", servicio: "Corte", monto: "Gs. 90.000", prof: "Andrea Giménez · 30 min", nota: "Pidió mantener el largo, solo puntas." },
+        { fecha: "13/06/2026", servicio: "Color raíz", monto: "Gs. 250.000", prof: "Sofía Ramírez · 150 min", nota: "Prueba de mecha previa, sin reacción." },
+        { fecha: "09/05/2026", servicio: "Alisado", monto: "Gs. 620.000", prof: "Sofía Ramírez · 120 min", nota: "Primera sesión del paquete de 3." },
+        { fecha: "04/04/2026", servicio: "Corte + peinado", monto: "Gs. 140.000", prof: "Andrea Giménez · 60 min", nota: "Evento familiar, peinado recogido." }
+      ],
+      fotos: [
+        { label: "Antes · color", fecha: "13/06/2026" },
+        { label: "Después · color", fecha: "13/06/2026" },
+        { label: "Antes · alisado", fecha: "09/05/2026" },
+        { label: "Después · alisado", fecha: "09/05/2026" },
+        { label: "Referencia enviada", fecha: "05/05/2026" },
+        { label: "Antes · corte", fecha: "04/04/2026" }
+      ],
+      cobros: [
+        { fecha: "22/08/2026", concepto: "Color raíz + brushing", medio: "Transferencia", medioStyle: this.tag("neutro"), nro: "REC-0412", monto: "Gs. 320.000" },
+        { fecha: "18/07/2026", concepto: "Corte", medio: "Efectivo", medioStyle: this.tag("neutro"), nro: "REC-0388", monto: "Gs. 90.000" },
+        { fecha: "13/06/2026", concepto: "Color raíz", medio: "Tarjeta", medioStyle: this.tag("neutro"), nro: "REC-0351", monto: "Gs. 250.000" },
+        { fecha: "09/05/2026", concepto: "Alisado · cuota 1 de 3", medio: "Transferencia", medioStyle: this.tag("neutro"), nro: "REC-0309", monto: "Gs. 250.000" },
+        { fecha: "04/04/2026", concepto: "Corte + peinado", medio: "Efectivo", medioStyle: this.tag("neutro"), nro: "REC-0271", monto: "Gs. 140.000" }
+      ],
+      movimientos: [
+        { hora: "08:45", concepto: "Corte + barba", cliente: "Marcos Ayala", medio: "Efectivo", medioStyle: this.tag("neutro"), monto: "+ Gs. 110.000", montoStyle: { fontWeight: 600, fontVariantNumeric: "tabular-nums", flex: "none", minWidth: "104px", textAlign: "right" }, saldo: "Gs. 210.000" },
+        { hora: "09:30", concepto: "Alisado", cliente: "Tamara Rojas", medio: "Transferencia", medioStyle: this.tag("neutro"), monto: "+ Gs. 620.000", montoStyle: { fontWeight: 600, fontVariantNumeric: "tabular-nums", flex: "none", minWidth: "104px", textAlign: "right" }, saldo: "Gs. 210.000" },
+        { hora: "10:15", concepto: "Venta shampoo profesional", cliente: "Lucía Benítez", medio: "Tarjeta", medioStyle: this.tag("neutro"), monto: "+ Gs. 95.000", montoStyle: { fontWeight: 600, fontVariantNumeric: "tabular-nums", flex: "none", minWidth: "104px", textAlign: "right" }, saldo: "Gs. 210.000" },
+        { hora: "11:20", concepto: "Corte", cliente: "Diego Torres", medio: "Efectivo", medioStyle: this.tag("neutro"), monto: "+ Gs. 90.000", montoStyle: { fontWeight: 600, fontVariantNumeric: "tabular-nums", flex: "none", minWidth: "104px", textAlign: "right" }, saldo: "Gs. 300.000" },
+        { hora: "12:05", concepto: "Manicura", cliente: "Camila Duarte", medio: "Efectivo", medioStyle: this.tag("neutro"), monto: "+ Gs. 75.000", montoStyle: { fontWeight: 600, fontVariantNumeric: "tabular-nums", flex: "none", minWidth: "104px", textAlign: "right" }, saldo: "Gs. 375.000" },
+        { hora: "12:20", concepto: "Compra de insumos", cliente: "Retiro · Andrea Giménez", medio: "Efectivo", medioStyle: this.tag("coral"), monto: "− Gs. 60.000", montoStyle: { fontWeight: 700, color: "var(--warm-700)", fontVariantNumeric: "tabular-nums", flex: "none", minWidth: "104px", textAlign: "right" }, saldo: "Gs. 315.000" },
+        { hora: "12:40", concepto: "Seña alisado", cliente: "Nadia Vera", medio: "Transferencia", medioStyle: this.tag("neutro"), monto: "+ Gs. 250.000", montoStyle: { fontWeight: 600, fontVariantNumeric: "tabular-nums", flex: "none", minWidth: "104px", textAlign: "right" }, saldo: "Gs. 315.000" }
+      ],
+      medios: [
+        { nombre: "Efectivo", monto: "Gs. 275.000", barra: bar(22, "var(--ink-2)") },
+        { nombre: "Transferencia", monto: "Gs. 870.000", barra: bar(70) },
+        { nombre: "Tarjeta", monto: "Gs. 95.000", barra: bar(8, "var(--ink-2)") }
+      ],
+      tabResumen: s.tab === "Resumen",
+      tabHistorial: s.tab === "Historial",
+      tabFotos: s.tab === "Fotos",
+      tabCobros: s.tab === "Cobros",
+      contado: s.contado,
+      onContado: e => this.setState({ contado: e.target.value }),
+      diferencia: (dif === 0 ? "Sin diferencia" : (dif > 0 ? "Sobra " : "Falta ") + fmt(Math.abs(dif))),
+      difStyle: { fontWeight: 700, fontVariantNumeric: "tabular-nums", color: dif === 0 ? "var(--ink)" : "var(--warm-700)" },
+
+      hIcon: { background: "var(--brand-50)", borderColor: "var(--brand-100)", color: "var(--brand-700)" },
+      hCta: { background: "var(--brand-solid-700)" },
+      hCtaBig: { background: "var(--brand-solid-700)", transform: "translateY(-1px)", boxShadow: "var(--sh-3)" },
+      hSoft: { background: "var(--surface-2)", borderColor: "var(--brand-100)" },
+      hSoftCta: { background: "var(--brand-100)" },
+      hSurface: { background: "var(--surface-2)" },
+      hLinkSoft: { color: "var(--brand-700)" }
+    };
+  }
+}
+</script>
+</body>
+</html>

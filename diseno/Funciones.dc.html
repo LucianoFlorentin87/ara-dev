@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+</helmet>
+
+<div style="background: var(--bg); color: var(--ink); font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 40; backdrop-filter: blur(16px); background: color-mix(in oklab, var(--bg) 78%, transparent); border-bottom: 1px solid var(--line-soft)">
+    <div style="max-width: 1220px; margin: 0 auto; padding: 13px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+      <a href="Landing v4.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink)">
+        <span style="width: 34px; height: 34px; border-radius: 12px; background: var(--brand-solid); display: grid; place-items: center; box-shadow: var(--sh-2)">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path><circle cx="12" cy="16" r="1.7" fill="#fff" stroke="none"></circle></svg>
+        </span>
+        <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.02em">Turnalia</span>
+      </a>
+      <nav style="display: flex; gap: 24px; font-size: 14.5px; font-weight: 500">
+        <a href="Rubros.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Rubros</a>
+        <a href="Sistema.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">El sistema</a>
+        <a href="Funciones.dc.html" style="text-decoration: none; color: var(--brand); font-weight: 700">Funciones</a>
+        <a href="Arranque.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Cómo arranca</a>
+        <a href="Precios.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Precios</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <button type="button" onClick="{{ toggleTema }}" title="Cambiar tema" style="width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); display: grid; place-items: center; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="background: var(--brand-50); border-color: var(--brand-100); color: var(--brand)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"></path></svg>
+        </button>
+        <a href="Precios.dc.html" style="font-size: 14.5px; font-weight: 600; text-decoration: none; color: #fff; background: var(--brand-solid); padding: 11px 22px; border-radius: 999px; box-shadow: var(--sh-2); transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="background: var(--brand-solid-700); transform: translateY(-1px)">Probar gratis</a>
+      </div>
+    </div>
+  </header>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 52px 26px 0">
+    <div data-reveal style="max-width: 800px">
+      <span style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 7px 14px; border-radius: 999px; margin-bottom: 22px">Todo en cualquier plan</span>
+      <h1 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(34px, 5vw, 58px); line-height: 1.04; letter-spacing: -0.035em; margin: 0 0 18px">Diez cosas que tu recepción deja de hacer a mano</h1>
+      <p style="font-size: 18.5px; line-height: 1.6; color: var(--ink-2); margin: 0">Nada se cobra por módulo y nada depende de un servicio externo que te facture aparte. Lo que ves acá está en el plan Individual y en el plan Equipo.</p>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 40px 26px 0">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px">
+      <sc-for list="{{ funciones }}" as="f" hint-placeholder-count="10">
+        <div data-reveal style="{{ f.card }}" style-hover="{{ hCard }}">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px">
+            <span style="{{ f.iconBox }}">{{ f.icon }}</span>
+            <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 13px; color: var(--ink-2); letter-spacing: .04em">{{ f.n }}</span>
+          </div>
+          <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 19.5px; letter-spacing: -0.025em; margin: 0 0 8px">{{ f.titulo }}</h3>
+          <p style="font-size: 14.5px; line-height: 1.6; color: var(--ink-2); margin: 0; text-wrap: pretty">{{ f.texto }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 60px 26px 0">
+    <div data-reveal style="background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r-xl); padding: 42px 34px">
+      <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.1; letter-spacing: -0.035em; margin: 0 0 12px">Lo que no hacemos</h2>
+      <p style="font-size: 16.5px; line-height: 1.65; color: var(--ink-2); margin: 0 0 26px; max-width: 60ch">Preferimos decirlo antes de que lo descubras probando.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px">
+        <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 22px">
+          <h4 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 16.5px; margin: 0 0 7px">No cobramos por tus cobros</h4>
+          <p style="font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0">No hay comisión sobre lo que facturás. El sistema registra el cobro, no lo procesa.</p>
+        </div>
+        <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 22px">
+          <h4 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 16.5px; margin: 0 0 7px">Todavía no hay facturación legal</h4>
+          <p style="font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0">Emitimos comprobante interno en PDF. La factura la seguís haciendo por tu vía habitual.</p>
+        </div>
+        <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 22px">
+          <h4 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 16.5px; margin: 0 0 7px">Un local por cuenta</h4>
+          <p style="font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0">Varias sedes desde un solo panel está en el camino, todavía sin fecha.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 72px 26px 0">
+    <div data-reveal style="max-width: 1220px; margin: 0 auto; border-radius: var(--r-xl); background: var(--brand-solid); color: #fff; padding: 56px 34px; box-shadow: var(--sh-3); position: relative; overflow: hidden; text-align: center">
+      <div style="position: absolute; inset: 0; pointer-events: none; opacity: .22; background-image: radial-gradient(circle at 1px 1px, #fff 1.2px, transparent 0); background-size: 24px 24px; mask-image: radial-gradient(75% 75% at 50% 0%, #000 0%, transparent 72%)"></div>
+      <div style="position: relative; max-width: 660px; margin: 0 auto">
+        <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(28px, 4.2vw, 46px); line-height: 1.08; letter-spacing: -0.035em; margin: 0 0 16px">Probalo con tus propios servicios</h2>
+        <p style="font-size: 17.5px; line-height: 1.6; margin: 0 0 30px; color: rgba(255,255,255,.9)">14 días completos, sin tarjeta. Te damos de alta el local y cargamos tu catálogo antes de que empieces.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center">
+          <a href="Precios.dc.html" style="font-size: 15.5px; font-weight: 700; text-decoration: none; color: var(--brand-solid-700); background: #fff; padding: 17px 30px; border-radius: 999px; transition: transform .22s, box-shadow .22s" style-hover="background: var(--warm); color: var(--on-warm); transform: translateY(-2px)">Ver precios</a>
+          <a href="Arranque.dc.html" style="font-size: 15.5px; font-weight: 600; text-decoration: none; color: #fff; border: 1.5px solid rgba(255,255,255,.55); padding: 16px 28px; border-radius: 999px; transition: border-color .22s" style-hover="background: rgba(255,255,255,.16); border-color: #fff">Cómo arranca</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="max-width: 1220px; margin: 0 auto; padding: 56px 26px 32px">
+    <div style="border-top: 1px solid var(--line-soft); padding-top: 22px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2)">
+      <span>© 2026 Turnalia · Asunción, Paraguay</span>
+      <span style="display: flex; gap: 20px; flex-wrap: wrap">
+        <a href="Landing v4.dc.html" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">Inicio</a>
+        <a href="Rubros.dc.html" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">Rubros</a>
+        <a href="Precios.dc.html" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">Precios</a>
+        <a href="{{ waLink }}" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">WhatsApp</a>
+      </span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;595981000000&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contacto&quot;}}">
+const I = {
+  cal: '<rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path>',
+  link: '<path d="M9 15 15 9"></path><path d="M11 6.5 13 4.5a4 4 0 0 1 5.7 5.7l-2 2"></path><path d="M13 17.5l-2 2a4 4 0 0 1-5.7-5.7l2-2"></path>',
+  ficha: '<path d="M6 3h9l4 4v14H6z"></path><path d="M9 12h7M9 16h5"></path>',
+  caja: '<rect x="3" y="6" width="18" height="13" rx="3"></rect><path d="M3 11h18M7 15.5h3"></path>',
+  precio: '<path d="M4 7h16v10H4z"></path><circle cx="12" cy="12" r="2.4"></circle>',
+  chat: '<path d="M20 15a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"></path>',
+  recall: '<path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path>',
+  chart: '<path d="M4 20V9M10 20V4M16 20v-7M22 20H2"></path>',
+  users: '<circle cx="9" cy="8" r="3.4"></circle><path d="M3 20a6 6 0 0 1 12 0"></path><path d="M17 20a5.5 5.5 0 0 0-3-4.9 3.4 3.4 0 0 0 0-6.2"></path>',
+  stock: '<path d="M4 8l8-4 8 4v8l-8 4-8-4z"></path><path d="M4 8l8 4 8-4M12 12v8"></path>'
+};
+
+const FUNCIONES = [
+  { n: "01", titulo: "Agenda sin doble reserva", texto: "Turnos por profesional y por recurso: sillón, cabina, camilla o consultorio. Si el horario ya está tomado, el sistema no lo deja guardar.", icon: I.cal, tono: "brand" },
+  { n: "02", titulo: "Reserva online", texto: "Un link para compartir por WhatsApp o Instagram. El cliente elige servicio, profesional y horario libre, y el turno entra directo a tu agenda.", icon: I.link, tono: "warm" },
+  { n: "03", titulo: "Ficha e historial", texto: "Datos, notas, fotos y todo lo que se le hizo al cliente, con el detalle propio de tu rubro. Nadie tiene que acordarse de nada.", icon: I.ficha, tono: "brand" },
+  { n: "04", titulo: "Caja y cobros", texto: "Apertura y cierre de turno, corte de efectivo con la diferencia calculada, medios de pago y comprobante en PDF de cada cobro.", icon: I.caja, tono: "brand" },
+  { n: "05", titulo: "Servicios y precios", texto: "Tu catálogo con duración y precio, usado en la agenda, en la reserva online y en el cobro. Un solo lugar donde actualizarlo.", icon: I.precio, tono: "warm" },
+  { n: "06", titulo: "Recordatorios por WhatsApp", texto: "El mensaje sale armado y abre WhatsApp listo para enviar. Sin proveedor de mensajería de por medio ni costo por mensaje.", icon: I.chat, tono: "brand" },
+  { n: "07", titulo: "Recall de inactivos", texto: "Lista de clientes que no vuelven hace 3, 6 o 12 meses, con un botón para escribirles. La plata que ya está en tu base de datos.", icon: I.recall, tono: "warm" },
+  { n: "08", titulo: "Reportes de ingresos", texto: "Facturación del período, producción por profesional y servicios más vendidos. Todo exportable a CSV para tu contador.", icon: I.chart, tono: "brand" },
+  { n: "09", titulo: "Equipo con roles", texto: "Cuatro roles con permisos configurables: dueño, profesional, recepción y cajero. La recepción no entra a los ingresos si no querés.", icon: I.users, tono: "brand" },
+  { n: "10", titulo: "Stock de productos", texto: "Insumos y productos de venta con stock mínimo y aviso cuando se está por terminar. Se descuenta al cobrar.", icon: I.stock, tono: "warm" }
+];
+
+class Component extends DCLogic {
+  componentDidMount() {
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem("turnalia:tema") === "dark" ? "dark" : "light";
+    } catch (e) {}
+  }
+
+  renderVals() {
+    const funciones = FUNCIONES.map(f => {
+      const warm = f.tono === "warm";
+      return {
+        n: f.n, titulo: f.titulo, texto: f.texto,
+        card: {
+          background: "var(--surface)", border: "1px solid var(--line-soft)",
+          borderRadius: "var(--r-lg)", padding: "26px", boxShadow: "var(--sh-1)",
+          transition: "transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s"
+        },
+        iconBox: {
+          width: "42px", height: "42px", borderRadius: "14px", display: "grid", placeItems: "center",
+          background: warm ? "var(--warm-50)" : "var(--brand-50)",
+          border: "1px solid " + (warm ? "var(--warm)" : "var(--brand-100)")
+        },
+        icon: React.createElement("svg", {
+          width: 20, height: 20, viewBox: "0 0 24 24", fill: "none",
+          stroke: warm ? "var(--warm-700)" : "var(--brand)",
+          strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round",
+          dangerouslySetInnerHTML: { __html: f.icon }
+        })
+      };
+    });
+
+    return {
+      funciones,
+      waLink: "https://wa.me/" + (this.props.whatsapp ?? "595981000000"),
+      hCard: { transform: "translateY(-3px)", boxShadow: "var(--sh-2)", borderColor: "var(--brand-100)" },
+      toggleTema: () => {
+        const oscuro = document.documentElement.dataset.theme !== "dark";
+        document.documentElement.dataset.theme = oscuro ? "dark" : "light";
+        try { localStorage.setItem("turnalia:tema", oscuro ? "dark" : "light"); } catch (e) {}
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

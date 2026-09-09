@@ -1,0 +1,90 @@
+/* Turnalia — identidad violeta. Tokens compartidos por todas las páginas. */
+:root {
+  --brand: #6a2be0;
+  --brand-700: #4c15b5;
+  /* Rellenos que llevan texto blanco: NO se invierten en modo oscuro. */
+  --brand-solid: #6a2be0;
+  --brand-solid-700: #4c15b5;
+  --brand-300: #b79bf5;
+  --brand-100: #e6dcff;
+  --brand-50: #f4efff;
+  --warm: #ff9f5a;
+  /* Relleno durazno que SÍ lleva texto blanco, y tinta para el durazno claro. */
+  --warm-solid: #8f4512;
+  --on-warm: #2a1508;
+  /* Neutro para avatares: tampoco se invierte, lleva texto blanco. */
+  --neutral-solid: #4b4463;
+  --warm-700: #8f4512;
+  --warm-50: #fff2e7;
+
+  --bg: #faf8ff;
+  --surface: #ffffff;
+  --surface-2: #f4efff;
+  --line: #ddd2f5;
+  --line-soft: #ece5fb;
+  --ink: #1a1030;
+  --ink-2: #5d5379;
+
+  --r-sm: 12px;
+  --r-md: 20px;
+  --r-lg: 30px;
+  --r-xl: 42px;
+  --sh-1: 0 1px 2px rgba(26,16,48,.05), 0 2px 8px -4px rgba(26,16,48,.10);
+  --sh-2: 0 2px 6px rgba(26,16,48,.05), 0 16px 36px -16px rgba(106,43,224,.26);
+  --sh-3: 0 4px 10px rgba(26,16,48,.06), 0 34px 70px -26px rgba(106,43,224,.40);
+
+  /* alias heredados de la versión anterior */
+  --teal: var(--brand);
+  --teal-700: var(--brand-700);
+  --teal-100: var(--brand-100);
+  --teal-50: var(--brand-50);
+  --coral: var(--warm);
+  --coral-700: var(--warm-700);
+}
+[data-theme="dark"] {
+  --brand: #a985ff;
+  --brand-700: #c7b0ff;
+  --brand-solid: #6a2be0;
+  --brand-solid-700: #4c15b5;
+  --brand-300: #7a54d6;
+  --brand-100: #2e2150;
+  --brand-50: #241a41;
+  --warm: #ffab6e;
+  --warm-solid: #8f4512;
+  --on-warm: #2a1508;
+  --neutral-solid: #4b4463;
+  --warm-700: #ffc79c;
+  --warm-50: #33241a;
+
+  --bg: #120c22;
+  --surface: #1b1435;
+  --surface-2: #241a41;
+  --line: #342a5c;
+  --line-soft: #271e49;
+  --ink: #f1ecff;
+  --ink-2: #a79cc8;
+
+  --sh-1: 0 1px 2px rgba(0,0,0,.35);
+  --sh-2: 0 2px 6px rgba(0,0,0,.35), 0 16px 36px -16px rgba(0,0,0,.65);
+  --sh-3: 0 4px 10px rgba(0,0,0,.4), 0 34px 70px -26px rgba(0,0,0,.75);
+}
+body { margin: 0; background: var(--bg); }
+*, *::before, *::after { box-sizing: border-box; }
+a { color: var(--brand); }
+a:hover { color: var(--brand-700); }
+::selection { background: var(--brand-100); color: var(--ink); }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+summary::-webkit-details-marker { display: none; }
+/* Revelado al scroll: 100% CSS. Donde no hay soporte, el contenido se ve siempre. */
+@keyframes revelar { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: revelar linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 62%;
+    }
+  }
+}
+@keyframes pulseDot { 0%,100% { opacity: .35; transform: scale(.85) } 50% { opacity: 1; transform: scale(1) } }
+@keyframes flotar { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }

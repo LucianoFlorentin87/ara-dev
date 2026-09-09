@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+</helmet>
+
+<div style="background: var(--bg); color: var(--ink); font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column">
+
+  <header style="border-bottom: 1px solid var(--line-soft); background: var(--surface)">
+    <div style="max-width: 1000px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
+      <a href="Landing v4.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink)">
+        <span style="width: 32px; height: 32px; border-radius: 11px; background: var(--brand-solid); display: grid; place-items: center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+        </span>
+        <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.02em">Turnalia</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 14px; font-size: 13.5px; color: var(--ink-2)">
+        <span>Paso {{ pasoActual }} de 5</span>
+        <a href="Landing v4.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Salir</a>
+      </div>
+    </div>
+    <div style="height: 3px; background: var(--surface-2)">
+      <div style="{{ barraProgreso }}"></div>
+    </div>
+  </header>
+
+  <main style="flex: 1; max-width: 1000px; width: 100%; margin: 0 auto; padding: 34px 24px 48px">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 10px; margin-bottom: 30px">
+      <sc-for list="{{ pasos }}" as="p" hint-placeholder-count="5">
+        <button type="button" onClick="{{ p.onClick }}" style="{{ p.style }}" style-hover="{{ p.hover }}">
+          <span style="{{ p.numero }}">{{ p.n }}</span>
+          <span style="min-width: 0; text-align: left">
+            <span style="display: block; font-size: 13.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ p.titulo }}</span>
+            <span style="display: block; font-size: 11.5px; opacity: .75; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ p.corto }}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ esRubro }}" hint-placeholder-val="{{ true }}">
+      <div style="{{ tarjeta }}">
+        <h1 style="{{ tituloPaso }}">¿A qué se dedica tu local?</h1>
+        <p style="{{ bajadaPaso }}">Con esto definimos los campos de la ficha del cliente y te cargamos un catálogo inicial de servicios típicos del rubro. Después lo ajustás.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 10px">
+          <sc-for list="{{ rubros }}" as="r" hint-placeholder-count="9">
+            <button type="button" onClick="{{ r.onClick }}" style="{{ r.style }}" style-hover="{{ r.hover }}">
+              <span style="display: block; font-size: 14.5px; font-weight: 600">{{ r.nombre }}</span>
+              <span style="display: block; font-size: 11.5px; opacity: .8; margin-top: 2px">{{ r.ejemplo }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ esLocal }}">
+      <div style="{{ tarjeta }}">
+        <h1 style="{{ tituloPaso }}">Datos del local</h1>
+        <p style="{{ bajadaPaso }}">Esto es lo que ven tus clientes en el link de reserva y lo que aparece en los comprobantes.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px">
+          <label style="{{ campo }}">
+            <span style="{{ etiqueta }}">Nombre del local</span>
+            <input type="text" value="{{ nombreLocal }}" onInput="{{ onNombre }}" placeholder="Studio Kuña" style="{{ input }}" style-focus="{{ inputFocus }}">
+          </label>
+          <label style="{{ campo }}">
+            <span style="{{ etiqueta }}">WhatsApp del local</span>
+            <input type="tel" value="{{ telLocal }}" onInput="{{ onTel }}" placeholder="0981 000 000" style="{{ input }}" style-focus="{{ inputFocus }}">
+          </label>
+          <label style="{{ campo }}">
+            <span style="{{ etiqueta }}">Dirección</span>
+            <input type="text" value="{{ dirLocal }}" onInput="{{ onDir }}" placeholder="Malutín 1240, Villa Morra" style="{{ input }}" style-focus="{{ inputFocus }}">
+          </label>
+          <label style="{{ campo }}">
+            <span style="{{ etiqueta }}">Instagram (opcional)</span>
+            <input type="text" value="{{ igLocal }}" onInput="{{ onIg }}" placeholder="@studiokuna" style="{{ input }}" style-focus="{{ inputFocus }}">
+          </label>
+        </div>
+        <div style="margin-top: 18px; padding: 16px 18px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line-soft)">
+          <div style="font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 6px">Tu link va a ser</div>
+          <div style="font-size: 15px; font-weight: 600; word-break: break-all">{{ linkPrevio }}</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ esHorario }}">
+      <div style="{{ tarjeta }}">
+        <h1 style="{{ tituloPaso }}">¿Cuándo abre el local?</h1>
+        <p style="{{ bajadaPaso }}">Fuera de este horario no se puede reservar. Los feriados y las vacaciones se bloquean después, desde el panel.</p>
+        <sc-for list="{{ dias }}" as="d" hint-placeholder-count="7">
+          <div style="display: flex; align-items: center; gap: 14px; padding: 13px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+            <button type="button" onClick="{{ d.onToggle }}" style="{{ d.toggle }}">
+              <span style="{{ d.perilla }}"></span>
+            </button>
+            <span style="font-size: 14.5px; font-weight: 600; flex: 1; min-width: 90px">{{ d.nombre }}</span>
+            <span style="{{ d.horas }}">{{ d.rango }}</span>
+          </div>
+        </sc-for>
+        <p style="font-size: 12.5px; color: var(--ink-2); margin: 16px 0 0; line-height: 1.55">Cada profesional puede tener su propio horario dentro del horario del local. Eso se configura cuando cargás el equipo.</p>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ esServicios }}">
+      <div style="{{ tarjeta }}">
+        <h1 style="{{ tituloPaso }}">Tu catálogo inicial</h1>
+        <p style="{{ bajadaPaso }}">Cargamos los servicios típicos de {{ rubroElegido }} con duraciones habituales. Ajustá los precios y sacá lo que no ofrecés.</p>
+        <sc-for list="{{ servicios }}" as="s" hint-placeholder-count="5">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+            <button type="button" onClick="{{ s.onToggle }}" style="{{ s.check }}">{{ s.tilde }}</button>
+            <span style="flex: 1; min-width: 140px">
+              <span style="display: block; font-size: 14.5px; font-weight: 600">{{ s.nombre }}</span>
+              <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ s.dur }}</span>
+            </span>
+            <input type="text" value="{{ s.precio }}" onInput="{{ s.onPrecio }}" style="{{ inputPrecio }}" style-focus="{{ inputFocus }}">
+          </div>
+        </sc-for>
+        <button type="button" style="{{ botonSecundarioBloque }}" style-hover="{{ hSoft }}">Agregar otro servicio</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ esEquipo }}">
+      <div style="{{ tarjeta }}">
+        <h1 style="{{ tituloPaso }}">¿Quién trabaja con vos?</h1>
+        <p style="{{ bajadaPaso }}">Cada persona recibe una invitación por correo y elige su propia contraseña. Vos definís qué puede ver.</p>
+        <sc-for list="{{ equipo }}" as="e" hint-placeholder-count="3">
+          <div style="display: flex; align-items: center; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line-soft); flex-wrap: wrap">
+            <span style="{{ e.avatar }}">{{ e.ini }}</span>
+            <span style="flex: 1; min-width: 150px">
+              <span style="display: block; font-size: 14.5px; font-weight: 600">{{ e.nombre }}</span>
+              <span style="display: block; font-size: 11.5px; color: var(--ink-2)">{{ e.mail }}</span>
+            </span>
+            <span style="{{ e.chip }}">{{ e.rol }}</span>
+          </div>
+        </sc-for>
+        <button type="button" style="{{ botonSecundarioBloque }}" style-hover="{{ hSoft }}">Invitar a alguien más</button>
+        <div style="margin-top: 22px; padding: 18px 20px; border-radius: 16px; background: var(--brand-50); border: 1px solid var(--brand-100)">
+          <h3 style="font-family: Outfit, sans-serif; font-weight: 600; font-size: 15.5px; margin: 0 0 7px; color: var(--brand-700)">Ya está: el local queda listo</h3>
+          <p style="font-size: 13.5px; line-height: 1.6; color: var(--ink-2); margin: 0">Al terminar te llevamos al panel con tu catálogo y tu equipo cargados, y con el link de reserva listo para compartir. Los 14 días de prueba empiezan hoy.</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 22px; flex-wrap: wrap">
+      <button type="button" onClick="{{ atras }}" style="{{ botonAtras }}" style-hover="{{ hSoft }}">Atrás</button>
+      <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap">
+        <span style="font-size: 13px; color: var(--ink-2)">{{ ayudaPaso }}</span>
+        <a href="{{ destinoSiguiente }}" onClick="{{ siguiente }}" style="{{ botonSiguiente }}" style-hover="{{ hCta }}">{{ textoSiguiente }}</a>
+      </div>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900}}">
+const RUBROS = [
+  { nombre: "Peluquería", ejemplo: "cortes, color, peinado" },
+  { nombre: "Estética y spa", ejemplo: "faciales, masajes, láser" },
+  { nombre: "Uñas y pestañas", ejemplo: "kapping, lifting, cejas" },
+  { nombre: "Gimnasio", ejemplo: "cuotas, clases, rutinas" },
+  { nombre: "Odontología", ejemplo: "odontograma, tratamientos" },
+  { nombre: "Kinesiología", ejemplo: "series de sesiones" },
+  { nombre: "Nutrición", ejemplo: "controles, antropometría" },
+  { nombre: "Consultorio médico", ejemplo: "historia clínica, recetas" },
+  { nombre: "Tatuajes", ejemplo: "sesiones, señas, diseños" }
+];
+
+const CATALOGOS = {
+  "Peluquería": [
+    { nombre: "Corte de dama", dur: "45 min", precio: "120.000" },
+    { nombre: "Corte de caballero", dur: "30 min", precio: "90.000" },
+    { nombre: "Color raíz", dur: "150 min", precio: "250.000" },
+    { nombre: "Brushing", dur: "40 min", precio: "90.000" },
+    { nombre: "Alisado", dur: "120 min", precio: "620.000" }
+  ],
+  "Estética y spa": [
+    { nombre: "Limpieza facial", dur: "60 min", precio: "180.000" },
+    { nombre: "Masaje descontracturante", dur: "60 min", precio: "200.000" },
+    { nombre: "Depilación láser", dur: "45 min", precio: "320.000" },
+    { nombre: "Drenaje linfático", dur: "75 min", precio: "260.000" },
+    { nombre: "Peeling", dur: "50 min", precio: "290.000" }
+  ],
+  "Uñas y pestañas": [
+    { nombre: "Kapping + diseño", dur: "90 min", precio: "160.000" },
+    { nombre: "Retoque semipermanente", dur: "60 min", precio: "110.000" },
+    { nombre: "Lifting de pestañas", dur: "75 min", precio: "190.000" },
+    { nombre: "Perfilado de cejas", dur: "30 min", precio: "70.000" },
+    { nombre: "Pedicuría", dur: "60 min", precio: "130.000" }
+  ],
+  "Gimnasio": [
+    { nombre: "Cuota mensual libre", dur: "mensual", precio: "180.000" },
+    { nombre: "Pase semanal", dur: "7 días", precio: "70.000" },
+    { nombre: "Evaluación inicial", dur: "45 min", precio: "90.000" },
+    { nombre: "Clase de funcional", dur: "60 min", precio: "45.000" },
+    { nombre: "Entrenamiento personalizado", dur: "60 min", precio: "120.000" }
+  ],
+  "Odontología": [
+    { nombre: "Consulta y diagnóstico", dur: "30 min", precio: "120.000" },
+    { nombre: "Profilaxis", dur: "45 min", precio: "200.000" },
+    { nombre: "Restauración", dur: "60 min", precio: "350.000" },
+    { nombre: "Endodoncia", dur: "90 min", precio: "700.000" },
+    { nombre: "Control de ortodoncia", dur: "30 min", precio: "150.000" }
+  ],
+  "Kinesiología": [
+    { nombre: "Evaluación inicial", dur: "45 min", precio: "150.000" },
+    { nombre: "Sesión de rehabilitación", dur: "45 min", precio: "120.000" },
+    { nombre: "Terapia manual", dur: "60 min", precio: "160.000" },
+    { nombre: "Paquete de 10 sesiones", dur: "10 turnos", precio: "1.000.000" },
+    { nombre: "Evaluación postural", dur: "40 min", precio: "140.000" }
+  ],
+  "Nutrición": [
+    { nombre: "Primera consulta", dur: "60 min", precio: "250.000" },
+    { nombre: "Control mensual", dur: "30 min", precio: "130.000" },
+    { nombre: "Antropometría", dur: "30 min", precio: "120.000" },
+    { nombre: "Plan deportivo", dur: "60 min", precio: "300.000" },
+    { nombre: "Consulta online", dur: "40 min", precio: "180.000" }
+  ],
+  "Consultorio médico": [
+    { nombre: "Primera consulta", dur: "30 min", precio: "200.000" },
+    { nombre: "Consulta de control", dur: "20 min", precio: "150.000" },
+    { nombre: "Lectura de estudios", dur: "20 min", precio: "120.000" },
+    { nombre: "Certificado médico", dur: "15 min", precio: "80.000" },
+    { nombre: "Consulta domiciliaria", dur: "45 min", precio: "400.000" }
+  ],
+  "Tatuajes": [
+    { nombre: "Diseño y presupuesto", dur: "30 min", precio: "0" },
+    { nombre: "Fineline", dur: "90 min", precio: "450.000" },
+    { nombre: "Sesión de 3 horas", dur: "180 min", precio: "900.000" },
+    { nombre: "Retoque", dur: "45 min", precio: "150.000" },
+    { nombre: "Cover up", dur: "150 min", precio: "800.000" }
+  ]
+};
+
+const PASOS = [
+  { n: "1", titulo: "Rubro", corto: "Qué hacés", ayuda: "Elegí un rubro para seguir" },
+  { n: "2", titulo: "El local", corto: "Nombre y contacto", ayuda: "El nombre es lo único obligatorio" },
+  { n: "3", titulo: "Horario", corto: "Cuándo abrís", ayuda: "Podés cambiarlo después" },
+  { n: "4", titulo: "Servicios", corto: "Qué ofrecés", ayuda: "Sacá lo que no ofrecés" },
+  { n: "5", titulo: "Equipo", corto: "Quién trabaja", ayuda: "Podés invitar gente después" }
+];
+
+const DIAS_BASE = [
+  { nombre: "Lunes", abierto: false, rango: "Cerrado" },
+  { nombre: "Martes", abierto: true, rango: "09:00 – 19:00" },
+  { nombre: "Miércoles", abierto: true, rango: "09:00 – 19:00" },
+  { nombre: "Jueves", abierto: true, rango: "09:00 – 20:00" },
+  { nombre: "Viernes", abierto: true, rango: "09:00 – 20:00" },
+  { nombre: "Sábado", abierto: true, rango: "08:00 – 17:00" },
+  { nombre: "Domingo", abierto: false, rango: "Cerrado" }
+];
+
+const EQUIPO = [
+  { nombre: "Carla Domínguez", ini: "CD", mail: "carla@studiokuna.com.py", rol: "Dueña", tono: "brand" },
+  { nombre: "Sofía Ramírez", ini: "SR", mail: "sofia@studiokuna.com.py", rol: "Profesional", tono: "brand" },
+  { nombre: "Rocío Cabral", ini: "RC", mail: "recepcion@studiokuna.com.py", rol: "Recepción", tono: "neutro" }
+];
+
+class Component extends DCLogic {
+  state = {
+    paso: 0,
+    rubro: "Peluquería",
+    nombreLocal: "",
+    telLocal: "",
+    dirLocal: "",
+    igLocal: "",
+    dias: DIAS_BASE.map(d => d.abierto),
+    quitados: {},
+    precios: {}
+  };
+
+  componentDidMount() {
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem("turnalia:tema") === "dark" ? "dark" : "light";
+    } catch (e) {}
+  }
+
+  chip(tono) {
+    const warm = tono === "warm", neutro = tono === "neutro";
+    return {
+      flex: "none", fontSize: "11.5px", fontWeight: 700, padding: "5px 11px", borderRadius: "999px", whiteSpace: "nowrap",
+      background: warm ? "var(--warm-50)" : neutro ? "var(--surface-2)" : "var(--brand-50)",
+      color: warm ? "var(--warm-700)" : neutro ? "var(--ink-2)" : "var(--brand-700)",
+      border: "1px solid " + (warm ? "var(--warm)" : neutro ? "var(--line-soft)" : "var(--brand-100)")
+    };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const p = s.paso;
+    const catalogo = CATALOGOS[s.rubro] || [];
+    const slug = (s.nombreLocal || "tu-local").toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "");
+
+    const input = {
+      width: "100%", boxSizing: "border-box", appearance: "none", fontFamily: "inherit", fontSize: "15px",
+      color: "var(--ink)", background: "var(--surface)", border: "1px solid var(--line)",
+      borderRadius: "12px", padding: "12px 14px", outline: "none", transition: "border-color .18s, box-shadow .18s"
+    };
+
+    return {
+      pasoActual: p + 1,
+      barraProgreso: { height: "100%", width: ((p + 1) / 5 * 100) + "%", background: "var(--brand-solid)", transition: "width .3s cubic-bezier(.2,.7,.3,1)" },
+
+      pasos: PASOS.map((x, i) => {
+        const activo = i === p, hecho = i < p;
+        return {
+          n: x.n, titulo: x.titulo, corto: x.corto,
+          onClick: () => this.setState({ paso: i }),
+          style: {
+            appearance: "none", cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+            display: "flex", alignItems: "center", gap: "11px", padding: "12px 14px", borderRadius: "16px",
+            background: activo ? "var(--brand-solid)" : "var(--surface)",
+            color: activo ? "#fff" : "var(--ink)",
+            border: "1px solid " + (activo ? "var(--brand-solid)" : "var(--line-soft)"),
+            boxShadow: activo ? "var(--sh-2)" : "var(--sh-1)",
+            transition: "transform .18s, box-shadow .18s, border-color .18s"
+          },
+          hover: activo ? { transform: "translateY(-1px)" } : { borderColor: "var(--brand-100)", transform: "translateY(-1px)" },
+          numero: {
+            flex: "none", width: "26px", height: "26px", borderRadius: "999px", display: "grid", placeItems: "center",
+            fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "12.5px",
+            background: activo ? "rgba(255,255,255,.22)" : hecho ? "var(--brand-solid)" : "var(--surface-2)",
+            color: activo || hecho ? "#fff" : "var(--ink-2)"
+          }
+        };
+      }),
+
+      esRubro: p === 0,
+      esLocal: p === 1,
+      esHorario: p === 2,
+      esServicios: p === 3,
+      esEquipo: p === 4,
+
+      rubros: RUBROS.map(r => {
+        const activo = r.nombre === s.rubro;
+        return {
+          nombre: r.nombre, ejemplo: r.ejemplo,
+          onClick: () => this.setState({ rubro: r.nombre, quitados: {}, precios: {} }),
+          style: {
+            appearance: "none", cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+            padding: "16px 18px", borderRadius: "16px",
+            background: activo ? "var(--brand-solid)" : "var(--surface)",
+            color: activo ? "#fff" : "var(--ink)",
+            border: "1px solid " + (activo ? "var(--brand-solid)" : "var(--line)"),
+            boxShadow: activo ? "var(--sh-2)" : "none",
+            transition: "transform .18s, box-shadow .18s, border-color .18s"
+          },
+          hover: activo ? { transform: "translateY(-2px)" } : { borderColor: "var(--brand)", color: "var(--brand)", transform: "translateY(-2px)" }
+        };
+      }),
+
+      rubroElegido: s.rubro.toLowerCase(),
+      nombreLocal: s.nombreLocal,
+      telLocal: s.telLocal,
+      dirLocal: s.dirLocal,
+      igLocal: s.igLocal,
+      onNombre: e => this.setState({ nombreLocal: e.target.value }),
+      onTel: e => this.setState({ telLocal: e.target.value }),
+      onDir: e => this.setState({ dirLocal: e.target.value }),
+      onIg: e => this.setState({ igLocal: e.target.value }),
+      linkPrevio: "turnalia.com.py/" + slug,
+
+      dias: DIAS_BASE.map((d, i) => {
+        const on = s.dias[i];
+        return {
+          nombre: d.nombre,
+          rango: on ? (d.rango === "Cerrado" ? "09:00 – 19:00" : d.rango) : "Cerrado",
+          onToggle: () => this.setState(prev => {
+            const next = prev.dias.slice();
+            next[i] = !next[i];
+            return { dias: next };
+          }),
+          toggle: {
+            appearance: "none", cursor: "pointer", flex: "none", width: "44px", height: "26px", padding: "3px",
+            borderRadius: "999px", border: 0, display: "flex", justifyContent: on ? "flex-end" : "flex-start",
+            background: on ? "var(--brand-solid)" : "var(--line)", transition: "background .2s"
+          },
+          perilla: { width: "20px", height: "20px", borderRadius: "999px", background: "#fff", display: "block" },
+          horas: {
+            flex: "none", fontSize: "13px", fontWeight: 600,
+            color: on ? "var(--ink)" : "var(--ink-2)"
+          }
+        };
+      }),
+
+      servicios: catalogo.map((x, i) => {
+        const activo = !s.quitados[i];
+        return {
+          nombre: x.nombre, dur: x.dur,
+          precio: s.precios[i] !== undefined ? s.precios[i] : x.precio,
+          onPrecio: e => this.setState(prev => Object.assign({}, prev, { precios: Object.assign({}, prev.precios, { [i]: e.target.value }) })),
+          onToggle: () => this.setState(prev => {
+            const q = Object.assign({}, prev.quitados);
+            if (q[i]) delete q[i]; else q[i] = true;
+            return { quitados: q };
+          }),
+          tilde: activo ? "✓" : "",
+          check: {
+            appearance: "none", cursor: "pointer", flex: "none", width: "24px", height: "24px", borderRadius: "8px",
+            display: "grid", placeItems: "center", fontSize: "13px", fontWeight: 700, lineHeight: 1,
+            background: activo ? "var(--brand-solid)" : "var(--surface)",
+            color: "#fff",
+            border: "1px solid " + (activo ? "var(--brand-solid)" : "var(--line)"),
+            transition: "background .18s, border-color .18s"
+          }
+        };
+      }),
+
+      inputPrecio: Object.assign({}, input, { flex: "none", width: "132px", textAlign: "right", fontVariantNumeric: "tabular-nums" }),
+
+      equipo: EQUIPO.map((e, i) => Object.assign({}, e, {
+        chip: this.chip(e.tono),
+        avatar: {
+          flex: "none", width: "38px", height: "38px", borderRadius: "999px", display: "grid", placeItems: "center",
+          fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "13px", color: "#fff",
+          background: i === 0 ? "var(--brand-solid)" : "var(--neutral-solid)"
+        }
+      })),
+
+      tarjeta: {
+        background: "var(--surface)", border: "1px solid var(--line-soft)", borderRadius: "30px",
+        padding: "30px 28px", boxShadow: "var(--sh-1)"
+      },
+      tituloPaso: { fontFamily: "Outfit, sans-serif", fontWeight: 700, fontSize: "clamp(24px, 3.4vw, 32px)", letterSpacing: "-0.03em", margin: "0 0 10px" },
+      bajadaPaso: { fontSize: "15.5px", lineHeight: 1.6, color: "var(--ink-2)", margin: "0 0 24px", maxWidth: "62ch" },
+      campo: { display: "flex", flexDirection: "column", gap: "7px" },
+      etiqueta: { fontSize: "12.5px", fontWeight: 600, color: "var(--ink-2)" },
+      input,
+      inputFocus: { borderColor: "var(--brand)", boxShadow: "0 0 0 3px var(--brand-50)" },
+
+      ayudaPaso: PASOS[p].ayuda,
+      textoSiguiente: p === 4 ? "Entrar al panel" : "Siguiente",
+      destinoSiguiente: p === 4 ? "Panel v4.dc.html" : "#",
+      siguiente: p === 4 ? (() => {}) : (e => { e.preventDefault(); this.setState({ paso: p + 1 }); }),
+      atras: () => this.setState({ paso: Math.max(0, p - 1) }),
+      botonAtras: {
+        appearance: "none", cursor: p === 0 ? "default" : "pointer", fontFamily: "inherit", fontSize: "14.5px", fontWeight: 500,
+        padding: "13px 24px", borderRadius: "999px", border: "1px solid var(--line)",
+        background: "var(--surface)", color: "var(--ink-2)", opacity: p === 0 ? .45 : 1,
+        transition: "transform .2s, border-color .2s"
+      },
+      botonSiguiente: {
+        display: "inline-block", textDecoration: "none", fontFamily: "inherit", fontSize: "15px", fontWeight: 700,
+        padding: "15px 30px", borderRadius: "999px", border: 0,
+        background: "var(--brand-solid)", color: "#fff", boxShadow: "var(--sh-2)",
+        transition: "transform .2s, box-shadow .2s, background .2s"
+      },
+      botonSecundarioBloque: {
+        width: "100%", marginTop: "16px", appearance: "none", cursor: "pointer", fontFamily: "inherit",
+        fontSize: "14px", fontWeight: 500, padding: "12px", borderRadius: "999px",
+        border: "1px dashed var(--line)", background: "transparent", color: "var(--ink-2)",
+        transition: "border-color .2s, color .2s"
+      },
+      hCta: { background: "var(--brand-solid-700)", transform: "translateY(-2px)" },
+      hSoft: { borderColor: "var(--brand)", color: "var(--brand)" }
+    };
+  }
+}
+</script>
+</body>
+</html>

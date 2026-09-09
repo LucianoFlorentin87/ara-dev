@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+</helmet>
+
+<div style="background: var(--bg); color: var(--ink); font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 40; backdrop-filter: blur(16px); background: color-mix(in oklab, var(--bg) 78%, transparent); border-bottom: 1px solid var(--line-soft)">
+    <div style="max-width: 1220px; margin: 0 auto; padding: 13px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+      <a href="Landing v4.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink)">
+        <span style="width: 34px; height: 34px; border-radius: 12px; background: var(--brand-solid); display: grid; place-items: center; box-shadow: var(--sh-2)">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path><circle cx="12" cy="16" r="1.7" fill="#fff" stroke="none"></circle></svg>
+        </span>
+        <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.02em">Turnalia</span>
+      </a>
+      <nav style="display: flex; gap: 24px; font-size: 14.5px; font-weight: 500">
+        <a href="Rubros.dc.html" style="text-decoration: none; color: var(--brand); font-weight: 700">Rubros</a>
+        <a href="Sistema.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">El sistema</a>
+        <a href="Funciones.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Funciones</a>
+        <a href="Arranque.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Cómo arranca</a>
+        <a href="Precios.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Precios</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <button type="button" onClick="{{ toggleTema }}" title="Cambiar tema" style="width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); display: grid; place-items: center; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="background: var(--brand-50); border-color: var(--brand-100); color: var(--brand)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"></path></svg>
+        </button>
+        <a href="Precios.dc.html" style="font-size: 14.5px; font-weight: 600; text-decoration: none; color: #fff; background: var(--brand-solid); padding: 11px 22px; border-radius: 999px; box-shadow: var(--sh-2); transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="background: var(--brand-solid-700); transform: translateY(-1px)">Probar gratis</a>
+      </div>
+    </div>
+  </header>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 52px 26px 0">
+    <div data-reveal style="max-width: 780px">
+      <span style="display: inline-flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 600; color: var(--brand); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 7px 15px; border-radius: 999px; margin-bottom: 22px">
+        <span style="width: 7px; height: 7px; border-radius: 999px; background: var(--brand-solid); animation: pulseDot 2.4s ease-in-out infinite"></span>
+        Nueve rubros configurados
+      </span>
+      <h1 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(34px, 5vw, 58px); line-height: 1.04; letter-spacing: -0.035em; margin: 0 0 18px">Un sistema, el vocabulario de tu rubro</h1>
+      <p style="font-size: 18.5px; line-height: 1.6; color: var(--ink-2); margin: 0">La base es la misma para todos: agenda, clientes, servicios y cobros. Lo que cambia es la <strong style="color: var(--ink); font-weight: 700">ficha del cliente</strong> y el <strong style="color: var(--ink); font-weight: 700">catálogo de servicios</strong>, y eso lo configuramos con vos antes de que empieces.</p>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 34px 26px 0">
+    <div data-reveal style="display: flex; gap: 9px; flex-wrap: wrap">
+      <sc-for list="{{ tabs }}" as="tab" hint-placeholder-count="9">
+        <button type="button" onClick="{{ tab.onClick }}" style="{{ tab.style }}" style-hover="{{ tab.hover }}">{{ tab.nombre }}</button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 26px 26px 0">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px">
+
+      <div data-reveal style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 28px; box-shadow: var(--sh-1); transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="{{ hCard }}">
+        <span style="width: 40px; height: 40px; border-radius: 13px; background: var(--brand-50); border: 1px solid var(--brand-100); display: grid; place-items: center; margin-bottom: 18px">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"></path></svg>
+        </span>
+        <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.025em; margin: 0 0 6px">Cómo se trabaja</h3>
+        <p style="font-size: 13.5px; color: var(--ink-2); margin: 0 0 10px">en {{ r.posesivo }}</p>
+        <sc-for list="{{ r.bullets }}" as="b" hint-placeholder-count="3">
+          <div style="display: flex; gap: 11px; padding: 13px 0; border-top: 1px solid var(--line-soft)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.4" stroke-linecap="round" style="flex: none; margin-top: 3px"><path d="m4 12.5 5 5L20 6.5"></path></svg>
+            <span style="font-size: 15px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty">{{ b }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div data-reveal style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 28px; box-shadow: var(--sh-1); transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="{{ hCard }}">
+        <span style="width: 40px; height: 40px; border-radius: 13px; background: var(--brand-50); border: 1px solid var(--brand-100); display: grid; place-items: center; margin-bottom: 18px">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M6 3h9l4 4v14H6z"></path><path d="M9 12h7M9 16h5"></path></svg>
+        </span>
+        <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.025em; margin: 0 0 6px">La ficha incluye</h3>
+        <p style="font-size: 13.5px; color: var(--ink-2); margin: 0 0 16px">Los campos que no usás no aparecen</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{ r.ficha }}" as="f" hint-placeholder-count="6">
+            <span style="font-size: 13.5px; color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--line-soft); padding: 8px 14px; border-radius: 999px">{{ f }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div data-reveal style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 28px; box-shadow: var(--sh-1); transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="{{ hCard }}">
+        <span style="width: 40px; height: 40px; border-radius: 13px; background: var(--warm-50); border: 1px solid var(--warm); display: grid; place-items: center; margin-bottom: 18px">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--warm-700)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5l3 2"></path></svg>
+        </span>
+        <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 20px; letter-spacing: -0.025em; margin: 0 0 6px">Servicios y precios</h3>
+        <p style="font-size: 13.5px; color: var(--ink-2); margin: 0 0 10px">Ejemplo · cargás los tuyos</p>
+        <sc-for list="{{ r.servicios }}" as="s" hint-placeholder-count="4">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line-soft)">
+            <span style="font-size: 15px; font-weight: 600; min-width: 0">{{ s.nombre }}</span>
+            <span style="text-align: right; flex: none">
+              <span style="display: block; font-size: 14.5px; font-weight: 600">{{ s.precio }}</span>
+              <span style="display: block; font-size: 12px; color: var(--ink-2)">{{ s.dur }}</span>
+            </span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 60px 26px 0">
+    <div data-reveal style="background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r-xl); padding: 42px 34px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 40px; align-items: center">
+      <div>
+        <span style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); background: var(--surface); border: 1px solid var(--brand-100); padding: 6px 13px; border-radius: 999px; margin-bottom: 16px">Un día común</span>
+        <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.1; letter-spacing: -0.035em; margin: 0 0 14px">La agenda de hoy en {{ r.posesivo }}</h2>
+        <p style="font-size: 16.5px; line-height: 1.65; color: var(--ink-2); margin: 0 0 24px">Los turnos en durazno entraron por el link de reserva online, sin que nadie los cargue a mano. La barra a la izquierda muestra la duración real de cada servicio.</p>
+        <a href="{{ paginaRubro }}" style="font-size: 15px; font-weight: 700; text-decoration: none; color: #fff; background: var(--brand-solid); padding: 15px 26px; border-radius: 999px; box-shadow: var(--sh-2); display: inline-block; transition: transform .22s, background .22s" style-hover="background: var(--brand-solid-700); transform: translateY(-2px)">Ver la página de este rubro</a>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-lg); box-shadow: var(--sh-2); padding: 20px 22px; min-width: 0">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px">
+          <span style="font-size: 11.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-2)">Agenda de hoy</span>
+          <span style="font-size: 11.5px; color: var(--brand); background: var(--brand-50); padding: 4px 11px; border-radius: 999px; font-weight: 700">en vivo</span>
+        </div>
+        <sc-for list="{{ r.miniAgenda }}" as="m" hint-placeholder-count="3">
+          <div style="{{ m.style }}">
+            <span style="font-size: 12.5px; font-weight: 600; color: var(--ink-2); width: 44px; flex: none">{{ m.hora }}</span>
+            <span style="{{ m.barra }}"></span>
+            <span style="min-width: 0">
+              <span style="display: block; font-size: 14.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.cliente }}</span>
+              <span style="display: block; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ m.servicio }}</span>
+            </span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 72px 26px 0">
+    <div data-reveal style="max-width: 1220px; margin: 0 auto; border-radius: var(--r-xl); background: var(--brand-solid); color: #fff; padding: 56px 34px; box-shadow: var(--sh-3); position: relative; overflow: hidden; text-align: center">
+      <div style="position: absolute; inset: 0; pointer-events: none; opacity: .22; background-image: radial-gradient(circle at 1px 1px, #fff 1.2px, transparent 0); background-size: 24px 24px; mask-image: radial-gradient(75% 75% at 50% 0%, #000 0%, transparent 72%)"></div>
+      <div style="position: relative; max-width: 660px; margin: 0 auto">
+        <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(28px, 4.2vw, 46px); line-height: 1.08; letter-spacing: -0.035em; margin: 0 0 16px">¿Tu rubro no está en la lista?</h2>
+        <p style="font-size: 17.5px; line-height: 1.6; margin: 0 0 30px; color: rgba(255,255,255,.9)">Si trabajás con turnos, la base te sirve. Los campos de la ficha y el catálogo se configuran para cualquier negocio: contanos cómo trabajás y lo armamos.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center">
+          <a href="{{ waLink }}" style="font-size: 15.5px; font-weight: 700; text-decoration: none; color: var(--brand-solid-700); background: #fff; padding: 17px 30px; border-radius: 999px; transition: transform .22s, box-shadow .22s" style-hover="background: var(--warm); color: var(--on-warm); transform: translateY(-2px)">Contarnos tu caso</a>
+          <a href="Funciones.dc.html" style="font-size: 15.5px; font-weight: 600; text-decoration: none; color: #fff; border: 1.5px solid rgba(255,255,255,.55); padding: 16px 28px; border-radius: 999px; transition: border-color .22s" style-hover="background: rgba(255,255,255,.16); border-color: #fff">Ver las funciones</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="max-width: 1220px; margin: 0 auto; padding: 56px 26px 32px">
+    <div style="border-top: 1px solid var(--line-soft); padding-top: 22px; display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2)">
+      <span>© 2026 Turnalia · Asunción, Paraguay</span>
+      <span style="display: flex; gap: 20px; flex-wrap: wrap">
+        <a href="Landing v4.dc.html" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">Inicio</a>
+        <a href="Sistema.dc.html" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">El sistema</a>
+        <a href="Precios.dc.html" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">Precios</a>
+        <a href="{{ waLink }}" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">WhatsApp</a>
+      </span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;595981000000&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contacto&quot;},&quot;rubroInicial&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Peluquería&quot;,&quot;Estética y spa&quot;,&quot;Uñas y pestañas&quot;,&quot;Gimnasios&quot;,&quot;Odontología&quot;,&quot;Kinesiología&quot;,&quot;Nutrición&quot;,&quot;Consultorios médicos&quot;,&quot;Tatuajes&quot;],&quot;default&quot;:&quot;Peluquería&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contenido&quot;}}">
+const RUBROS = [
+  { nombre: "Peluquería", posesivo: "una peluquería",
+    bullets: ["Cada servicio con su duración: el corte ocupa 30 minutos y el color, dos horas y media.", "Producción por estilista en el reporte, para liquidar comisiones sin planilla aparte.", "La ficha guarda la fórmula de color y qué se hizo en cada visita."],
+    ficha: ["Fórmula de color", "Tipo de cabello", "Alergias", "Profesional habitual", "Fotos antes y después", "Frecuencia de raíz"],
+    servicios: [{ nombre: "Corte", dur: "30 min", precio: "Gs. 90.000" }, { nombre: "Corte + barba", dur: "60 min", precio: "Gs. 110.000" }, { nombre: "Color raíz", dur: "150 min", precio: "Gs. 250.000" }, { nombre: "Alisado", dur: "120 min", precio: "Gs. 620.000" }],
+    miniAgenda: [{ hora: "09:00", cliente: "Marcos A.", servicio: "Corte + barba", online: false }, { hora: "10:30", cliente: "Lucía B.", servicio: "Color raíz", online: false }, { hora: "13:00", cliente: "Rocío C.", servicio: "Brushing · reserva online", online: true }] },
+
+  { nombre: "Estética y spa", posesivo: "un centro de estética",
+    bullets: ["Las cabinas y camillas se reservan como recurso, no solo el profesional.", "Paquetes de sesiones con pagos parciales y el saldo pendiente siempre a la vista.", "Fotos de evolución y consentimientos firmados en la ficha."],
+    ficha: ["Tipo de piel", "Tratamientos activos", "Sesiones restantes", "Contraindicaciones", "Fotos de evolución", "Consentimientos"],
+    servicios: [{ nombre: "Limpieza facial", dur: "60 min", precio: "Gs. 180.000" }, { nombre: "Masaje descontracturante", dur: "60 min", precio: "Gs. 200.000" }, { nombre: "Depilación láser", dur: "45 min", precio: "Gs. 320.000" }, { nombre: "Drenaje linfático", dur: "75 min", precio: "Gs. 260.000" }],
+    miniAgenda: [{ hora: "09:30", cliente: "Sofía R.", servicio: "Limpieza facial · reserva online", online: true }, { hora: "11:00", cliente: "Andrea G.", servicio: "Masaje descontracturante", online: false }, { hora: "14:00", cliente: "Paola N.", servicio: "Láser · sesión 4 de 8", online: false }] },
+
+  { nombre: "Uñas y pestañas", posesivo: "un estudio de uñas",
+    bullets: ["Turnos cortos y encadenados: la agenda muestra los huecos reales del día.", "Aviso de retoque a las tres semanas del último servicio, listo para enviar.", "Diseños, colores y preferencias guardados por clienta."],
+    ficha: ["Último diseño", "Colores usados", "Alergias a productos", "Frecuencia de retoque", "Fotos del trabajo", "Largo preferido"],
+    servicios: [{ nombre: "Kapping + diseño", dur: "90 min", precio: "Gs. 160.000" }, { nombre: "Retoque semipermanente", dur: "60 min", precio: "Gs. 110.000" }, { nombre: "Lifting de pestañas", dur: "75 min", precio: "Gs. 190.000" }, { nombre: "Perfilado de cejas", dur: "30 min", precio: "Gs. 70.000" }],
+    miniAgenda: [{ hora: "08:30", cliente: "Camila D.", servicio: "Kapping + diseño", online: false }, { hora: "10:00", cliente: "Julia M.", servicio: "Lifting · reserva online", online: true }, { hora: "11:30", cliente: "Tamara R.", servicio: "Retoque · reserva online", online: true }] },
+
+  { nombre: "Gimnasios", posesivo: "un gimnasio",
+    bullets: ["Cuotas mensuales con vencimiento y lista de socios en mora, sin planilla.", "Clases con cupo limitado y lista de espera cuando se llena.", "Rutinas y medidas del socio con el historial de cada control."],
+    ficha: ["Plan y vencimiento", "Objetivo", "Medidas y peso", "Rutina actual", "Aptitud física", "Asistencia del mes"],
+    servicios: [{ nombre: "Cuota mensual libre", dur: "mensual", precio: "Gs. 180.000" }, { nombre: "Pase semanal", dur: "7 días", precio: "Gs. 70.000" }, { nombre: "Evaluación inicial", dur: "45 min", precio: "Gs. 90.000" }, { nombre: "Entrenamiento personalizado", dur: "60 min", precio: "Gs. 120.000" }],
+    miniAgenda: [{ hora: "07:00", cliente: "Clase de funcional", servicio: "14 de 16 lugares · online", online: true }, { hora: "09:00", cliente: "Iván C.", servicio: "Evaluación inicial", online: false }, { hora: "18:00", cliente: "Spinning", servicio: "Completo · 3 en espera", online: true }] },
+
+  { nombre: "Odontología", posesivo: "un consultorio odontológico",
+    bullets: ["Odontograma de 32 piezas con estado y nota por diente.", "Planes de tratamiento con presupuesto, cuotas y saldo en tiempo real.", "Radiografías, recetas y consentimientos adjuntos a la ficha."],
+    ficha: ["Odontograma", "Historia médica", "Plan de tratamiento", "Saldo del plan", "Radiografías", "Recetas"],
+    servicios: [{ nombre: "Consulta y diagnóstico", dur: "30 min", precio: "Gs. 120.000" }, { nombre: "Profilaxis", dur: "45 min", precio: "Gs. 200.000" }, { nombre: "Restauración", dur: "60 min", precio: "Gs. 350.000" }, { nombre: "Endodoncia", dur: "90 min", precio: "Gs. 700.000" }],
+    miniAgenda: [{ hora: "08:00", cliente: "Ramón E.", servicio: "Endodoncia · sesión 2 de 3", online: false }, { hora: "09:30", cliente: "Elena F.", servicio: "Profilaxis · reserva online", online: true }, { hora: "11:00", cliente: "Hugo M.", servicio: "Control de ortodoncia · online", online: true }] },
+
+  { nombre: "Kinesiología", posesivo: "un centro de kinesiología",
+    bullets: ["Series de sesiones con control de asistencia y sesiones restantes.", "Evolución escrita por sesión y alta del paciente cuando termina el tratamiento.", "Órdenes médicas y derivaciones adjuntas a la ficha."],
+    ficha: ["Diagnóstico", "Sesiones restantes", "Evolución por sesión", "Orden médica", "Derivación", "Alta"],
+    servicios: [{ nombre: "Evaluación inicial", dur: "45 min", precio: "Gs. 150.000" }, { nombre: "Sesión de rehabilitación", dur: "45 min", precio: "Gs. 120.000" }, { nombre: "Terapia manual", dur: "60 min", precio: "Gs. 160.000" }, { nombre: "Paquete de 10 sesiones", dur: "10 turnos", precio: "Gs. 1.000.000" }],
+    miniAgenda: [{ hora: "08:00", cliente: "Óscar V.", servicio: "Rodilla · sesión 5 de 10", online: false }, { hora: "09:00", cliente: "Mirta S.", servicio: "Cervicalgia · sesión 2 de 8", online: false }, { hora: "10:00", cliente: "Fabián R.", servicio: "Evaluación postural · online", online: true }] },
+
+  { nombre: "Nutrición", posesivo: "un consultorio de nutrición",
+    bullets: ["Peso, medidas y composición con el historial de cada control.", "Plan alimentario adjunto a la ficha y visible en el portal del paciente.", "Recordatorio del próximo control según la frecuencia que definís."],
+    ficha: ["Peso y medidas", "Antropometría", "Plan alimentario", "Objetivo", "Patologías", "Próximo control"],
+    servicios: [{ nombre: "Primera consulta", dur: "60 min", precio: "Gs. 250.000" }, { nombre: "Control mensual", dur: "30 min", precio: "Gs. 130.000" }, { nombre: "Antropometría", dur: "30 min", precio: "Gs. 120.000" }, { nombre: "Plan deportivo", dur: "60 min", precio: "Gs. 300.000" }],
+    miniAgenda: [{ hora: "08:30", cliente: "Gabriela L.", servicio: "Primera consulta · online", online: true }, { hora: "09:30", cliente: "Nicolás F.", servicio: "Control mensual", online: false }, { hora: "11:00", cliente: "Verónica P.", servicio: "Antropometría · online", online: true }] },
+
+  { nombre: "Consultorios médicos", posesivo: "un consultorio médico",
+    bullets: ["Agenda por profesional y por consultorio, con feriados y vacaciones bloqueados de verdad.", "Historia clínica con notas de evolución, diagnóstico y recetas en PDF.", "Portal del paciente para ver sus turnos y su historial sin llamar."],
+    ficha: ["Historia clínica", "Notas de evolución", "Diagnósticos", "Recetas", "Estudios adjuntos", "Obra social"],
+    servicios: [{ nombre: "Primera consulta", dur: "30 min", precio: "Gs. 200.000" }, { nombre: "Consulta de control", dur: "20 min", precio: "Gs. 150.000" }, { nombre: "Lectura de estudios", dur: "20 min", precio: "Gs. 120.000" }, { nombre: "Certificado médico", dur: "15 min", precio: "Gs. 80.000" }],
+    miniAgenda: [{ hora: "08:00", cliente: "Teresa A.", servicio: "Consulta clínica", online: false }, { hora: "08:30", cliente: "Carlos O.", servicio: "Control de presión · online", online: true }, { hora: "09:15", cliente: "María I.", servicio: "Primera consulta · online", online: true }] },
+
+  { nombre: "Tatuajes", posesivo: "un estudio de tatuajes",
+    bullets: ["Presupuesto por sesión con seña cobrada al momento de reservar.", "Referencias y diseños guardados en la ficha del cliente.", "Consentimiento y cuidados posteriores firmados desde el celular."],
+    ficha: ["Diseño acordado", "Zona y tamaño", "Sesiones previstas", "Seña cobrada", "Consentimiento", "Cuidados enviados"],
+    servicios: [{ nombre: "Diseño y presupuesto", dur: "30 min", precio: "sin cargo" }, { nombre: "Fineline", dur: "90 min", precio: "Gs. 450.000" }, { nombre: "Sesión de 3 horas", dur: "180 min", precio: "Gs. 900.000" }, { nombre: "Retoque", dur: "45 min", precio: "Gs. 150.000" }],
+    miniAgenda: [{ hora: "11:00", cliente: "Bruno S.", servicio: "Sesión 2 · brazo", online: false }, { hora: "14:00", cliente: "Ariel C.", servicio: "Diseño y presupuesto · online", online: true }, { hora: "16:00", cliente: "Dana R.", servicio: "Fineline · reserva online", online: true }] }
+];
+
+const PAGINAS = {
+  "Peluquería": "Landing Peluqueria.dc.html",
+  "Estética y spa": "Landing Estetica.dc.html",
+  "Uñas y pestañas": "Landing Unas.dc.html",
+  "Gimnasios": "Landing Gimnasios.dc.html",
+  "Odontología": "Landing Odontologia.dc.html",
+  "Kinesiología": "Landing Kinesiologia.dc.html",
+  "Nutrición": "Landing Nutricion.dc.html",
+  "Consultorios médicos": "Landing Consultorios.dc.html",
+  "Tatuajes": "Landing Tatuajes.dc.html"
+};
+
+class Component extends DCLogic {
+  state = { rubro: 0 };
+
+  componentDidMount() {
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem("turnalia:tema") === "dark" ? "dark" : "light";
+    } catch (e) {}
+  }
+
+  renderVals() {
+    const activo = this.state.rubro;
+    const r = RUBROS[activo];
+    const paginaRubro = PAGINAS[r.nombre] || "Landing Peluqueria.dc.html";
+
+    const tabs = RUBROS.map((x, i) => ({
+      nombre: x.nombre,
+      onClick: () => this.setState({ rubro: i }),
+      style: {
+        appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "14.5px",
+        fontWeight: i === activo ? 700 : 500, padding: "11px 20px", borderRadius: "999px",
+        border: "1px solid " + (i === activo ? "var(--brand-solid)" : "var(--line)"),
+        background: i === activo ? "var(--brand-solid)" : "var(--surface)",
+        color: i === activo ? "#fff" : "var(--ink-2)",
+        boxShadow: i === activo ? "var(--sh-2)" : "var(--sh-1)",
+        transition: "transform .18s, box-shadow .18s, border-color .18s"
+      },
+      hover: i === activo
+        ? { transform: "translateY(-1px)", boxShadow: "var(--sh-3)" }
+        : { borderColor: "var(--brand)", transform: "translateY(-2px)", boxShadow: "var(--sh-2)" }
+    }));
+
+    const miniAgenda = r.miniAgenda.map((m, i) => ({
+      hora: m.hora, cliente: m.cliente, servicio: m.servicio,
+      style: { display: "flex", alignItems: "center", gap: "12px", padding: "12px 0", borderTop: i === 0 ? "1px solid var(--line-soft)" : "1px solid var(--line-soft)" },
+      barra: { width: "4px", height: "32px", borderRadius: "999px", flex: "none", background: m.online ? "var(--warm-solid)" : "var(--brand-solid)" }
+    }));
+
+    return {
+      tabs, paginaRubro,
+      r: Object.assign({}, r, { miniAgenda }),
+      waLink: "https://wa.me/" + (this.props.whatsapp ?? "595981000000"),
+      hCard: { transform: "translateY(-3px)", boxShadow: "var(--sh-2)", borderColor: "var(--brand-100)" },
+      toggleTema: () => {
+        const oscuro = document.documentElement.dataset.theme !== "dark";
+        document.documentElement.dataset.theme = oscuro ? "dark" : "light";
+        try { localStorage.setItem("turnalia:tema", oscuro ? "dark" : "light"); } catch (e) {}
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

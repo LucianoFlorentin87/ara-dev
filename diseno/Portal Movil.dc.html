@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+</helmet>
+
+<div style="background: var(--bg); color: var(--ink); font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; min-height: 100vh; padding: 34px 26px 48px">
+
+  <div style="max-width: 1400px; margin: 0 auto">
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 30px">
+      <div style="max-width: 620px">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px">
+          <span style="width: 32px; height: 32px; border-radius: 11px; background: var(--brand-solid); display: grid; place-items: center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+          </span>
+          <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.02em">Turnalia</span>
+        </div>
+        <h1 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.08; letter-spacing: -0.035em; margin: 0 0 12px">El portal del cliente en el celular</h1>
+        <p style="font-size: 16.5px; line-height: 1.6; color: var(--ink-2); margin: 0">Es la misma página que se abre desde el link de reserva, vista como la usa el 90% de la gente: con el pulgar, en el colectivo. No hay app que descargar.</p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap">
+        <button type="button" onClick="{{ toggleTema }}" style="{{ botonTema }}" style-hover="{{ hSoft }}">Cambiar tema</button>
+        <a href="Portal v4.dc.html" style="{{ botonLink }}" style-hover="{{ hSoft }}">Ver versión de escritorio</a>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 330px), 1fr)); gap: 28px; align-items: start">
+
+      <div>
+        <div style="{{ etiquetaPantalla }}">1 · Al abrir el link</div>
+        <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" title="Studio Kuña" hint-size="100%,780px">
+          <div style="font-family: Manrope, system-ui, sans-serif; padding: 14px 16px 26px; background: var(--bg); min-height: 100%; color: var(--ink)">
+            <div style="display: flex; align-items: center; gap: 11px; margin-bottom: 18px">
+              <span style="width: 42px; height: 42px; border-radius: 999px; background: var(--brand-solid); color: #fff; display: grid; place-items: center; font-family: Outfit, sans-serif; font-weight: 700; font-size: 14px; flex: none">LB</span>
+              <span style="min-width: 0">
+                <span style="display: block; font-size: 12px; color: var(--ink-2)">Hola de nuevo</span>
+                <span style="display: block; font-family: Outfit, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: -0.02em">Lucía</span>
+              </span>
+            </div>
+
+            <div style="background: var(--brand-solid); color: #fff; border-radius: 22px; padding: 18px 18px 16px; margin-bottom: 14px; box-shadow: var(--sh-2)">
+              <div style="font-size: 11px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; opacity: .85; margin-bottom: 8px">Tu próximo turno</div>
+              <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.025em; line-height: 1.15">Viernes 12 · 10:30</div>
+              <div style="font-size: 13.5px; opacity: .92; margin-top: 5px">Color raíz con Sofía · 2 h 30 min</div>
+              <div style="display: flex; gap: 8px; margin-top: 16px">
+                <span style="flex: 1; text-align: center; font-size: 13px; font-weight: 700; background: #fff; color: var(--brand-solid-700); padding: 11px; border-radius: 999px">Confirmar</span>
+                <span style="flex: 1; text-align: center; font-size: 13px; font-weight: 600; border: 1px solid rgba(255,255,255,.5); padding: 10px; border-radius: 999px">Reprogramar</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-bottom: 18px">
+              <div style="flex: 1; background: var(--surface); border: 1px solid var(--line-soft); border-radius: 18px; padding: 14px; text-align: center">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                <div style="font-size: 12.5px; font-weight: 600; margin-top: 6px">Pedir turno</div>
+              </div>
+              <div style="flex: 1; background: var(--surface); border: 1px solid var(--line-soft); border-radius: 18px; padding: 14px; text-align: center">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.5v5l3 2"></path></svg>
+                <div style="font-size: 12.5px; font-weight: 600; margin-top: 6px">Mi historial</div>
+              </div>
+              <div style="flex: 1; background: var(--surface); border: 1px solid var(--line-soft); border-radius: 18px; padding: 14px; text-align: center">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2" stroke-linecap="round"><path d="M20 15a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z"></path></svg>
+                <div style="font-size: 12.5px; font-weight: 600; margin-top: 6px">Escribir</div>
+              </div>
+            </div>
+
+            <div style="font-size: 11.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 8px">Tu última visita</div>
+            <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: 18px; padding: 15px 16px">
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px">
+                <span style="font-size: 14px; font-weight: 700">12 de agosto</span>
+                <span style="font-size: 12.5px; color: var(--ink-2)">Gs. 250.000</span>
+              </div>
+              <div style="font-size: 12.5px; color: var(--ink-2); margin-top: 3px">Color raíz con Sofía</div>
+              <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-soft); display: flex; align-items: center; justify-content: space-between; gap: 10px">
+                <span style="font-size: 12.5px; color: var(--ink-2)">Te toca raíz en 4 semanas</span>
+                <span style="font-size: 12px; font-weight: 700; color: var(--brand-700); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 5px 11px; border-radius: 999px">Reservar</span>
+              </div>
+            </div>
+          </div>
+        </x-import>
+        <p style="{{ notaPantalla }}">La reserva no pide crear cuenta: entra con el número de celular y un código por WhatsApp.</p>
+      </div>
+
+      <div>
+        <div style="{{ etiquetaPantalla }}">2 · Elegir horario</div>
+        <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" title="Reservar" hint-size="100%,780px">
+          <div style="font-family: Manrope, system-ui, sans-serif; padding: 14px 16px 26px; background: var(--bg); min-height: 100%; color: var(--ink)">
+            <div style="display: flex; gap: 6px; margin-bottom: 18px">
+              <span style="flex: 1; height: 4px; border-radius: 999px; background: var(--brand-solid)"></span>
+              <span style="flex: 1; height: 4px; border-radius: 999px; background: var(--brand-solid)"></span>
+              <span style="flex: 1; height: 4px; border-radius: 999px; background: var(--line)"></span>
+            </div>
+
+            <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: 18px; padding: 13px 15px; margin-bottom: 16px">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+                <span style="min-width: 0">
+                  <span style="display: block; font-size: 14px; font-weight: 700">Color raíz</span>
+                  <span style="display: block; font-size: 12px; color: var(--ink-2)">con Sofía · 2 h 30 min · Gs. 250.000</span>
+                </span>
+                <span style="font-size: 12px; font-weight: 700; color: var(--brand); flex: none">Cambiar</span>
+              </div>
+            </div>
+
+            <div style="font-size: 11.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 9px">Elegí el día</div>
+            <div style="display: flex; gap: 7px; margin-bottom: 20px; overflow: hidden">
+              <sc-for list="{{ dias }}" as="d" hint-placeholder-count="5">
+                <span style="{{ d.style }}">
+                  <span style="display: block; font-size: 10.5px; opacity: .8">{{ d.dow }}</span>
+                  <span style="display: block; font-family: Outfit, sans-serif; font-weight: 700; font-size: 17px; margin-top: 1px">{{ d.num }}</span>
+                </span>
+              </sc-for>
+            </div>
+
+            <div style="font-size: 11.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 9px">Horarios libres · viernes 12</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px">
+              <sc-for list="{{ horarios }}" as="h" hint-placeholder-count="9">
+                <span style="{{ h.style }}">{{ h.hora }}</span>
+              </sc-for>
+            </div>
+
+            <div style="background: var(--warm-50); border: 1px solid var(--warm); border-radius: 16px; padding: 13px 15px; margin-bottom: 18px">
+              <div style="font-size: 12.5px; font-weight: 700; color: var(--warm-700); margin-bottom: 3px">Los grises ya están tomados</div>
+              <div style="font-size: 12px; line-height: 1.5; color: var(--ink-2)">Solo se muestran los horarios donde Sofía tiene las 2 h 30 min libres de corrido.</div>
+            </div>
+
+            <div style="background: var(--brand-solid); color: #fff; border-radius: 999px; padding: 15px; text-align: center; font-size: 15px; font-weight: 700; box-shadow: var(--sh-2)">Reservar 10:30</div>
+          </div>
+        </x-import>
+        <p style="{{ notaPantalla }}">Hit targets de 46 px o más: se llega con el pulgar sin apretar dos veces.</p>
+      </div>
+
+      <div>
+        <div style="{{ etiquetaPantalla }}">3 · Mis turnos</div>
+        <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" title="Mis turnos" hint-size="100%,780px">
+          <div style="font-family: Manrope, system-ui, sans-serif; padding: 14px 16px 26px; background: var(--bg); min-height: 100%; color: var(--ink)">
+            <div style="display: flex; gap: 7px; margin-bottom: 18px">
+              <span style="flex: 1; text-align: center; font-size: 13px; font-weight: 700; background: var(--brand-solid); color: #fff; padding: 10px; border-radius: 999px">Próximos</span>
+              <span style="flex: 1; text-align: center; font-size: 13px; font-weight: 600; background: var(--surface); border: 1px solid var(--line); color: var(--ink-2); padding: 9px; border-radius: 999px">Historial</span>
+            </div>
+
+            <sc-for list="{{ turnos }}" as="t" hint-placeholder-count="3">
+              <div style="{{ t.tarjeta }}">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 10px">
+                  <span style="min-width: 0">
+                    <span style="display: block; font-family: Outfit, sans-serif; font-weight: 700; font-size: 16px; letter-spacing: -0.02em">{{ t.cuando }}</span>
+                    <span style="display: block; font-size: 12.5px; color: var(--ink-2); margin-top: 3px">{{ t.servicio }}</span>
+                  </span>
+                  <span style="{{ t.chip }}">{{ t.estado }}</span>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 14px">
+                  <span style="{{ t.accion1 }}">{{ t.texto1 }}</span>
+                  <span style="{{ t.accion2 }}">{{ t.texto2 }}</span>
+                </div>
+              </div>
+            </sc-for>
+
+            <div style="background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 18px; padding: 15px 16px; margin-top: 4px">
+              <div style="font-size: 12.5px; font-weight: 700; margin-bottom: 5px">Cancelar sin costo</div>
+              <div style="font-size: 12px; line-height: 1.55; color: var(--ink-2)">Hasta 24 horas antes del turno. Después, la seña queda a favor del local.</div>
+            </div>
+          </div>
+        </x-import>
+        <p style="{{ notaPantalla }}">Confirmar y cancelar desde acá evita las llamadas al local y las ausencias sin aviso.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1400,&quot;height&quot;:1000}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem("turnalia:tema") === "dark" ? "dark" : "light";
+    } catch (e) {}
+  }
+
+  renderVals() {
+    const pill = (activo, ocupado) => ({
+      display: "block", textAlign: "center", padding: "13px 4px", borderRadius: "14px",
+      fontSize: "14px", fontWeight: activo ? 700 : 600, minHeight: "46px", lineHeight: "20px",
+      background: activo ? "var(--brand-solid)" : ocupado ? "var(--surface-2)" : "var(--surface)",
+      color: activo ? "#fff" : ocupado ? "var(--ink-2)" : "var(--ink)",
+      border: "1px solid " + (activo ? "var(--brand-solid)" : ocupado ? "var(--line-soft)" : "var(--line)"),
+      textDecoration: ocupado ? "line-through" : "none",
+      opacity: ocupado ? .6 : 1
+    });
+
+    const accion = (primaria) => ({
+      flex: 1, textAlign: "center", padding: primaria ? "11px" : "10px", borderRadius: "999px",
+      fontSize: "12.5px", fontWeight: primaria ? 700 : 600, minHeight: "44px", lineHeight: "22px",
+      background: primaria ? "var(--brand-solid)" : "transparent",
+      color: primaria ? "#fff" : "var(--ink-2)",
+      border: primaria ? "0" : "1px solid var(--line)"
+    });
+
+    const chip = (tono) => {
+      const warm = tono === "warm", neutro = tono === "neutro";
+      return {
+        flex: "none", fontSize: "11px", fontWeight: 700, padding: "5px 10px", borderRadius: "999px", whiteSpace: "nowrap",
+        background: warm ? "var(--warm-50)" : neutro ? "var(--surface-2)" : "var(--brand-50)",
+        color: warm ? "var(--warm-700)" : neutro ? "var(--ink-2)" : "var(--brand-700)",
+        border: "1px solid " + (warm ? "var(--warm)" : neutro ? "var(--line-soft)" : "var(--brand-100)")
+      };
+    };
+
+    return {
+      dias: [
+        { dow: "MIÉ", num: "10", activo: false },
+        { dow: "JUE", num: "11", activo: false },
+        { dow: "VIE", num: "12", activo: true },
+        { dow: "SÁB", num: "13", activo: false },
+        { dow: "MAR", num: "16", activo: false }
+      ].map(d => ({
+        dow: d.dow, num: d.num,
+        style: {
+          flex: 1, minWidth: 0, textAlign: "center", padding: "9px 2px", borderRadius: "14px",
+          background: d.activo ? "var(--brand-solid)" : "var(--surface)",
+          color: d.activo ? "#fff" : "var(--ink)",
+          border: "1px solid " + (d.activo ? "var(--brand-solid)" : "var(--line-soft)")
+        }
+      })),
+
+      horarios: [
+        { hora: "08:00", ocupado: true }, { hora: "09:00", ocupado: true }, { hora: "10:30", activo: true },
+        { hora: "13:00", ocupado: false }, { hora: "14:00", ocupado: true }, { hora: "15:30", ocupado: false },
+        { hora: "16:00", ocupado: true }, { hora: "17:30", ocupado: false }, { hora: "18:00", ocupado: true }
+      ].map(h => ({ hora: h.hora, style: pill(!!h.activo, !!h.ocupado) })),
+
+      turnos: [
+        { cuando: "Viernes 12 · 10:30", servicio: "Color raíz con Sofía", estado: "Confirmado", tono: "brand",
+          texto1: "Reprogramar", texto2: "Cancelar", p1: false },
+        { cuando: "Sábado 27 · 09:00", servicio: "Corte + brushing con Andrea", estado: "Sin confirmar", tono: "warm",
+          texto1: "Confirmar", texto2: "Cancelar", p1: true },
+        { cuando: "Martes 30 · 16:00", servicio: "Perfilado de cejas", estado: "En espera", tono: "neutro",
+          texto1: "Ver detalle", texto2: "Salir de la lista", p1: false }
+      ].map(t => ({
+        cuando: t.cuando, servicio: t.servicio, estado: t.estado,
+        texto1: t.texto1, texto2: t.texto2,
+        chip: chip(t.tono),
+        accion1: accion(t.p1),
+        accion2: accion(false),
+        tarjeta: {
+          background: "var(--surface)", border: "1px solid var(--line-soft)", borderRadius: "20px",
+          padding: "16px", marginBottom: "12px", boxShadow: "var(--sh-1)"
+        }
+      })),
+
+      etiquetaPantalla: {
+        fontSize: "12px", fontWeight: 700, letterSpacing: ".11em", textTransform: "uppercase",
+        color: "var(--ink-2)", marginBottom: "12px"
+      },
+      notaPantalla: {
+        fontSize: "13.5px", lineHeight: 1.55, color: "var(--ink-2)", margin: "16px 0 0", maxWidth: "38ch"
+      },
+      botonTema: {
+        appearance: "none", cursor: "pointer", fontFamily: "inherit", fontSize: "14px", fontWeight: 600,
+        padding: "11px 20px", borderRadius: "999px", border: "1px solid var(--line)",
+        background: "var(--surface)", color: "var(--ink-2)", transition: "border-color .2s, color .2s"
+      },
+      botonLink: {
+        display: "inline-block", textDecoration: "none", fontFamily: "inherit", fontSize: "14px", fontWeight: 600,
+        padding: "11px 20px", borderRadius: "999px", border: "1px solid var(--line)",
+        background: "var(--surface)", color: "var(--ink-2)", transition: "border-color .2s, color .2s"
+      },
+      hSoft: { borderColor: "var(--brand)", color: "var(--brand)" },
+      toggleTema: () => {
+        const oscuro = document.documentElement.dataset.theme !== "dark";
+        document.documentElement.dataset.theme = oscuro ? "dark" : "light";
+        try { localStorage.setItem("turnalia:tema", oscuro ? "dark" : "light"); } catch (e) {}
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

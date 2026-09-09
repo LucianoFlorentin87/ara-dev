@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+<script src="./image-slot.js"></script>
+</helmet>
+
+<div style="background: var(--bg); color: var(--ink); font-family: Manrope, system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 40; backdrop-filter: blur(16px); background: color-mix(in oklab, var(--bg) 78%, transparent); border-bottom: 1px solid var(--line-soft)">
+    <div style="max-width: 1220px; margin: 0 auto; padding: 13px 26px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap">
+      <a href="Landing v4.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink)">
+        <span style="width: 34px; height: 34px; border-radius: 12px; background: var(--brand-solid); display: grid; place-items: center; box-shadow: var(--sh-2)">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path><circle cx="12" cy="16" r="1.7" fill="#fff" stroke="none"></circle></svg>
+        </span>
+        <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.02em">Turnalia</span>
+      </a>
+      <nav style="display: flex; gap: 24px; font-size: 14.5px; font-weight: 500">
+        <a href="Rubros.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Rubros</a>
+        <a href="Sistema.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">El sistema</a>
+        <a href="Funciones.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Funciones</a>
+        <a href="Arranque.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Cómo arranca</a>
+        <a href="Precios.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Precios</a>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 8px">
+        <button type="button" onClick="{{ toggleTema }}" title="Cambiar tema" style="width: 38px; height: 38px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); display: grid; place-items: center; cursor: pointer; transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="background: var(--brand-50); border-color: var(--brand-100); color: var(--brand)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"></path></svg>
+        </button>
+        <a href="Alta.dc.html" style="font-size: 14.5px; font-weight: 600; text-decoration: none; color: #fff; background: var(--brand-solid); padding: 11px 22px; border-radius: 999px; box-shadow: var(--sh-2); transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="background: var(--brand-solid-700); transform: translateY(-1px)">Probar gratis</a>
+      </div>
+    </div>
+  </header>
+
+  <section style="padding: 26px 26px 0">
+    <div style="max-width: 1220px; margin: 0 auto; position: relative; border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--sh-3); min-height: 560px; display: flex">
+      <div style="position: absolute; inset: 0">
+        <image-slot id="v4-hero-bg" shape="rect" placeholder="Foto de un local trabajando — plano amplio"></image-slot>
+      </div>
+      <div style="position: absolute; inset: 0; background: linear-gradient(200deg, rgba(76,21,181,.94) 0%, rgba(106,43,224,.86) 42%, rgba(26,16,48,.72) 100%)"></div>
+      <div style="position: absolute; inset: 0; opacity: .3; background-image: radial-gradient(circle at 1px 1px, #fff 1.1px, transparent 0); background-size: 26px 26px; mask-image: radial-gradient(80% 70% at 85% 15%, #000 0%, transparent 72%)"></div>
+
+      <div style="position: relative; flex: 1; min-width: 0; padding: 56px 40px 48px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 40px; align-items: center; color: #fff">
+        <div data-reveal>
+          <span style="display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 600; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); padding: 7px 16px; border-radius: 999px; margin-bottom: 24px">
+            <span style="width: 7px; height: 7px; border-radius: 999px; background: var(--warm); animation: pulseDot 2.4s ease-in-out infinite"></span>
+            Turnos, fichas y caja · Paraguay
+          </span>
+          <h1 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(38px, 5.6vw, 66px); line-height: 1.04; letter-spacing: -0.035em; margin: 0 0 20px; max-width: 20ch">Una nueva forma de manejar <span style="color: var(--warm)">tu agenda</span></h1>
+          <p style="font-size: 18.5px; line-height: 1.6; margin: 0 0 32px; max-width: 44ch; color: rgba(255,255,255,.9)">Turnos sin doble reserva, reserva online para tus clientes, caja al cierre del día y la ficha de cada persona con su historial. Se abre en el navegador: <strong style="font-weight: 700; color: #fff">no instalás nada</strong>.</p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center">
+            <a href="Alta.dc.html" style="font-size: 15.5px; font-weight: 700; text-decoration: none; color: var(--brand-solid-700); background: #fff; padding: 17px 30px; border-radius: 999px; box-shadow: 0 14px 32px -14px rgba(0,0,0,.5); transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="transform: translateY(-2px); background: var(--warm); color: #2a1508">Probar gratis 14 días</a>
+            <a href="Sistema.dc.html" style="font-size: 15.5px; font-weight: 600; text-decoration: none; color: #fff; border: 1.5px solid rgba(255,255,255,.55); padding: 16px 28px; border-radius: 999px; transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="background: rgba(255,255,255,.16); border-color: #fff">Ver por dentro</a>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px; margin-top: 26px; font-size: 14px; color: rgba(255,255,255,.82)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--warm)" stroke-width="2.4" stroke-linecap="round"><path d="m4 12.5 5 5L20 6.5"></path></svg>
+            Sin tarjeta. Te damos de alta el local y te dejamos la agenda cargada.
+          </div>
+        </div>
+
+        <div data-reveal style="display: flex; justify-content: center; min-width: 0">
+          <div style="width: min(310px, 100%); background: var(--surface); border-radius: 34px; padding: 14px; box-shadow: 0 30px 70px -20px rgba(0,0,0,.6); animation: flotar 7s ease-in-out infinite">
+            <div style="background: var(--brand-solid); color: #fff; border-radius: 24px 24px 14px 14px; padding: 16px 18px 18px">
+              <div style="font-size: 11.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: .85">Viernes 5 de septiembre</div>
+              <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 25px; letter-spacing: -0.02em; margin-top: 4px">14 turnos hoy</div>
+              <div style="font-size: 13px; opacity: .88; margin-top: 2px">3 entraron solos por el link</div>
+            </div>
+            <div style="padding: 6px 4px 4px">
+              <div style="display: flex; align-items: center; gap: 11px; padding: 11px 8px; border-radius: 14px">
+                <span style="font-size: 12px; font-weight: 600; color: var(--ink-2); width: 40px; flex: none">09:00</span>
+                <span style="width: 4px; height: 30px; border-radius: 999px; background: var(--brand-solid); flex: none"></span>
+                <span style="min-width: 0">
+                  <span style="display: block; font-size: 13.5px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Marcos A.</span>
+                  <span style="display: block; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Corte + barba</span>
+                </span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 11px; padding: 11px 8px; border-radius: 14px; background: var(--brand-50)">
+                <span style="font-size: 12px; font-weight: 600; color: var(--ink-2); width: 40px; flex: none">10:30</span>
+                <span style="width: 4px; height: 30px; border-radius: 999px; background: var(--brand-solid); flex: none"></span>
+                <span style="min-width: 0">
+                  <span style="display: block; font-size: 13.5px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Lucía B.</span>
+                  <span style="display: block; font-size: 11.5px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Color raíz · en atención</span>
+                </span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 11px; padding: 11px 8px; border-radius: 14px">
+                <span style="font-size: 12px; font-weight: 600; color: var(--ink-2); width: 40px; flex: none">13:00</span>
+                <span style="width: 4px; height: 30px; border-radius: 999px; background: var(--warm); flex: none"></span>
+                <span style="min-width: 0">
+                  <span style="display: block; font-size: 13.5px; font-weight: 700; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Rocío C.</span>
+                  <span style="display: block; font-size: 11.5px; color: var(--warm-700); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Brushing · reserva online</span>
+                </span>
+              </div>
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 6px 8px 4px; padding: 12px 14px; border-radius: 16px; background: var(--warm-50); border: 1px dashed var(--warm)">
+                <span style="font-size: 12.5px; font-weight: 600; color: var(--warm-700)">11:00 libre</span>
+                <span style="font-size: 11.5px; color: var(--warm-700)">2 en espera</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 60px 26px 0">
+    <div data-reveal style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(50%, 210px), 1fr)); gap: 14px">
+      <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 22px 24px; box-shadow: var(--sh-1)">
+        <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; line-height: 1; letter-spacing: -0.03em; color: var(--brand)">14 días</div>
+        <div style="font-size: 14px; color: var(--ink-2); margin-top: 7px; line-height: 1.45">de prueba, sin tarjeta ni compromiso</div>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 22px 24px; box-shadow: var(--sh-1)">
+        <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; line-height: 1; letter-spacing: -0.03em; color: var(--brand)">9 rubros</div>
+        <div style="font-size: 14px; color: var(--ink-2); margin-top: 7px; line-height: 1.45">un sistema, la ficha de cada uno</div>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 22px 24px; box-shadow: var(--sh-1)">
+        <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; line-height: 1; letter-spacing: -0.03em; color: var(--brand)">Sin instalar</div>
+        <div style="font-size: 14px; color: var(--ink-2); margin-top: 7px; line-height: 1.45">en la compu del local y en el celular</div>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-md); padding: 22px 24px; box-shadow: var(--sh-1)">
+        <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 32px; line-height: 1; letter-spacing: -0.03em; color: var(--brand)">En guaraníes</div>
+        <div style="font-size: 14px; color: var(--ink-2); margin-top: 7px; line-height: 1.45">precios, cobros y reportes</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 78px 26px 0">
+    <div data-reveal style="text-align: center; max-width: 700px; margin: 0 auto 46px">
+      <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 46px); line-height: 1.08; letter-spacing: -0.035em; margin: 0 0 14px">Lo que tu recepción deja de hacer a mano</h2>
+      <p style="font-size: 17.5px; line-height: 1.6; color: var(--ink-2); margin: 0">Cuatro cosas que cambian el día del local. Todas entran en cualquier plan.</p>
+    </div>
+
+    <div data-reveal style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 44px; align-items: center; margin-bottom: 64px">
+      <div style="border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4 / 3; box-shadow: var(--sh-2); border: 1px solid var(--line-soft)">
+        <image-slot id="v4-f1" shape="rect" placeholder="Foto: la agenda abierta en el mostrador"></image-slot>
+      </div>
+      <div>
+        <span style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 6px 13px; border-radius: 999px; margin-bottom: 16px">Agenda</span>
+        <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(24px, 2.8vw, 33px); line-height: 1.12; letter-spacing: -0.03em; margin: 0 0 14px">Dos turnos nunca más en el mismo horario</h3>
+        <p style="font-size: 16.5px; line-height: 1.65; color: var(--ink-2); margin: 0">Cada servicio tiene su duración real y cada profesional su columna. Si el horario ya está tomado, el sistema <strong style="color: var(--ink); font-weight: 700">no lo deja guardar</strong>. También reserva la cabina, el sillón o el consultorio, no solo a la persona.</p>
+      </div>
+    </div>
+
+    <div data-reveal style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 44px; align-items: center; margin-bottom: 64px">
+      <div style="order: 2">
+        <div style="border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4 / 3; box-shadow: var(--sh-2); border: 1px solid var(--line-soft)">
+          <image-slot id="v4-f2" shape="rect" placeholder="Foto: cliente reservando desde el celular"></image-slot>
+        </div>
+      </div>
+      <div style="order: 1">
+        <span style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--warm-700); background: var(--warm-50); border: 1px solid var(--warm); padding: 6px 13px; border-radius: 999px; margin-bottom: 16px">Reserva online</span>
+        <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(24px, 2.8vw, 33px); line-height: 1.12; letter-spacing: -0.03em; margin: 0 0 14px">Un link en tu Instagram y los turnos entran solos</h3>
+        <p style="font-size: 16.5px; line-height: 1.65; color: var(--ink-2); margin: 0">El cliente elige servicio, profesional y horario libre desde el celular, <strong style="color: var(--ink); font-weight: 700">también a las once de la noche</strong>. El turno cae directo en tu agenda y nadie tiene que cargarlo a mano.</p>
+      </div>
+    </div>
+
+    <div data-reveal style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 44px; align-items: center; margin-bottom: 64px">
+      <div style="border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4 / 3; box-shadow: var(--sh-2); border: 1px solid var(--line-soft)">
+        <image-slot id="v4-f3" shape="rect" placeholder="Foto: profesional con la ficha del cliente"></image-slot>
+      </div>
+      <div>
+        <span style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 6px 13px; border-radius: 999px; margin-bottom: 16px">Ficha e historial</span>
+        <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(24px, 2.8vw, 33px); line-height: 1.12; letter-spacing: -0.03em; margin: 0 0 14px">Nadie tiene que acordarse de nada</h3>
+        <p style="font-size: 16.5px; line-height: 1.65; color: var(--ink-2); margin: 0">La fórmula de color, la alergia declarada, el odontograma, las sesiones que quedan del paquete. Cada rubro tiene <strong style="color: var(--ink); font-weight: 700">sus propios campos</strong>, con fotos y notas de cada visita.</p>
+      </div>
+    </div>
+
+    <div data-reveal style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 44px; align-items: center">
+      <div style="order: 2">
+        <div style="border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 4 / 3; box-shadow: var(--sh-2); border: 1px solid var(--line-soft)">
+          <image-slot id="v4-f4" shape="rect" placeholder="Foto: cierre de caja al final del día"></image-slot>
+        </div>
+      </div>
+      <div style="order: 1">
+        <span style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--warm-700); background: var(--warm-50); border: 1px solid var(--warm); padding: 6px 13px; border-radius: 999px; margin-bottom: 16px">Caja y números</span>
+        <h3 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(24px, 2.8vw, 33px); line-height: 1.12; letter-spacing: -0.03em; margin: 0 0 14px">Cerrás el día y sabés cuánto entró</h3>
+        <p style="font-size: 16.5px; line-height: 1.65; color: var(--ink-2); margin: 0">Corte de efectivo con la diferencia calculada, medios de pago separados y comprobante en PDF. Al final del mes ves la <strong style="color: var(--ink); font-weight: 700">producción de cada profesional</strong> sin armar una planilla.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 78px 26px 0">
+    <div data-reveal style="background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: var(--r-xl); padding: 46px 34px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 40px; align-items: center">
+      <div>
+        <span style="display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--brand); background: var(--surface); border: 1px solid var(--brand-100); padding: 6px 13px; border-radius: 999px; margin-bottom: 16px">Recall</span>
+        <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.1; letter-spacing: -0.035em; margin: 0 0 14px">La plata que ya está en tu base de datos</h2>
+        <p style="font-size: 16.5px; line-height: 1.65; color: var(--ink-2); margin: 0 0 24px">El sistema te arma la lista de clientes que no vuelven hace 3, 6 o 12 meses, con un botón para escribirles. El mensaje sale listo y abre WhatsApp: <strong style="color: var(--ink); font-weight: 700">sin costo por mensaje</strong>.</p>
+        <a href="Funciones.dc.html" style="font-size: 15px; font-weight: 700; text-decoration: none; color: #fff; background: var(--brand-solid); padding: 15px 26px; border-radius: 999px; box-shadow: var(--sh-2); display: inline-block; transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="background: var(--brand-solid-700); transform: translateY(-2px)">Ver todas las funciones</a>
+      </div>
+      <div style="background: var(--surface); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 22px 24px; box-shadow: var(--sh-2)">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px">
+          <span style="font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2)">Sin volver hace 6 meses</span>
+          <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 22px; color: var(--brand)">38</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line-soft)">
+          <span style="min-width: 0">
+            <span style="display: block; font-size: 14.5px; font-weight: 600">Belén O.</span>
+            <span style="display: block; font-size: 12.5px; color: var(--ink-2)">Última visita: 04/03 · Color raíz</span>
+          </span>
+          <span style="font-size: 12.5px; font-weight: 700; color: var(--brand); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 6px 13px; border-radius: 999px; flex: none">Escribir</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line-soft)">
+          <span style="min-width: 0">
+            <span style="display: block; font-size: 14.5px; font-weight: 600">Kevin M.</span>
+            <span style="display: block; font-size: 12.5px; color: var(--ink-2)">Última visita: 19/02 · Corte</span>
+          </span>
+          <span style="font-size: 12.5px; font-weight: 700; color: var(--brand); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 6px 13px; border-radius: 999px; flex: none">Escribir</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 13px 0; border-top: 1px solid var(--line-soft)">
+          <span style="min-width: 0">
+            <span style="display: block; font-size: 14.5px; font-weight: 600">Silvia A.</span>
+            <span style="display: block; font-size: 12.5px; color: var(--ink-2)">Última visita: 28/01 · Alisado</span>
+          </span>
+          <span style="font-size: 12.5px; font-weight: 700; color: var(--brand); background: var(--brand-50); border: 1px solid var(--brand-100); padding: 6px 13px; border-radius: 999px; flex: none">Escribir</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="max-width: 1220px; margin: 0 auto; padding: 78px 26px 0">
+    <div data-reveal style="text-align: center; margin-bottom: 30px">
+      <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.1; letter-spacing: -0.035em; margin: 0 0 12px">Pensado para nueve rubros</h2>
+      <p style="font-size: 17px; line-height: 1.6; color: var(--ink-2); margin: 0 auto; max-width: 58ch">La base es la misma. Lo que cambia es la ficha del cliente y el catálogo de servicios, y eso lo configuramos con vos.</p>
+    </div>
+    <div data-reveal style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center">
+      <a href="Landing Peluqueria.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Peluquería y barbería</a>
+      <a href="Landing Estetica.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Estética y spa</a>
+      <a href="Landing Unas.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Uñas y pestañas</a>
+      <a href="Landing Gimnasios.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Gimnasios</a>
+      <a href="Landing Odontologia.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Odontología</a>
+      <a href="Landing Kinesiologia.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Kinesiología</a>
+      <a href="Landing Nutricion.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Nutrición</a>
+      <a href="Landing Consultorios.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Consultorios médicos</a>
+      <a href="Landing Tatuajes.dc.html" style="font-size: 15px; font-weight: 600; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--line); padding: 13px 22px; border-radius: 999px; box-shadow: var(--sh-1); transition: transform .2s, box-shadow .2s, border-color .2s" style-hover="border-color: var(--brand); color: var(--brand); transform: translateY(-2px)">Tatuajes</a>
+    </div>
+  </section>
+
+  <section style="padding: 78px 26px 0">
+    <div data-reveal style="max-width: 1220px; margin: 0 auto; border-radius: var(--r-xl); background: var(--brand-solid); color: #fff; padding: 64px 38px; box-shadow: var(--sh-3); position: relative; overflow: hidden; text-align: center">
+      <div style="position: absolute; inset: 0; pointer-events: none; opacity: .22; background-image: radial-gradient(circle at 1px 1px, #fff 1.2px, transparent 0); background-size: 24px 24px; mask-image: radial-gradient(75% 75% at 50% 0%, #000 0%, transparent 72%)"></div>
+      <div style="position: relative; max-width: 680px; margin: 0 auto">
+        <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.06; letter-spacing: -0.035em; margin: 0 0 18px">¿Qué esperás? Cargá tus servicios hoy</h2>
+        <p style="font-size: 18px; line-height: 1.6; margin: 0 0 32px; color: rgba(255,255,255,.9)">14 días completos, sin tarjeta. Te damos de alta el local, cargamos tu catálogo y te dejamos la agenda funcionando. Mañana ya tomás turnos desde el link.</p>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center">
+          <a href="Alta.dc.html" style="font-size: 15.5px; font-weight: 700; text-decoration: none; color: var(--brand-solid-700); background: #fff; padding: 17px 30px; border-radius: 999px; transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="background: var(--warm); color: #2a1508; transform: translateY(-2px)">Crear mi cuenta de prueba</a>
+          <a href="{{ waLink }}" style="font-size: 15.5px; font-weight: 600; text-decoration: none; color: #fff; border: 1.5px solid rgba(255,255,255,.55); padding: 16px 28px; border-radius: 999px; transition: transform .22s, box-shadow .22s, border-color .22s" style-hover="background: rgba(255,255,255,.16); border-color: #fff">Escribir por WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="max-width: 1220px; margin: 0 auto; padding: 62px 26px 34px">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(50%, 200px), 1fr)); gap: 30px; padding-bottom: 28px; border-bottom: 1px solid var(--line-soft)">
+      <div>
+        <div style="display: flex; align-items: center; gap: 9px; margin-bottom: 12px">
+          <span style="width: 28px; height: 28px; border-radius: 10px; background: var(--brand-solid); display: grid; place-items: center">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.3" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+          </span>
+          <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em">Turnalia</span>
+        </div>
+        <p style="font-size: 14px; color: var(--ink-2); margin: 0; line-height: 1.6">Gestión de turnos para locales de servicios. Asunción, Paraguay.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px; font-size: 14px">
+        <span style="font-size: 11.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 3px">Producto</span>
+        <a href="Funciones.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Funciones</a>
+        <a href="Sistema.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">El sistema</a>
+        <a href="Precios.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Precios</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px; font-size: 14px">
+        <span style="font-size: 11.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 3px">Empezar</span>
+        <a href="Arranque.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Cómo arranca</a>
+        <a href="Rubros.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Rubros</a>
+        <a href="{{ waLink }}" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">WhatsApp</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px; font-size: 14px">
+        <span style="font-size: 11.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 3px">Cuenta</span>
+        <a href="Panel v3.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Iniciar sesión</a>
+        <a href="Precios.dc.html" style="text-decoration: none; color: var(--ink-2)" style-hover="color: var(--brand)">Probar gratis</a>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 20px; font-size: 13px; color: var(--ink-2)">
+      <span>© 2026 Turnalia</span>
+      <span style="display: flex; gap: 20px">
+        <a href="#" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">Términos</a>
+        <a href="#" style="text-decoration: none; color: inherit" style-hover="color: var(--brand)">Privacidad</a>
+      </span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;595981000000&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contacto&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    try {
+      document.documentElement.dataset.theme = localStorage.getItem("turnalia:tema") === "dark" ? "dark" : "light";
+    } catch (e) {}
+  }
+
+  renderVals() {
+    return {
+      waLink: "https://wa.me/" + (this.props.whatsapp ?? "595981000000"),
+      toggleTema: () => {
+        const oscuro = document.documentElement.dataset.theme !== "dark";
+        document.documentElement.dataset.theme = oscuro ? "dark" : "light";
+        try { localStorage.setItem("turnalia:tema", oscuro ? "dark" : "light"); } catch (e) {}
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

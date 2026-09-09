@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+<script src="./doc-page.js"></script>
+<style>doc-page:not(:defined) { visibility: hidden }</style>
+</helmet>
+
+<doc-page margin="0.8in">
+  <div style="font-family: Manrope, system-ui, sans-serif; color: #1a1030; font-size: 11pt; line-height: 1.6">
+
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 26px">
+      <span style="width: 30px; height: 30px; border-radius: 10px; background: #6a2be0; display: grid; place-items: center">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+      </span>
+      <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 15pt; letter-spacing: -0.02em">Turnalia</span>
+      <span style="margin-left: auto; font-size: 9pt; color: #5d5379">Paquete de entrega · septiembre 2026</span>
+    </div>
+
+    <h1 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 26pt; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 10px">Sistema de turnos multi-rubro</h1>
+    <p style="font-size: 12pt; color: #5d5379; margin: 0 0 30px; max-width: 60ch">Qué hay diseñado, con qué reglas, y qué falta definir antes de programarlo. El diseño vive en este proyecto como ocho páginas HTML navegables entre sí.</p>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 15pt; letter-spacing: -0.02em; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid #5b1fd0">Las ocho pantallas</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 10pt">
+      <thead>
+        <tr>
+          <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1px solid #ddd2f5; font-weight: 700">Archivo</th>
+          <th style="text-align: left; padding: 8px 10px; border-bottom: 1px solid #ddd2f5; font-weight: 700">Qué es</th>
+          <th style="text-align: left; padding: 8px 0 8px 10px; border-bottom: 1px solid #ddd2f5; font-weight: 700">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <sc-for list="{{ pantallas }}" as="p" hint-placeholder-count="8">
+          <tr>
+            <td style="padding: 9px 10px 9px 0; border-bottom: 1px solid #ece5fb; font-weight: 600">{{ p.archivo }}</td>
+            <td style="padding: 9px 10px; border-bottom: 1px solid #ece5fb; color: #5d5379">{{ p.que }}</td>
+            <td style="padding: 9px 0 9px 10px; border-bottom: 1px solid #ece5fb; color: #5d5379">{{ p.estado }}</td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 15pt; letter-spacing: -0.02em; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid #5b1fd0">Reglas de negocio que el diseño asume</h2>
+    <sc-for list="{{ reglas }}" as="r" hint-placeholder-count="8">
+      <div style="break-inside: avoid; padding: 11px 0; border-bottom: 1px solid #ece5fb">
+        <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 11pt; margin-bottom: 3px">{{ r.titulo }}</div>
+        <div style="font-size: 10pt; color: #5d5379; line-height: 1.55">{{ r.texto }}</div>
+      </div>
+    </sc-for>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 15pt; letter-spacing: -0.02em; margin: 34px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #5b1fd0">Sistema visual</h2>
+    <p style="font-size: 10.5pt; color: #5d5379; margin: 0 0 14px">Todo el color y la sombra viven en <strong style="color: #1a1030">turnalia.css</strong>, un solo archivo que las ocho páginas importan. Tema claro y oscuro con la misma hoja.</p>
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; break-inside: avoid">
+      <div>
+        <div style="height: 52px; border-radius: 10px; background: #6a2be0"></div>
+        <div style="font-size: 9pt; margin-top: 5px; font-weight: 600">#6A2BE0</div>
+        <div style="font-size: 8.5pt; color: #5d5379">--brand-solid · relleno fijo, no se invierte</div>
+      </div>
+      <div>
+        <div style="height: 52px; border-radius: 10px; background: #8f4512"></div>
+        <div style="font-size: 9pt; margin-top: 5px; font-weight: 600">#8F4512</div>
+        <div style="font-size: 8.5pt; color: #5d5379">--warm-solid · acento cálido</div>
+      </div>
+      <div>
+        <div style="height: 52px; border-radius: 10px; background: #4b4463"></div>
+        <div style="font-size: 9pt; margin-top: 5px; font-weight: 600">#4B4463</div>
+        <div style="font-size: 8.5pt; color: #5d5379">--neutral-solid · avatares</div>
+      </div>
+      <div>
+        <div style="height: 52px; border-radius: 10px; background: #faf8ff; border: 1px solid #ddd2f5"></div>
+        <div style="font-size: 9pt; margin-top: 5px; font-weight: 600">#FAF8FF</div>
+        <div style="font-size: 8.5pt; color: #5d5379">--bg · fondo claro</div>
+      </div>
+    </div>
+    <div style="font-size: 10pt; color: #5d5379; line-height: 1.7; break-inside: avoid">
+      <div><strong style="color: #1a1030">Tipografía.</strong> Outfit 700 para títulos (tracking −0.03em), Manrope 400/600/700 para texto. Ambas de Google Fonts.</div>
+      <div><strong style="color: #1a1030">Radios.</strong> 12 / 20 / 30 / 42 px, y 999px para botones y píldoras.</div>
+      <div><strong style="color: #1a1030">Regla de contraste.</strong> Los tokens terminados en <em>-solid</em> son rellenos que llevan texto blanco y valen lo mismo en los dos temas. Los otros son para texto y bordes, y sí se invierten: <em>--brand</em> vale #6A2BE0 en claro y #A985FF en oscuro. No mezclarlos.</div>
+      <div><strong style="color: #1a1030">Animación.</strong> El revelado al scroll es CSS puro (<em>animation-timeline: view()</em>). Donde el navegador no lo soporta, el contenido se ve sin animación. No hay JavaScript de animación.</div>
+    </div>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 15pt; letter-spacing: -0.02em; margin: 34px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #5b1fd0">Falta definir</h2>
+    <sc-for list="{{ pendientes }}" as="p" hint-placeholder-count="5">
+      <div style="break-inside: avoid; display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid #ece5fb">
+        <span style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #8f4512; margin-top: 8px"></span>
+        <span>
+          <span style="display: block; font-family: Outfit, sans-serif; font-weight: 700; font-size: 10.5pt">{{ p.titulo }}</span>
+          <span style="display: block; font-size: 10pt; color: #5d5379; line-height: 1.55">{{ p.texto }}</span>
+        </span>
+      </div>
+    </sc-for>
+
+    <p style="font-size: 9.5pt; color: #5d5379; margin: 30px 0 0; padding-top: 14px; border-top: 1px solid #ddd2f5">Los datos que se ven en las pantallas son de ejemplo: nombres, precios y montos son inventados para que el diseño se lea con contenido real. El local de la demo se llama Studio Kuña.</p>
+
+  </div>
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      pantallas: [
+        { archivo: "Landing v4", que: "Página principal: héroe con foto, cuatro bloques de valor, recall, rubros y cierre", estado: "Diseño cerrado" },
+        { archivo: "Rubros", que: "Selector de nueve rubros con ficha, catálogo y agenda de ejemplo de cada uno", estado: "Diseño cerrado" },
+        { archivo: "Sistema", que: "Las cuatro pantallas del producto explicadas: agenda, ficha, caja y equipo", estado: "Diseño cerrado" },
+        { archivo: "Funciones", que: "Las diez funciones en tarjetas, más una sección de lo que el sistema no hace", estado: "Diseño cerrado" },
+        { archivo: "Arranque", que: "Los cuatro pasos de puesta en marcha, requisitos y preguntas frecuentes", estado: "Diseño cerrado" },
+        { archivo: "Precios", que: "Planes Individual y Equipo, lo incluido en ambos y preguntas sobre el pago", estado: "Precios a definir" },
+        { archivo: "Landing <rubro> (×9)", que: "Una página por rubro con su titular, sus problemas, su ficha y su catálogo", estado: "Diseño cerrado" },
+        { archivo: "Alta", que: "Puesta en marcha en cinco pasos: rubro, local, horario, catálogo y equipo", estado: "Diseño cerrado" },
+        { archivo: "Panel v4", que: "Demo del staff: login por rol y 18 vistas navegables con datos de ejemplo", estado: "Diseño cerrado" },
+        { archivo: "Portal v4", que: "Lo que ve el cliente: reserva en tres pasos, sus turnos, su historial y sus datos", estado: "Diseño cerrado" },
+        { archivo: "Portal Móvil", que: "Las tres pantallas clave del portal en un iPhone, con hit targets de 46 px", estado: "Diseño cerrado" },
+        { archivo: "Modelo de datos", que: "Las 22 tablas, las 9 reglas de negocio en SQL y los permisos por rol para Supabase", estado: "Para revisar con quien programe" }
+      ],
+      reglas: [
+        { titulo: "Un turno bloquea profesional y recurso", texto: "La validación al guardar debe cubrir las dos cosas: la persona y el sillón, cabina o consultorio. Si alguno está ocupado en ese rango, no se guarda." },
+        { titulo: "La duración la define el servicio", texto: "El largo del turno sale del catálogo, no lo elige quien agenda. Si el servicio cambia de duración, los turnos ya agendados mantienen la que tenían." },
+        { titulo: "El precio se congela al agendar", texto: "Un cambio de precios no altera turnos ya cargados. El cobro usa el precio con el que se agendó." },
+        { titulo: "La ficha es por rubro", texto: "Los campos de la ficha del cliente son un esquema configurable por local, no columnas fijas de una tabla. Los campos no usados no se muestran." },
+        { titulo: "WhatsApp se abre, no se envía", texto: "Los recordatorios y el recall generan el texto y abren wa.me con el mensaje cargado. No hay API de mensajería ni envío automático." },
+        { titulo: "La caja es por turno de trabajo", texto: "Apertura con monto inicial, cobros durante el turno, cierre con efectivo contado. La diferencia queda guardada con usuario, hora y motivo." },
+        { titulo: "Cuatro roles, permisos por usuario", texto: "Dueño, profesional, recepción y cajero son plantillas de permisos, no roles rígidos: cada permiso se puede ajustar usuario por usuario." },
+        { titulo: "El profesional solo ve lo suyo", texto: "Agenda propia, fichas de sus clientes y su producción. No accede a reportes generales ni a precios." },
+        { titulo: "Un local por cuenta", texto: "El modelo de datos debería contemplar varias sedes a futuro, pero la interfaz actual asume un solo local." }
+      ],
+      pendientes: [
+        { titulo: "Nombre definitivo", texto: "Turnalia es un nombre de trabajo. Al cambiarlo hay que tocar el logo, el título de las ocho páginas y el pie." },
+        { titulo: "Precios reales", texto: "Gs. 150.000 y Gs. 350.000 son marcadores. Definir también si hay diferencia por cantidad de profesionales." },
+        { titulo: "WhatsApp y datos de contacto", texto: "Hoy todas las páginas apuntan a un número ficticio, editable desde un solo lugar en cada página." },
+        { titulo: "Fotografía", texto: "Hay ocho espacios marcados esperando imágenes reales de locales, atenciones y equipo." },
+        { titulo: "Facturación legal", texto: "El diseño solo promete comprobante interno en PDF. Si se suma facturación, cambia la pantalla de caja y el texto de tres páginas." },
+        { titulo: "Los textos de las 9 landings por rubro", texto: "Cada página afirma cosas concretas del rubro (comisiones, cabinas, odontograma, cuotas). Hay que revisar que todas sean ciertas para el producto que se va a programar." }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

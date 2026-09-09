@@ -1,0 +1,149 @@
+/* Estados interactivos del diseño.
+   Van acá y no en línea porque :hover y :focus no se pueden expresar con
+   el atributo style. Los valores salen tal cual de los `style-hover` y
+   `style-focus` de los .dc.html. ara.css queda intacto. */
+
+.campo {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 11px 13px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  transition: box-shadow 0.16s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.16s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.campo:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-50);
+}
+
+.boton-primario {
+  width: 100%;
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--brand-solid);
+  color: #fff;
+  box-shadow: var(--sh-2);
+  transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    box-shadow 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    background 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.boton-primario:hover:not(:disabled) {
+  background: var(--brand-solid-700);
+  transform: translateY(-1px);
+  box-shadow: var(--sh-3);
+}
+.boton-primario:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+/* Items del menú lateral. El activo lleva relleno sólido con texto blanco:
+   --brand-solid, no --brand, o en tema oscuro queda lila con letra blanca. */
+.item-menu {
+  appearance: none;
+  border: 0;
+  width: calc(100% - 16px);
+  margin: 1px 8px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  font-size: 13.5px;
+  font-family: inherit;
+  border-radius: 10px;
+  font-weight: 400;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.16s cubic-bezier(0.2, 0.7, 0.3, 1),
+    color 0.16s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.item-menu:hover {
+  background: var(--brand-50);
+  color: var(--brand-700);
+}
+.item-menu[data-activo='true'] {
+  font-weight: 600;
+  background: var(--brand-solid);
+  color: #fff;
+}
+.item-menu[data-activo='true']:hover {
+  background: var(--brand-solid-700);
+  color: #fff;
+}
+
+.boton-icono {
+  position: relative;
+  appearance: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  transition: background 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    color 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.boton-icono:hover {
+  background: var(--brand-50);
+  border-color: var(--brand-100);
+  color: var(--brand-700);
+}
+
+.selector-local {
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  padding: 9px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: background 0.16s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.selector-local:hover {
+  background: var(--surface-2);
+}
+
+.boton-salir {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 0;
+  border-left: 1px solid var(--line-soft);
+  padding: 4px 0 4px 10px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--ink);
+  transition: opacity 0.16s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.boton-salir:hover {
+  opacity: 0.72;
+}

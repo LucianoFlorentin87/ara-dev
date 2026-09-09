@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./turnalia.css">
+<script src="./doc-page.js"></script>
+<style>doc-page:not(:defined) { visibility: hidden }</style>
+</helmet>
+
+<doc-page margin="0.75in">
+  <div style="font-family: Manrope, system-ui, sans-serif; color: #1a1030; font-size: 10.5pt; line-height: 1.6">
+
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 24px">
+      <span style="width: 28px; height: 28px; border-radius: 9px; background: #6a2be0; display: grid; place-items: center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="4"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+      </span>
+      <span style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 14pt; letter-spacing: -0.02em">Turnalia</span>
+      <span style="margin-left: auto; font-size: 8.5pt; color: #5d5379">Modelo de datos · Supabase · septiembre 2026</span>
+    </div>
+
+    <h1 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 24pt; line-height: 1.1; letter-spacing: -0.03em; margin: 0 0 10px">Base de datos y permisos</h1>
+    <p style="font-size: 11.5pt; color: #5d5379; margin: 0 0 12px; max-width: 62ch">Las tablas, las relaciones y las reglas de acceso que hacen falta para programar las 18 pantallas diseñadas. Escrito para Postgres sobre Supabase.</p>
+    <div style="background: #f4efff; border: 1px solid #ddd2f5; border-radius: 12px; padding: 14px 16px; margin-bottom: 26px; font-size: 10pt; line-height: 1.6">
+      <strong>Regla que gobierna todo:</strong> una sola base para todos los locales, con <code style="font-family: 'JetBrains Mono', monospace; font-size: 9.5pt; background: #fff; padding: 1px 5px; border-radius: 4px">local_id</code> en cada tabla y Row Level Security filtrando por él. Ninguna consulta del frontend decide qué puede ver alguien: lo decide la base.
+    </div>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 14pt; letter-spacing: -0.02em; margin: 0 0 6px; padding-bottom: 7px; border-bottom: 2px solid #6a2be0">1 · Las tablas</h2>
+    <p style="font-size: 10pt; color: #5d5379; margin: 10px 0 16px">Veintidós tablas. Todas llevan <code style="font-family: 'JetBrains Mono', monospace; font-size: 9.5pt">id uuid primary key default gen_random_uuid()</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 9.5pt">created_at</code> y, salvo <code style="font-family: 'JetBrains Mono', monospace; font-size: 9.5pt">locales</code> y <code style="font-family: 'JetBrains Mono', monospace; font-size: 9.5pt">planes</code>, también <code style="font-family: 'JetBrains Mono', monospace; font-size: 9.5pt">local_id</code>.</p>
+
+    <sc-for list="{{ bloques }}" as="b" hint-placeholder-count="6">
+      <div style="break-inside: avoid; margin-bottom: 22px">
+        <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 11pt; margin-bottom: 3px">{{ b.titulo }}</div>
+        <div style="font-size: 9.5pt; color: #5d5379; margin-bottom: 10px">{{ b.nota }}</div>
+        <sc-for list="{{ b.tablas }}" as="t" hint-placeholder-count="3">
+          <div style="break-inside: avoid; border: 1px solid #ece5fb; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px">
+            <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 7px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 10pt; color: #6a2be0">{{ t.nombre }}</span>
+              <span style="font-size: 9.5pt; color: #5d5379">{{ t.que }}</span>
+            </div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10pt; line-height: 1.8; color: #1a1030">{{ t.campos }}</div>
+            <sc-if value="{{ t.ojo }}">
+              <div style="font-size: 9pt; color: #8f4512; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ffd9bd; line-height: 1.5">{{ t.ojo }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 14pt; letter-spacing: -0.02em; margin: 30px 0 6px; padding-bottom: 7px; border-bottom: 2px solid #6a2be0">2 · Las reglas que la base debe hacer cumplir</h2>
+    <p style="font-size: 10pt; color: #5d5379; margin: 10px 0 14px">Nueve reglas que no pueden vivir solo en el frontend. Van como constraints, triggers o funciones.</p>
+    <sc-for list="{{ reglas }}" as="r" hint-placeholder-count="9">
+      <div style="break-inside: avoid; display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid #ece5fb">
+        <span style="flex: none; width: 22px; height: 22px; border-radius: 999px; background: #6a2be0; color: #fff; display: grid; place-items: center; font-size: 8.5pt; font-weight: 700; margin-top: 2px">{{ r.n }}</span>
+        <span>
+          <span style="display: block; font-family: Outfit, sans-serif; font-weight: 700; font-size: 10.5pt">{{ r.titulo }}</span>
+          <span style="display: block; font-size: 9.5pt; color: #5d5379; line-height: 1.55; margin-top: 2px">{{ r.texto }}</span>
+          <sc-if value="{{ r.como }}">
+            <span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 9.5pt; color: #4c15b5; margin-top: 5px; line-height: 1.5">{{ r.como }}</span>
+          </sc-if>
+        </span>
+      </div>
+    </sc-for>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 14pt; letter-spacing: -0.02em; margin: 30px 0 6px; padding-bottom: 7px; border-bottom: 2px solid #6a2be0">3 · Quién ve qué (Row Level Security)</h2>
+    <p style="font-size: 10pt; color: #5d5379; margin: 10px 0 14px">RLS activo en <strong style="color: #1a1030">todas</strong> las tablas. Sin esto, un bug del frontend expone los datos de otro local.</p>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 9.5pt">
+      <thead>
+        <tr>
+          <th style="text-align: left; padding: 7px 8px 7px 0; border-bottom: 1px solid #ddd2f5; font-weight: 700">Tabla</th>
+          <th style="text-align: left; padding: 7px 8px; border-bottom: 1px solid #ddd2f5; font-weight: 700">Dueño</th>
+          <th style="text-align: left; padding: 7px 8px; border-bottom: 1px solid #ddd2f5; font-weight: 700">Profesional</th>
+          <th style="text-align: left; padding: 7px 8px; border-bottom: 1px solid #ddd2f5; font-weight: 700">Recepción</th>
+          <th style="text-align: left; padding: 7px 0 7px 8px; border-bottom: 1px solid #ddd2f5; font-weight: 700">Cajero</th>
+        </tr>
+      </thead>
+      <tbody>
+        <sc-for list="{{ permisos }}" as="p" hint-placeholder-count="12">
+          <tr>
+            <td style="padding: 7px 8px 7px 0; border-bottom: 1px solid #ece5fb; font-family: 'JetBrains Mono', monospace; font-size: 9.5pt">{{ p.tabla }}</td>
+            <td style="padding: 7px 8px; border-bottom: 1px solid #ece5fb; color: #5d5379">{{ p.dueno }}</td>
+            <td style="padding: 7px 8px; border-bottom: 1px solid #ece5fb; color: #5d5379">{{ p.prof }}</td>
+            <td style="padding: 7px 8px; border-bottom: 1px solid #ece5fb; color: #5d5379">{{ p.recep }}</td>
+            <td style="padding: 7px 0 7px 8px; border-bottom: 1px solid #ece5fb; color: #5d5379">{{ p.caja }}</td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+    <div style="background: #fff2e7; border: 1px solid #ff9f5a; border-radius: 12px; padding: 14px 16px; font-size: 9.5pt; line-height: 1.6; break-inside: avoid">
+      <strong style="color: #8f4512">Los dos casos que se escapan.</strong> El <strong>cliente final</strong> entra al portal por su celular verificado, no como usuario del local: necesita su propio rol, que solo lee sus turnos y su ficha. Y la <strong>reserva online</strong> es pública: expone servicios, profesionales y huecos libres, sin ver un solo nombre de otro cliente. Las dos cosas van por funciones con <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt">security definer</code>, no abriendo las tablas.
+    </div>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 14pt; letter-spacing: -0.02em; margin: 30px 0 6px; padding-bottom: 7px; border-bottom: 2px solid #6a2be0">4 · La política base, escrita</h2>
+    <p style="font-size: 10pt; color: #5d5379; margin: 10px 0 12px">Este patrón se repite en cada tabla, cambiando el nombre y el rol que puede escribir.</p>
+    <pre style="font-family: 'JetBrains Mono', monospace; font-size: 10pt; line-height: 1.7; background: #f4efff; border: 1px solid #ddd2f5; border-radius: 12px; padding: 16px; overflow: hidden; white-space: pre-wrap; word-break: break-word; margin: 0 0 14px; break-inside: avoid">{{ sqlBase }}</pre>
+    <pre style="font-family: 'JetBrains Mono', monospace; font-size: 10pt; line-height: 1.7; background: #f4efff; border: 1px solid #ddd2f5; border-radius: 12px; padding: 16px; overflow: hidden; white-space: pre-wrap; word-break: break-word; margin: 0 0 14px; break-inside: avoid">{{ sqlProf }}</pre>
+    <pre style="font-family: 'JetBrains Mono', monospace; font-size: 10pt; line-height: 1.7; background: #f4efff; border: 1px solid #ddd2f5; border-radius: 12px; padding: 16px; overflow: hidden; white-space: pre-wrap; word-break: break-word; margin: 0; break-inside: avoid">{{ sqlChoque }}</pre>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 14pt; letter-spacing: -0.02em; margin: 30px 0 6px; padding-bottom: 7px; border-bottom: 2px solid #6a2be0">5 · Decisiones de infraestructura</h2>
+    <sc-for list="{{ infra }}" as="i" hint-placeholder-count="7">
+      <div style="break-inside: avoid; padding: 11px 0; border-bottom: 1px solid #ece5fb">
+        <div style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 10.5pt; margin-bottom: 2px">{{ i.titulo }}</div>
+        <div style="font-size: 9.5pt; color: #5d5379; line-height: 1.55">{{ i.texto }}</div>
+      </div>
+    </sc-for>
+
+    <h2 style="font-family: Outfit, sans-serif; font-weight: 700; font-size: 14pt; letter-spacing: -0.02em; margin: 30px 0 6px; padding-bottom: 7px; border-bottom: 2px solid #6a2be0">6 · Lo que falta decidir</h2>
+    <sc-for list="{{ pendientes }}" as="p" hint-placeholder-count="5">
+      <div style="break-inside: avoid; display: flex; gap: 11px; padding: 10px 0; border-bottom: 1px solid #ece5fb">
+        <span style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #8f4512; margin-top: 7px"></span>
+        <span>
+          <span style="display: block; font-family: Outfit, sans-serif; font-weight: 700; font-size: 10.5pt">{{ p.titulo }}</span>
+          <span style="display: block; font-size: 9.5pt; color: #5d5379; line-height: 1.55">{{ p.texto }}</span>
+        </span>
+      </div>
+    </sc-for>
+
+    <p style="font-size: 9pt; color: #5d5379; margin: 26px 0 0; padding-top: 12px; border-top: 1px solid #ddd2f5">Este documento describe lo que el diseño necesita de la base, no una implementación cerrada. Quien programe puede resolverlo distinto mientras las nueve reglas de la sección 2 y los permisos de la 3 se cumplan.</p>
+
+  </div>
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      bloques: [
+        { titulo: "El local y su gente", nota: "La raíz de todo. Sin local_id, ninguna fila tiene dueño.",
+          tablas: [
+            { nombre: "locales", que: "un negocio con su cuenta",
+              campos: "nombre · slug (único, va en la URL de reserva) · rubro · direccion · telefono_wa · instagram · zona_horaria · moneda · plan_id · estado (prueba | activo | suspendido) · prueba_hasta",
+              ojo: "El slug es lo que hace turnalia.com.py/studiokuna. Único a nivel global, no por local." },
+            { nombre: "usuarios", que: "extiende auth.users de Supabase",
+              campos: "auth_id (fk a auth.users) · local_id · nombre · email · rol (dueno | profesional | recepcion | cajero) · activo · ultimo_acceso",
+              ojo: "Una persona que trabaja en dos locales necesita dos filas. Es a propósito: los permisos son por local." },
+            { nombre: "profesionales", que: "el perfil público y laboral de quien atiende",
+              campos: "usuario_id · nombre_publico · especialidad · anios_oficio · bio · foto_url · slug (su link propio) · comision_servicios · comision_productos · acepta_reservas_online · orden",
+              ojo: "Separada de usuarios porque la recepción no atiende y un profesional puede existir sin login (todavía no lo invitaron)." },
+            { nombre: "recursos", que: "cabinas, sillones, consultorios, salas",
+              campos: "nombre · tipo · capacidad · activo",
+              ojo: "Sin esta tabla no se puede impedir que dos tratamientos usen la misma camilla." },
+            { nombre: "horarios", que: "cuándo abre el local y cuándo trabaja cada uno",
+              campos: "profesional_id (null = el local) · dia_semana (0-6) · hora_inicio · hora_fin",
+              ojo: "El horario del profesional siempre debe caer dentro del horario del local." },
+            { nombre: "bloqueos", que: "vacaciones, feriados, ausencias",
+              campos: "profesional_id (null = todo el local) · desde · hasta · motivo",
+              ojo: "Un bloqueo tiene que sacar esos horarios de la reserva online, no solo pintarlos en la agenda." } ] },
+
+        { titulo: "El catálogo", nota: "Define la duración de los turnos y el precio de los cobros.",
+          tablas: [
+            { nombre: "servicios", que: "qué ofrece el local",
+              campos: "nombre · categoria · duracion_min · precio · requiere_sena · sena_monto · activo · visible_online · orden",
+              ojo: "duracion_min es lo que dicta cuánto ocupa el turno. No lo elige quien agenda." },
+            { nombre: "servicios_profesionales", que: "quién hace qué, y a qué precio",
+              campos: "servicio_id · profesional_id · precio_propio (null = usa el del servicio) · duracion_propia",
+              ojo: "Resuelve dos cosas del diseño: que a un profesional no se le pueda agendar lo que no hace, y que cobre distinto por lo mismo." },
+            { nombre: "paquetes", que: "series de sesiones vendidas juntas",
+              campos: "nombre · servicio_id · cantidad_sesiones · precio_total · vencimiento_dias" } ] },
+
+        { titulo: "Clientes y turnos", nota: "El corazón. Acá está la regla de la doble reserva.",
+          tablas: [
+            { nombre: "clientes", que: "quien se atiende",
+              campos: "nombre · apellido · celular · email · fecha_nac · notas · profesional_habitual_id · origen · primera_visita · ultima_visita",
+              ojo: "celular único por local: es la llave con la que el cliente entra al portal." },
+            { nombre: "fichas", que: "los campos propios del rubro",
+              campos: "cliente_id · datos (jsonb) · actualizado_por · actualizado_en",
+              ojo: "jsonb y no columnas fijas: la ficha de una peluquería y la de un consultorio no se parecen. El esquema de campos por rubro va en locales.config." },
+            { nombre: "turnos", que: "una cita",
+              campos: "cliente_id · profesional_id · servicio_id · recurso_id · inicio · fin · estado (pendiente | confirmado | en_atencion | terminado | ausente | cancelado) · precio_congelado · origen (mostrador | online | telefono) · sena_pagada · notas · paquete_cliente_id",
+              ojo: "precio_congelado se copia al crear el turno. Un cambio de precios no puede alterar turnos ya agendados." },
+            { nombre: "lista_espera", que: "quiere venir pero no hay lugar",
+              campos: "cliente_id · servicio_id · profesional_id · desde · hasta · avisado_en" },
+            { nombre: "paquetes_clientes", que: "el paquete que compró alguien",
+              campos: "cliente_id · paquete_id · sesiones_usadas · saldo_pendiente · vence_el" },
+            { nombre: "archivos", que: "fotos de evolución, radiografías, consentimientos",
+              campos: "cliente_id · turno_id · tipo · storage_path · subido_por",
+              ojo: "El archivo vive en Supabase Storage, en un bucket privado. Acá solo va la ruta." } ] },
+
+        { titulo: "Plata", nota: "Caja por turno de trabajo, no por día calendario.",
+          tablas: [
+            { nombre: "cajas", que: "un turno de caja abierto y cerrado",
+              campos: "abierta_por · abierta_en · monto_inicial · cerrada_por · cerrada_en · monto_declarado · monto_sistema · diferencia · motivo_diferencia",
+              ojo: "La diferencia se guarda con quién, cuándo y por qué. Es el dato que evita discusiones." },
+            { nombre: "cobros", que: "lo que entró",
+              campos: "caja_id · turno_id · cliente_id · monto · medio_pago · concepto · comprobante_nro · anulado · anulado_motivo",
+              ojo: "Un cobro no se borra nunca: se anula con motivo y queda en la tabla." },
+            { nombre: "productos", que: "insumos y venta",
+              campos: "nombre · categoria · tipo (insumo | venta) · stock · stock_minimo · costo · precio_venta" },
+            { nombre: "movimientos_stock", que: "cada entrada y salida",
+              campos: "producto_id · cantidad (+/-) · motivo · turno_id · usuario_id" } ] },
+
+        { titulo: "Suscripción", nota: "Fuera de local_id: es tu negocio, no el del cliente.",
+          tablas: [
+            { nombre: "planes", que: "Individual y Equipo",
+              campos: "nombre · precio_mensual · max_usuarios · modulos (jsonb)" },
+            { nombre: "suscripciones", que: "qué paga cada local",
+              campos: "local_id · plan_id · desde · hasta · estado · ultimo_pago" },
+            { nombre: "auditoria", que: "quién cambió qué y cuándo",
+              campos: "local_id · tabla · fila_id · accion (insert | update | delete) · usuario_id · antes (jsonb) · despues (jsonb) · cuando",
+              ojo: "Solo escribe el trigger, nunca la aplicación. Nadie la puede editar ni borrar, tampoco el dueño." } ] }
+      ],
+
+      reglas: [
+        { n: "1", titulo: "Dos turnos no pueden pisarse", como: "exclude using gist (profesional_id with =, tstzrange(inicio, fin) with &&) where (estado not in ('cancelado','ausente'))",
+          texto: "Constraint de exclusión en Postgres, no un chequeo en el código. Es la única forma de que no se cuele por una condición de carrera cuando dos personas agendan al mismo tiempo." },
+        { n: "2", titulo: "El recurso tampoco", como: "el mismo exclude, con recurso_id",
+          texto: "Segunda constraint idéntica sobre la cabina o el consultorio. Sin esto, dos tratamientos caen en la misma camilla." },
+        { n: "3", titulo: "El fin lo calcula la base", como: "trigger before insert: fin := inicio + duracion del servicio (la propia del profesional si tiene)",
+          texto: "Nunca lo manda el frontend. Si lo mandara, un cliente malicioso podría pedir un turno de un minuto para colarse en un hueco." },
+        { n: "4", titulo: "El precio se congela al agendar", como: "trigger before insert: precio_congelado := precio vigente",
+          texto: "El cobro usa precio_congelado, no el precio actual del catálogo." },
+        { n: "5", titulo: "El turno cae dentro del horario", como: "trigger que valida contra horarios y bloqueos",
+          texto: "Vale también para el mostrador, no solo para la reserva online: si el profesional está de vacaciones, no se le puede agendar ni a mano." },
+        { n: "6", titulo: "Solo se agenda lo que el profesional hace", como: "trigger que exige fila en servicios_profesionales",
+          texto: "Lo pide la vista Mi perfil del diseño." },
+        { n: "7", titulo: "El cobro descuenta stock", como: "trigger after insert sobre cobros",
+          texto: "Los insumos del servicio y los productos vendidos bajan del stock en la misma transacción." },
+        { n: "8", titulo: "La sesión del paquete se descuenta sola", como: "trigger cuando el turno pasa a terminado",
+          texto: "sesiones_usadas sube una. Si llegó al total, el paquete se cierra." },
+        { n: "9", titulo: "Todo cambio queda registrado", como: "tabla auditoria: tabla, fila_id, accion, usuario_id, antes, despues, cuando",
+          texto: "Precios, permisos, cobros anulados y fichas clínicas. En salud esto no es opcional." }
+      ],
+
+      permisos: [
+        { tabla: "turnos", dueno: "todo", prof: "los suyos", recep: "todos", caja: "lectura" },
+        { tabla: "clientes", dueno: "todo", prof: "los que atendió", recep: "todos", caja: "lectura" },
+        { tabla: "fichas", dueno: "todo", prof: "los que atendió", recep: "sin acceso", caja: "sin acceso" },
+        { tabla: "archivos", dueno: "todo", prof: "los que atendió", recep: "sin acceso", caja: "sin acceso" },
+        { tabla: "cobros", dueno: "todo", prof: "los propios", recep: "sin acceso", caja: "crea y lee" },
+        { tabla: "cajas", dueno: "todo", prof: "sin acceso", recep: "sin acceso", caja: "abre y cierra" },
+        { tabla: "servicios", dueno: "todo", prof: "lectura", recep: "lectura", caja: "lectura" },
+        { tabla: "servicios_profesionales", dueno: "todo", prof: "el suyo", recep: "lectura", caja: "lectura" },
+        { tabla: "profesionales", dueno: "todo", prof: "el suyo", recep: "lectura", caja: "lectura" },
+        { tabla: "horarios · bloqueos", dueno: "todo", prof: "los suyos", recep: "lectura", caja: "sin acceso" },
+        { tabla: "productos · stock", dueno: "todo", prof: "lectura", recep: "sin acceso", caja: "crea y lee" },
+        { tabla: "usuarios", dueno: "todo", prof: "el suyo", recep: "el suyo", caja: "el suyo" },
+        { tabla: "suscripciones", dueno: "lectura", prof: "sin acceso", recep: "sin acceso", caja: "sin acceso" },
+        { tabla: "auditoria", dueno: "lectura", prof: "sin acceso", recep: "sin acceso", caja: "sin acceso" }
+      ],
+
+      sqlBase: `-- Qué local soy y qué rol tengo. Se usa en cada política.
+create function mi_local() returns uuid language sql stable security definer as $$
+  select local_id from usuarios where auth_id = auth.uid() and activo
+$$;
+
+create function mi_rol() returns text language sql stable security definer as $$
+  select rol from usuarios where auth_id = auth.uid() and activo
+$$;
+
+-- El piso de todo: nadie sale de su local. Se repite en las 20 tablas
+-- que llevan local_id (todas menos locales y planes).
+alter table turnos enable row level security;
+
+create policy aislar_local on turnos
+  for all using (local_id = mi_local());`,
+
+      sqlProf: `-- Encima del aislamiento, el filtro por rol.
+create policy turnos_lectura on turnos for select using (
+  local_id = mi_local() and (
+    mi_rol() in ('dueno', 'recepcion', 'cajero')
+    or profesional_id = (select id from profesionales
+                         where usuario_id = (select id from usuarios
+                                             where auth_id = auth.uid()))
+  )
+);
+
+-- La ficha es más estricta: recepción y caja no entran nunca.
+create policy fichas_lectura on fichas for select using (
+  local_id = mi_local() and (
+    mi_rol() = 'dueno'
+    or exists (select 1 from turnos t
+               where t.cliente_id = fichas.cliente_id
+                 and t.profesional_id = mi_profesional())
+  )
+);`,
+
+      sqlChoque: `-- La regla más importante del sistema. Postgres la hace cumplir sola.
+create extension if not exists btree_gist;
+
+alter table turnos add constraint sin_choque_profesional
+  exclude using gist (
+    profesional_id with =,
+    tstzrange(inicio, fin) with &&
+  ) where (estado not in ('cancelado', 'ausente'));
+
+alter table turnos add constraint sin_choque_recurso
+  exclude using gist (
+    recurso_id with =,
+    tstzrange(inicio, fin) with &&
+  ) where (recurso_id is not null
+           and estado not in ('cancelado', 'ausente'));`,
+
+      infra: [
+        { titulo: "Región: São Paulo (sa-east-1)", texto: "Desde Asunción son unos 30 ms contra 130 de Virginia. En una agenda que se recarga todo el tiempo, se nota. Se elige al crear el proyecto y después no se cambia sin migrar." },
+        { titulo: "Fecha y hora: timestamptz siempre", texto: "Guardar en UTC y mostrar en la zona del local. Paraguay tiene horario de verano: con timestamp sin zona, dos veces al año la agenda se corre una hora." },
+        { titulo: "Plata: numeric(12,2), nunca float", texto: "El guaraní no tiene centavos, pero numeric evita los errores de redondeo que aparecen al sumar una caja entera." },
+        { titulo: "Archivos: bucket privado con URL firmada", texto: "Radiografías y fotos de evolución no pueden estar en un bucket público. Se sirven con URL firmada de vida corta, y la política del bucket repite la regla de la tabla archivos." },
+        { titulo: "Índices que van a hacer falta", texto: "turnos (local_id, inicio), turnos (profesional_id, inicio), clientes (local_id, celular), cobros (caja_id). La agenda del día y la búsqueda de cliente son las dos consultas que se hacen mil veces por día." },
+        { titulo: "Recordatorios: sin backend", texto: "El diseño abre wa.me con el texto armado, así que no hace falta cron ni proveedor de mensajería. Si más adelante querés envío automático, ahí sí entra una Edge Function con pg_cron." },
+        { titulo: "Backups", texto: "El plan Pro de Supabase trae backup diario. Para datos clínicos conviene además un export semanal propio: el dato de un consultorio no se recupera de ningún lado." }
+      ],
+
+      pendientes: [
+        { titulo: "Qué pasa si un local se da de baja", texto: "¿Los datos se borran, se archivan, o quedan en solo lectura? Afecta a locales.estado y a las políticas: hoy el diseño solo promete que son exportables." },
+        { titulo: "El esquema de campos por rubro", texto: "fichas.datos es jsonb, pero alguien tiene que definir los campos de cada uno de los nueve rubros y validarlos. Va en locales.config o en una tabla aparte." },
+        { titulo: "Varias sedes", texto: "El modelo lo soporta si se agrega una tabla empresas por encima de locales. Decidilo ahora aunque no lo uses: agregarlo después obliga a migrar todas las políticas." },
+        { titulo: "Facturación legal", texto: "Si entra la DNIT, cobros necesita timbrado, punto de expedición y numeración correlativa por sucursal. Cambia la tabla y la pantalla de caja." },
+        { titulo: "Cómo entra el cliente al portal", texto: "El diseño asume celular más código por WhatsApp. Supabase Auth hace OTP por SMS, que tiene costo. La alternativa es un link mágico por email o un código que genera el propio local." }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
