@@ -104,6 +104,18 @@ export function fechaLarga(fechaISO: string, zona = ZONA): string {
   return texto.charAt(0).toUpperCase() + texto.slice(1)
 }
 
+/**
+ * El instante actual, aislado en una función.
+ *
+ * Leer el reloj es impuro y React lo prohíbe dentro de un componente. En un
+ * server component que se renderiza una vez por request es justo lo que se
+ * quiere —la línea de "ahora" en la agenda, cuál es el próximo turno— y
+ * tenerlo en un solo lugar además deja dónde falsearlo para probar.
+ */
+export function ahoraMs(): number {
+  return Date.now()
+}
+
 export function guaranies(monto: number): string {
   return 'Gs. ' + Math.round(monto).toLocaleString('es-PY')
 }

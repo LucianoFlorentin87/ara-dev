@@ -10,6 +10,7 @@ import {
   diaSemana,
   sumarDias,
   fechaLarga,
+  ahoraMs,
   guaranies,
 } from '@/lib/tiempo'
 import { Grilla, type Profesional } from './grilla'
@@ -230,7 +231,7 @@ export default async function Agenda({
 
   // La línea de "ahora" solo tiene sentido si estamos mirando hoy y el
   // local está abierto en este momento.
-  const ahora = new Date()
+  const ahora = new Date(ahoraMs())
   const minutosAhora = (ahora.getTime() - inicioGrilla.getTime()) / 60000
   const esHoy = fecha === hoyISO()
   const lineaAhora =
