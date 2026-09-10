@@ -5,7 +5,7 @@ import { gruposVisibles, ETIQUETA_ROL, iniciales } from '@/lib/menu'
 import { salir } from '@/app/login/acciones'
 import { Navegacion } from './navegacion'
 import { TituloVista } from './titulo'
-import { BotonTema } from './tema'
+import { BotonTema } from '../tema'
 
 const RUBROS: Record<string, string> = {
   peluqueria: 'Peluquería',

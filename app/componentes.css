@@ -380,3 +380,132 @@
   border-color: var(--brand-solid);
   color: #fff;
 }
+
+/* ---- Marketing: valores tomados del objeto de estilos de los .dc.html ---- */
+
+.tarjeta-mk {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: 30px;
+  padding: 26px;
+  box-shadow: var(--sh-1);
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    box-shadow 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.tarjeta-mk[data-hover='true']:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sh-2);
+  border-color: var(--brand-100);
+}
+
+/* CTA blanco sobre violeta: al pasar el mouse vira a durazno con tinta
+   oscura, nunca blanco sobre durazno claro. */
+.cta-blanco {
+  font-size: 15.5px;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--brand-solid-700);
+  background: #fff;
+  padding: 17px 30px;
+  border-radius: 999px;
+  box-shadow: 0 14px 32px -14px rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    background 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    color 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.cta-blanco:hover {
+  transform: translateY(-2px);
+  background: var(--warm);
+  color: var(--on-warm);
+}
+
+.cta-linea {
+  font-size: 15.5px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  padding: 16px 28px;
+  border-radius: 999px;
+  display: inline-block;
+  transition: background 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.cta-linea:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #fff;
+}
+
+.cta-solido {
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  background: var(--brand-solid);
+  padding: 15px 26px;
+  border-radius: 999px;
+  box-shadow: var(--sh-2);
+  display: inline-block;
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
+    background 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.cta-solido:hover {
+  background: var(--brand-solid-700);
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.enlace-nav {
+  text-decoration: none;
+  color: var(--ink-2);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.enlace-nav:hover,
+.enlace-nav[data-activo='true'] {
+  color: var(--brand);
+}
+.enlace-nav[data-activo='true'] {
+  font-weight: 700;
+}
+
+.pastilla-rubro {
+  font-size: 14.5px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 12px 20px;
+  border-radius: 999px;
+  box-shadow: var(--sh-1);
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    color 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.pastilla-rubro:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  transform: translateY(-2px);
+}
+
+.faq-mk {
+  background: var(--surface);
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-md);
+  padding: 17px 20px;
+  margin-bottom: 10px;
+  box-shadow: var(--sh-1);
+}
+.faq-mk summary {
+  font-size: 15.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  list-style: none;
+}
