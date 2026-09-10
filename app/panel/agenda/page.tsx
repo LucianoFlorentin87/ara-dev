@@ -13,6 +13,7 @@ import {
   guaranies,
 } from '@/lib/tiempo'
 import { Grilla, type Profesional } from './grilla'
+import { NuevoTurno } from './nuevo-turno'
 
 const PX = 52 / 30 // píxeles por minuto: una fila de 52px cada 30 min
 
@@ -58,7 +59,6 @@ export default async function Agenda({
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
-        marginBottom: '16px',
         flexWrap: 'wrap',
       }}
     >
@@ -96,7 +96,7 @@ export default async function Agenda({
   if (ventanas.length === 0) {
     return (
       <div style={{ padding: '24px' }}>
-        {navegacion}
+        <div style={{ marginBottom: '16px' }}>{navegacion}</div>
         <div
           style={{
             background: 'var(--surface)',
@@ -141,8 +141,13 @@ export default async function Agenda({
 
   const inicioGrilla = instanteDe(fecha, deMinutos(desdeMin))
 
-  const [{ data: profesionales }, { data: turnos }, { data: espera }] =
-    await Promise.all([
+  const [
+    { data: profesionales },
+    { data: turnos },
+    { data: espera },
+    { data: clientes },
+    { data: servicios },
+  ] = await Promise.all([
       supabase
         .from('profesionales')
         .select('id, nombre_publico, orden')
@@ -162,6 +167,16 @@ export default async function Agenda({
         .select('id, clientes(nombre, apellido), servicios(nombre)')
         .eq('resuelto', false)
         .limit(6),
+      supabase
+        .from('clientes')
+        .select('id, nombre, apellido')
+        .order('nombre')
+        .limit(200),
+      supabase
+        .from('servicios')
+        .select('id, nombre, duracion_min')
+        .eq('activo', true)
+        .order('orden'),
     ])
 
   const uno = <T,>(x: T | T[] | null): T | null =>
@@ -225,7 +240,34 @@ export default async function Agenda({
 
   return (
     <div style={{ padding: '24px' }}>
-      {navegacion}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+          flexWrap: 'wrap',
+          marginBottom: '16px',
+        }}
+      >
+        {navegacion}
+        <NuevoTurno
+          fecha={fecha}
+          clientes={(clientes ?? []).map((c) => ({
+            id: c.id,
+            nombre: [c.nombre, c.apellido].filter(Boolean).join(' '),
+          }))}
+          profesionales={(profesionales ?? []).map((p) => ({
+            id: p.id,
+            nombre: p.nombre_publico,
+          }))}
+          servicios={(servicios ?? []).map((s) => ({
+            id: s.id,
+            nombre: s.nombre,
+            detalle: `${s.duracion_min} min`,
+          }))}
+        />
+      </div>
 
       <div
         style={{

@@ -216,3 +216,59 @@
   color: var(--ink);
   border: 1.5px dashed var(--ink-2);
 }
+
+/* Modal de nuevo turno. El diseño no lo cubre: compuesto con sus tokens. */
+.dialogo {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--sh-3);
+  padding: 22px 24px;
+  width: min(420px, calc(100vw - 32px));
+  font-family: inherit;
+}
+.dialogo::backdrop {
+  background: rgba(26, 16, 48, 0.44);
+  backdrop-filter: blur(2px);
+}
+.dialogo label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  margin: 14px 0 6px;
+}
+.dialogo label:first-of-type {
+  margin-top: 0;
+}
+
+.boton-suave {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  transition: background 0.2s cubic-bezier(0.2, 0.7, 0.3, 1),
+    border-color 0.2s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.boton-suave:hover {
+  background: var(--surface-2);
+  border-color: var(--brand-100);
+}
+
+.aviso-error {
+  margin: 16px 0 0;
+  padding: 10px 13px;
+  border-radius: var(--r-sm);
+  background: var(--warm-50);
+  color: var(--warm-700);
+  border: 1px solid var(--line);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
