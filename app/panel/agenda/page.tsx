@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { sesionActual } from '@/lib/sesion'
 import { crearClienteServidor } from '@/lib/supabase/servidor'
@@ -9,7 +8,6 @@ import {
   hoyISO,
   diaSemana,
   sumarDias,
-  fechaLarga,
   ahoraMs,
   guaranies,
 } from '@/lib/tiempo'
@@ -54,50 +52,9 @@ export default async function Agenda({
 
   const ventanas = (horarios ?? []) as Fila[]
 
-  const navegacion = (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px',
-        flexWrap: 'wrap',
-      }}
-    >
-      <Link
-        className="pastilla"
-        href={`/panel/agenda?fecha=${sumarDias(fecha, -1)}`}
-        aria-label="Día anterior"
-      >
-        ‹
-      </Link>
-      <Link className="pastilla" href="/panel/agenda" data-activo={fecha === hoyISO()}>
-        Hoy
-      </Link>
-      <Link
-        className="pastilla"
-        href={`/panel/agenda?fecha=${sumarDias(fecha, 1)}`}
-        aria-label="Día siguiente"
-      >
-        ›
-      </Link>
-      <span
-        style={{
-          fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
-          fontWeight: 600,
-          fontSize: '15px',
-          letterSpacing: '-0.02em',
-          marginLeft: '6px',
-        }}
-      >
-        {fechaLarga(fecha)}
-      </span>
-    </div>
-  )
-
   if (ventanas.length === 0) {
     return (
       <div style={{ padding: '24px' }}>
-        <div style={{ marginBottom: '16px' }}>{navegacion}</div>
         <div
           style={{
             background: 'var(--surface)',
@@ -246,14 +203,14 @@ export default async function Agenda({
         style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-end',
           gap: '12px',
           flexWrap: 'wrap',
           marginBottom: '16px',
         }}
       >
-        {navegacion}
         <NuevoTurno
+          abrirAlCargar={params.nuevo === '1'}
           fecha={fecha}
           clientes={(clientes ?? []).map((c) => ({
             id: c.id,

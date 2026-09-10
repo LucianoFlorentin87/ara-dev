@@ -12,11 +12,13 @@ export function NuevoTurno({
   clientes,
   profesionales,
   servicios,
+  abrirAlCargar,
 }: {
   fecha: string
   clientes: Opcion[]
   profesionales: Opcion[]
   servicios: Opcion[]
+  abrirAlCargar?: boolean
 }) {
   const [estado, accion, pendiente] = useActionState(crearTurno, inicial)
   const dialogo = useRef<HTMLDialogElement>(null)
@@ -30,6 +32,12 @@ export function NuevoTurno({
       formulario.current?.reset()
     }
   }, [estado.ok])
+
+  // El "+ Nuevo turno" de la cabecera vive en otra vista, así que llega
+  // acá como ?nuevo=1 y abre el diálogo al cargar.
+  useEffect(() => {
+    if (abrirAlCargar) dialogo.current?.showModal()
+  }, [abrirAlCargar])
 
   return (
     <>

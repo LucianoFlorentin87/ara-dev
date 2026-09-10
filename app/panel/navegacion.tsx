@@ -4,7 +4,13 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import type { Grupo } from '@/lib/menu'
 
-export function Navegacion({ grupos }: { grupos: Grupo[] }) {
+export function Navegacion({
+  grupos,
+  contadores = {},
+}: {
+  grupos: Grupo[]
+  contadores?: Record<string, number>
+}) {
   const ruta = usePathname()
 
   return (
@@ -25,13 +31,15 @@ export function Navegacion({ grupos }: { grupos: Grupo[] }) {
           </div>
           {g.items.map((it) => {
             const href = `/panel/${it.vista}`
+            const activo = ruta === href || ruta.startsWith(href + '/')
+            const cuenta = contadores[it.vista] ?? 0
             return (
               <Link
                 key={it.vista}
                 href={href}
                 className="item-menu"
-                data-activo={ruta === href}
-                aria-current={ruta === href ? 'page' : undefined}
+                data-activo={activo}
+                aria-current={activo ? 'page' : undefined}
               >
                 <span
                   style={{
@@ -43,6 +51,7 @@ export function Navegacion({ grupos }: { grupos: Grupo[] }) {
                 >
                   {it.label}
                 </span>
+                {cuenta > 0 && <span className="badge-menu">{cuenta}</span>}
               </Link>
             )
           })}
