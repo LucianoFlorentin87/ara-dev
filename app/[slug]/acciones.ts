@@ -56,7 +56,7 @@ export async function reservar(
   inicio: string,
   nombre: string,
   celular: string,
-  email: string | null
+  nota: string | null
 ): Promise<Resultado> {
   if (!nombre.trim()) return { error: 'Escribí tu nombre.', turno: null }
   const soloNumeros = celular.replace(/\D/g, '')
@@ -65,15 +65,28 @@ export async function reservar(
   }
 
   const supabase = await crearClienteServidor()
-  const { data, error } = await supabase.rpc('reservar_online', {
+  const comunes = {
     p_slug: slug,
     p_servicio: servicio,
     p_profesional: profesional,
     p_inicio: inicio,
     p_nombre: nombre.trim(),
     p_celular: soloNumeros,
-    p_email: email?.trim() || null,
+  }
+
+  let { data, error } = await supabase.rpc('reservar_online', {
+    ...comunes,
+    p_nota: nota?.trim() || null,
   })
+
+  // `p_nota` lo agrega supabase/04-nota-reserva.sql. Si esa migración
+  // todavía no corrió, PostgREST no encuentra la función con ese parámetro
+  // (PGRST202) y la reserva igual tiene que entrar: se reintenta con la
+  // firma vieja y se pierde la nota. Este bloque se puede sacar cuando la
+  // migración esté aplicada en todos lados.
+  if (error?.code === 'PGRST202') {
+    ;({ data, error } = await supabase.rpc('reservar_online', comunes))
+  }
 
   if (error) {
     // Alguien tomó ese horario entre que se cargó la lista y se apretó el

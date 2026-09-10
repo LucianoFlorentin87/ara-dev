@@ -1,6 +1,15 @@
 import { notFound } from 'next/navigation'
 import { crearClienteServidor } from '@/lib/supabase/servidor'
+import { iniciales } from '@/lib/menu'
+import { BotonTema } from '../tema'
 import { Reserva, type Servicio } from './reserva'
+
+/** "Malutín 1240, Villa Morra, Asunción" → "Villa Morra · Asunción". */
+function zona(direccion: string | null): string | null {
+  if (!direccion) return null
+  const partes = direccion.split(',').map((p) => p.trim()).filter(Boolean)
+  return partes.length > 1 ? partes.slice(1).join(' · ') : partes[0]
+}
 
 type LocalPublico = {
   nombre: string
@@ -40,68 +49,75 @@ export default async function Portal({ params }: PageProps<'/[slug]'>) {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header
-        style={{
-          background: 'var(--brand-solid)',
-          color: '#fff',
-          padding: '26px 22px 30px',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
+        style={{ borderBottom: '1px solid var(--line-soft)', background: 'var(--surface)' }}
       >
         <div
-          aria-hidden
           style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-            opacity: 0.18,
-            backgroundImage:
-              'radial-gradient(circle at 1px 1px, #fff 1.2px, transparent 0)',
-            backgroundSize: '22px 22px',
-            maskImage: 'radial-gradient(90% 90% at 90% 10%, #000 0%, transparent 70%)',
+            maxWidth: '720px',
+            margin: '0 auto',
+            padding: '14px 22px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '16px',
           }}
-        />
-        <div style={{ position: 'relative', maxWidth: '720px', margin: '0 auto' }}>
-          <div
-            style={{
-              fontSize: '11.5px',
-              fontWeight: 600,
-              letterSpacing: '.1em',
-              textTransform: 'uppercase',
-              opacity: 0.85,
-            }}
-          >
-            {local.rubro}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '11px', minWidth: 0 }}>
+            <span
+              style={{
+                width: '38px',
+                height: '38px',
+                borderRadius: '13px',
+                background: 'var(--brand-solid)',
+                display: 'grid',
+                placeItems: 'center',
+                flex: 'none',
+                boxShadow: 'var(--sh-2)',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '15px',
+                  color: '#fff',
+                }}
+              >
+                {iniciales(local.nombre)}
+              </span>
+            </span>
+            <span style={{ minWidth: 0 }}>
+              <h1
+                style={{
+                  display: 'block',
+                  fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '16.5px',
+                  letterSpacing: '-0.02em',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  margin: 0,
+                }}
+              >
+                {local.nombre}
+              </h1>
+              <span style={{ display: 'block', fontSize: '12.5px', color: 'var(--ink-2)' }}>
+                {zona(local.direccion) ?? local.instagram ?? ''}
+              </span>
+            </span>
           </div>
-          <h1
-            style={{
-              fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
-              fontWeight: 700,
-              fontSize: 'clamp(26px, 6vw, 34px)',
-              letterSpacing: '-0.035em',
-              lineHeight: 1.1,
-              margin: '6px 0 0',
-            }}
-          >
-            {local.nombre}
-          </h1>
-          {(local.direccion || local.instagram) && (
-            <p style={{ fontSize: '13.5px', opacity: 0.9, margin: '8px 0 0', lineHeight: 1.5 }}>
-              {[local.direccion, local.instagram].filter(Boolean).join(' · ')}
-            </p>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 'none' }}>
+            <BotonTema />
+          </div>
         </div>
       </header>
 
-      <main style={{ flex: 1, padding: '22px 22px 48px' }}>
-        <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-          <Reserva
-            slug={slug}
-            nombreLocal={local.nombre}
-            servicios={(servicios ?? []) as Servicio[]}
-          />
-        </div>
-      </main>
+      <Reserva
+        slug={slug}
+        nombreLocal={local.nombre}
+        servicios={(servicios ?? []) as Servicio[]}
+      />
 
       <footer
         style={{

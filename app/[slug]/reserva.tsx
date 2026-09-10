@@ -71,6 +71,9 @@ export function Reserva({
   servicios: Servicio[]
   nombreLocal: string
 }) {
+  // El portal abre en la pantalla de bienvenida del diseño; el asistente de
+  // cuatro pasos aparece recién al apretar "Reservar un turno nuevo".
+  const [enInicio, setEnInicio] = useState(true)
   const [paso, setPaso] = useState(1)
   const [servicio, setServicio] = useState<Servicio | null>(null)
   const [profesionales, setProfesionales] = useState<Profesional[]>([])
@@ -123,7 +126,7 @@ export function Reserva({
         hueco!.inicio,
         String(datos.get('nombre') ?? ''),
         String(datos.get('celular') ?? ''),
-        String(datos.get('email') ?? '') || null
+        String(datos.get('nota') ?? '') || null
       )
       if (r.error) {
         setError(r.error)
@@ -139,50 +142,194 @@ export function Reserva({
     })
   }
 
+  function volverAEmpezar() {
+    setListo(null)
+    setServicio(null)
+    setProfesional(null)
+    setHueco(null)
+    setError(null)
+    setPaso(1)
+    setEnInicio(false)
+  }
+
+  const fechaLarga = `${partesDia(dia).dia} ${partesDia(dia).num} de ${partesDia(dia).mes}${
+    hueco ? ` · ${horaDe(hueco.inicio)}` : ''
+  }`
+
+  if (enInicio) {
+    return (
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '34px 22px',
+        }}
+      >
+        <div style={{ width: '100%', maxWidth: '420px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '26px' }}>
+            <h2
+              style={{
+                fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
+                fontWeight: 700,
+                fontSize: 'clamp(28px, 6vw, 36px)',
+                lineHeight: 1.1,
+                letterSpacing: '-0.03em',
+                margin: '0 0 10px',
+              }}
+            >
+              Reservá tu turno
+            </h2>
+            <p style={{ fontSize: '15.5px', lineHeight: 1.6, color: 'var(--ink-2)', margin: 0 }}>
+              Elegí servicio y horario en un minuto. No hace falta crear una cuenta.
+            </p>
+          </div>
+
+          <div
+            style={{
+              background: 'var(--surface)',
+              border: '1px solid var(--line-soft)',
+              borderRadius: 'var(--r-lg)',
+              padding: '26px 24px',
+              boxShadow: 'var(--sh-2)',
+            }}
+          >
+            <button
+              type="button"
+              className="boton-primario"
+              onClick={() => setEnInicio(false)}
+            >
+              Reservar un turno nuevo
+            </button>
+
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '22px 0 18px' }}
+            >
+              <span aria-hidden style={{ flex: 1, height: '1px', background: 'var(--line-soft)' }} />
+              <span
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  letterSpacing: '.1em',
+                  textTransform: 'uppercase',
+                  color: 'var(--ink-2)',
+                }}
+              >
+                o entrá a lo tuyo
+              </span>
+              <span aria-hidden style={{ flex: 1, height: '1px', background: 'var(--line-soft)' }} />
+            </div>
+
+            {/* El código por WhatsApp todavía no está conectado: el sistema no
+                manda mensajes por su cuenta. Hasta que se resuelva, el que
+                quiere ver sus turnos escribe al local. */}
+            <label
+              htmlFor="cel-login"
+              style={{
+                display: 'block',
+                fontSize: '13.5px',
+                fontWeight: 600,
+                color: 'var(--ink-2)',
+                marginBottom: '7px',
+              }}
+            >
+              Tu celular
+            </label>
+            <input
+              id="cel-login"
+              type="tel"
+              inputMode="tel"
+              className="campo"
+              placeholder="0981 234 567"
+              disabled
+            />
+            <button type="button" className="boton-suave-bloque" disabled>
+              Ver mis turnos
+            </button>
+            <p
+              style={{
+                fontSize: '12.5px',
+                lineHeight: 1.55,
+                color: 'var(--ink-2)',
+                margin: '14px 0 0',
+                textAlign: 'center',
+              }}
+            >
+              Todavía no está disponible. Para ver o cambiar un turno, escribile al local.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (listo) {
     return (
-      <div style={{ textAlign: 'center', padding: '30px 0' }}>
-        <div
-          style={{
-            width: '62px',
-            height: '62px',
-            borderRadius: '999px',
-            background: 'var(--brand-solid)',
-            display: 'grid',
-            placeItems: 'center',
-            margin: '0 auto 18px',
-          }}
-        >
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" aria-hidden>
-            <path d="m4 12.5 5 5L20 6.5" />
-          </svg>
+      <div style={{ flex: 1, padding: '22px 22px 40px' }}>
+        <div style={{ maxWidth: '720px', margin: '0 auto', textAlign: 'center', paddingTop: '20px' }}>
+          <span
+            style={{
+              width: '74px',
+              height: '74px',
+              borderRadius: '999px',
+              background: 'var(--brand-solid)',
+              display: 'inline-grid',
+              placeItems: 'center',
+              boxShadow: 'var(--sh-3)',
+              marginBottom: '22px',
+            }}
+          >
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" aria-hidden>
+              <path d="m4 12.5 5 5L20 6.5" />
+            </svg>
+          </span>
+          <h2
+            style={{
+              fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
+              fontWeight: 700,
+              fontSize: 'clamp(26px, 5vw, 34px)',
+              lineHeight: 1.1,
+              letterSpacing: '-0.03em',
+              margin: '0 0 10px',
+            }}
+          >
+            Turno confirmado
+          </h2>
+          <p
+            style={{
+              fontSize: '16px',
+              lineHeight: 1.6,
+              color: 'var(--ink-2)',
+              margin: '0 auto 26px',
+              maxWidth: '40ch',
+            }}
+          >
+            {servicio?.nombre} el {fechaLarga} con {profesional?.nombre_publico}, en{' '}
+            {nombreLocal}. Si no podés venir, avisá al local así lo liberan.
+          </p>
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <button type="button" className="cta-solido" onClick={volverAEmpezar}>
+              Reservar otro
+            </button>
+          </div>
         </div>
-        <h2 style={{ ...tituloPaso, margin: '0 0 8px' }}>Turno reservado</h2>
-        <p style={{ fontSize: '15px', lineHeight: 1.6, color: 'var(--ink-2)', margin: 0 }}>
-          {servicio?.nombre} con {profesional?.nombre_publico}
-          <br />
-          {partesDia(dia).dia} {partesDia(dia).num} de {partesDia(dia).mes} a las{' '}
-          {hueco && horaDe(hueco.inicio)}
-          <br />
-          en {nombreLocal}
-        </p>
-        <p style={{ fontSize: '13px', color: 'var(--ink-2)', marginTop: '20px' }}>
-          Si no podés venir, avisá al local así lo liberan.
-        </p>
       </div>
     )
   }
 
   return (
-    <>
+    <div style={{ flex: 1, padding: '22px 22px 40px' }}>
+      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '22px' }}>
-        {paso > 1 && (
-          <button
+        {/* En el primer paso, "atrás" vuelve a la bienvenida. */}
+        <button
             type="button"
             className="boton-icono"
             onClick={() => {
               setError(null)
-              setPaso(paso - 1)
+              if (paso === 1) setEnInicio(true)
+              else setPaso(paso - 1)
             }}
             title="Atrás"
             aria-label="Atrás"
@@ -191,7 +338,6 @@ export function Reserva({
               <path d="m14 6-6 6 6 6" />
             </svg>
           </button>
-        )}
         <div style={{ flex: 1, display: 'flex', gap: '6px' }}>
           {[1, 2, 3, 4].map((n) => (
             <span
@@ -260,7 +406,7 @@ export function Reserva({
                       marginTop: '2px',
                     }}
                   >
-                    {s.duracion_min} minutos
+                    {s.duracion_min} min
                   </span>
                 </span>
                 <span
@@ -357,6 +503,19 @@ export function Reserva({
                     )}
                   </span>
                 </span>
+                <svg
+                  width="17"
+                  height="17"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--ink-2)"
+                  strokeWidth="2.2"
+                  strokeLinecap="round"
+                  style={{ flex: 'none' }}
+                  aria-hidden
+                >
+                  <path d="m10 6 6 6-6 6" />
+                </svg>
               </button>
             ))
           )}
@@ -456,33 +615,104 @@ export function Reserva({
       {paso === 4 && hueco && (
         <>
           <h2 style={tituloPaso}>Confirmá tu turno</h2>
+
           <div
             style={{
-              background: 'var(--brand-50)',
-              border: '1px solid var(--brand-100)',
-              borderRadius: 'var(--r-md)',
-              padding: '16px 18px',
-              marginBottom: '20px',
+              background: 'var(--surface)',
+              border: '1px solid var(--line-soft)',
+              borderRadius: 'var(--r-lg)',
+              padding: '24px',
+              boxShadow: 'var(--sh-2)',
+              marginBottom: '16px',
             }}
           >
             <div
               style={{
-                fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
-                fontWeight: 700,
-                fontSize: '18px',
-                letterSpacing: '-0.02em',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                gap: '16px',
+                flexWrap: 'wrap',
+                paddingBottom: '16px',
+                borderBottom: '1px solid var(--line-soft)',
               }}
             >
-              {partesDia(dia).dia} {partesDia(dia).num} de {partesDia(dia).mes} ·{' '}
-              {horaDe(hueco.inicio)}
+              <div style={{ minWidth: 0 }}>
+                <div
+                  style={{
+                    fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '22px',
+                    letterSpacing: '-0.025em',
+                  }}
+                >
+                  {servicio?.nombre}
+                </div>
+                <div style={{ fontSize: '14px', color: 'var(--ink-2)', marginTop: '3px' }}>
+                  {servicio?.duracion_min} min · con {profesional?.nombre_publico}
+                </div>
+              </div>
+              <div
+                style={{
+                  fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '22px',
+                  letterSpacing: '-0.025em',
+                  color: 'var(--brand)',
+                  flex: 'none',
+                }}
+              >
+                {servicio && guaranies(servicio.precio)}
+              </div>
             </div>
-            <div style={{ fontSize: '13.5px', color: 'var(--ink-2)', marginTop: '4px' }}>
-              {servicio?.nombre} con {profesional?.nombre_publico} ·{' '}
-              {servicio && guaranies(servicio.precio)}
+            <div
+              style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px 0 0' }}
+            >
+              <span
+                style={{
+                  width: '42px',
+                  height: '42px',
+                  borderRadius: '14px',
+                  background: 'var(--brand-50)',
+                  border: '1px solid var(--brand-100)',
+                  display: 'grid',
+                  placeItems: 'center',
+                  flex: 'none',
+                }}
+              >
+                <svg
+                  width="19"
+                  height="19"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--brand)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  aria-hidden
+                >
+                  <rect x="3" y="5" width="18" height="16" rx="4" />
+                  <path d="M8 3v4M16 3v4M3 11h18" />
+                </svg>
+              </span>
+              <div>
+                <div style={{ fontSize: '16px', fontWeight: 700 }}>{fechaLarga}</div>
+                <div style={{ fontSize: '13.5px', color: 'var(--ink-2)' }}>
+                  Llegá 5 minutos antes
+                </div>
+              </div>
             </div>
           </div>
 
-          <form action={confirmar}>
+          <form
+            action={confirmar}
+            style={{
+              background: 'var(--surface)',
+              border: '1px solid var(--line-soft)',
+              borderRadius: 'var(--r-lg)',
+              padding: '24px',
+              boxShadow: 'var(--sh-1)',
+            }}
+          >
             <label
               style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-2)', marginBottom: '6px' }}
               htmlFor="nombre"
@@ -509,11 +739,16 @@ export function Reserva({
 
             <label
               style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: 'var(--ink-2)', margin: '14px 0 6px' }}
-              htmlFor="email"
+              htmlFor="nota"
             >
-              Tu email (opcional)
+              Algo que debamos saber (opcional)
             </label>
-            <input id="email" name="email" type="email" className="campo" autoComplete="email" />
+            <input
+              id="nota"
+              name="nota"
+              className="campo"
+              placeholder="Alergias, preferencias, referencias"
+            />
 
             <button
               type="submit"
@@ -523,9 +758,21 @@ export function Reserva({
             >
               {cargando ? 'Reservando…' : 'Confirmar turno'}
             </button>
+            <p
+              style={{
+                fontSize: '12.5px',
+                lineHeight: 1.55,
+                color: 'var(--ink-2)',
+                margin: '14px 0 0',
+                textAlign: 'center',
+              }}
+            >
+              El local te confirma por WhatsApp y te recuerda el día anterior.
+            </p>
           </form>
         </>
       )}
-    </>
+      </div>
+    </div>
   )
 }
