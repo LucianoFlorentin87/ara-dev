@@ -1,6 +1,7 @@
 'use client'
 
-import { useActionState } from 'react'
+import Link from 'next/link'
+import { useActionState, useRef } from 'react'
 import { entrar, type EstadoLogin } from './acciones'
 
 const inicial: EstadoLogin = { error: null }
@@ -12,8 +13,28 @@ const etiqueta = {
   color: 'var(--ink-2)',
 } as const
 
+/**
+ * Los cuatro roles de la demo. En el diseño estos botones cambiaban de rol
+ * directamente porque era un mock. Acá no pueden: hay una contraseña de por
+ * medio. Lo que hacen es completar el correo de cada rol, que es lo más
+ * cercano que puede hacer un login de verdad.
+ */
+const DEMO = [
+  ['Dueño', 'dueno@studiokuna.com.py'],
+  ['Profesional', 'sofia@studiokuna.com.py'],
+  ['Recepción', 'recepcion@studiokuna.com.py'],
+  ['Cajero', 'caja@studiokuna.com.py'],
+] as const
+
 export function Formulario() {
   const [estado, accion, pendiente] = useActionState(entrar, inicial)
+  const campoCorreo = useRef<HTMLInputElement>(null)
+  const campoClave = useRef<HTMLInputElement>(null)
+
+  function completar(correo: string) {
+    if (campoCorreo.current) campoCorreo.current.value = correo
+    campoClave.current?.focus()
+  }
 
   return (
     <form action={accion}>
@@ -21,6 +42,7 @@ export function Formulario() {
         Correo
       </label>
       <input
+        ref={campoCorreo}
         id="email"
         name="email"
         type="email"
@@ -34,6 +56,7 @@ export function Formulario() {
         Contraseña
       </label>
       <input
+        ref={campoClave}
         id="clave"
         name="clave"
         type="password"
@@ -43,28 +66,80 @@ export function Formulario() {
         className="campo"
       />
 
-      {estado.error && (
-        <p
-          role="alert"
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '12px',
+          margin: '16px 0 22px',
+        }}
+      >
+        <label
           style={{
-            margin: '14px 0 0',
-            padding: '10px 13px',
-            borderRadius: 'var(--r-sm)',
-            background: 'var(--warm-50)',
-            color: 'var(--warm-700)',
-            border: '1px solid var(--line)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
             fontSize: '13.5px',
-            lineHeight: 1.5,
+            color: 'var(--ink-2)',
+            cursor: 'pointer',
           }}
         >
+          <input
+            type="checkbox"
+            name="recordar"
+            defaultChecked
+            style={{ width: '16px', height: '16px', accentColor: 'var(--brand)' }}
+          />
+          No cerrar sesión
+        </label>
+        <Link href="/recuperar" style={{ fontSize: '13.5px', textDecoration: 'none' }}>
+          ¿Olvidaste la contraseña?
+        </Link>
+      </div>
+
+      {estado.error && (
+        <p role="alert" className="aviso-error" style={{ margin: '0 0 16px' }}>
           {estado.error}
         </p>
       )}
 
-      <div style={{ marginTop: '22px' }}>
-        <button type="submit" className="boton-primario" disabled={pendiente}>
-          {pendiente ? 'Entrando…' : 'Entrar'}
-        </button>
+      <button type="submit" className="boton-primario" disabled={pendiente}>
+        {pendiente ? 'Entrando…' : 'Entrar'}
+      </button>
+
+      <div
+        style={{
+          marginTop: '26px',
+          paddingTop: '20px',
+          borderTop: '1px solid var(--line-soft)',
+        }}
+      >
+        <div
+          style={{
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '.08em',
+            textTransform: 'uppercase',
+            color: 'var(--ink-2)',
+            marginBottom: '10px',
+          }}
+        >
+          Entrar como (demo)
+        </div>
+        <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
+          {DEMO.map(([rol, correo]) => (
+            <button
+              key={rol}
+              type="button"
+              className="pastilla"
+              onClick={() => completar(correo)}
+              title={`Completar con ${correo}`}
+            >
+              {rol}
+            </button>
+          ))}
+        </div>
       </div>
     </form>
   )
