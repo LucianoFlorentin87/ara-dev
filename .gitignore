@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Copia temporal de diseno/ para poder abrir los .dc.html en el navegador
+# y comparar contra lo construido. No va al repo.
+/public/diseno/

@@ -26,7 +26,7 @@ const DEMO = [
   ['Cajero', 'caja@studiokuna.com.py'],
 ] as const
 
-export function Formulario() {
+export function Formulario({ volver = '' }: { volver?: string }) {
   const [estado, accion, pendiente] = useActionState(entrar, inicial)
   const campoCorreo = useRef<HTMLInputElement>(null)
   const campoClave = useRef<HTMLInputElement>(null)
@@ -38,6 +38,7 @@ export function Formulario() {
 
   return (
     <form action={accion}>
+      <input type="hidden" name="volver" value={volver} />
       <label style={{ ...etiqueta, marginBottom: '6px' }} htmlFor="email">
         Correo
       </label>

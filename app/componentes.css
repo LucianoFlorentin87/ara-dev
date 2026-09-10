@@ -451,10 +451,21 @@
   transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.3, 1),
     background 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
 }
-.cta-solido:hover {
+.cta-solido:hover:not(:disabled) {
   background: var(--brand-solid-700);
   transform: translateY(-2px);
   color: #fff;
+}
+/* El mismo botón vale como <a> y como <button> (el alta lo usa para enviar). */
+button.cta-solido {
+  appearance: none;
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+button.cta-solido:disabled {
+  cursor: default;
+  opacity: 0.6;
 }
 
 .enlace-nav {
@@ -681,3 +692,119 @@
   white-space: nowrap;
   border: 0;
 }
+
+/* ---- Alta del local (diseno/Alta.dc.html) ---- */
+
+.paso-alta {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--sh-1);
+  transition: transform .18s, box-shadow .18s, border-color .18s;
+}
+.paso-alta:hover { transform: translateY(-1px); border-color: var(--brand-100); }
+.paso-alta[data-activo='true'] {
+  background: var(--brand-solid);
+  color: #fff;
+  border-color: var(--brand-solid);
+  box-shadow: var(--sh-2);
+}
+
+.opcion-rubro {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  transition: transform .18s, box-shadow .18s, border-color .18s;
+}
+.opcion-rubro:hover { transform: translateY(-2px); border-color: var(--brand); color: var(--brand); }
+.opcion-rubro[data-activo='true'] {
+  background: var(--brand-solid);
+  color: #fff;
+  border-color: var(--brand-solid);
+  box-shadow: var(--sh-2);
+}
+.opcion-rubro[data-activo='true']:hover { color: #fff; }
+
+.perilla {
+  appearance: none;
+  cursor: pointer;
+  flex: none;
+  width: 44px;
+  height: 26px;
+  padding: 3px;
+  border-radius: 999px;
+  border: 0;
+  display: flex;
+  justify-content: flex-start;
+  background: var(--line);
+  transition: background .2s;
+}
+.perilla[data-on='true'] { justify-content: flex-end; background: var(--brand-solid); }
+.perilla > span { width: 20px; height: 20px; border-radius: 999px; background: #fff; display: block; }
+
+.tilde {
+  appearance: none;
+  cursor: pointer;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: background .18s, border-color .18s;
+}
+.tilde[data-activo='true'] { background: var(--brand-solid); border-color: var(--brand-solid); }
+
+.boton-punteado {
+  width: 100%;
+  margin-top: 16px;
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px;
+  border-radius: 999px;
+  border: 1px dashed var(--line);
+  background: transparent;
+  color: var(--ink-2);
+  transition: border-color .2s, color .2s;
+}
+.boton-punteado:hover { border-color: var(--brand); color: var(--brand); }
+
+.boton-atras {
+  appearance: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  padding: 13px 24px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  transition: transform .2s, border-color .2s;
+}
+.boton-atras:hover:not(:disabled) { border-color: var(--brand); color: var(--brand); }
+.boton-atras:disabled { cursor: default; opacity: .45; }

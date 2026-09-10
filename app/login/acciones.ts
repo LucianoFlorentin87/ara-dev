@@ -28,7 +28,11 @@ export async function entrar(
     return { error: 'Correo o contraseña incorrectos.' }
   }
 
-  redirect('/panel')
+  // Quien vino desde el alta vuelve al alta; el resto, al panel. Solo se
+  // aceptan rutas propias: un `volver` con host ajeno sería un redirect
+  // abierto servido desde nuestro dominio.
+  const volver = String(datos.get('volver') ?? '')
+  redirect(/^\/[^/]/.test(volver) ? volver : '/panel')
 }
 
 export async function salir() {
