@@ -12,7 +12,37 @@ Paso a paso, desde cero hasta una URL funcionando. Unos 30 minutos.
 | Proyecto | `ara-dev`, AWS `sa-east-1` (São Paulo) |
 | URL | `https://jvtqkkxvydvkhjceomhv.supabase.co` |
 | Esquema | `01`, `02` y `03` corridos: 22 tablas, 44 políticas, 38 pruebas en verde |
-| Cuenta de la dueña | `carla@studiokuna.com.py`, confirmada y con contraseña |
+| Cuenta de la dueña | `dueno@studiokuna.com.py`, confirmada y con contraseña |
+| Aplicación | Next 16.3, los 7 puntos del orden de trabajo construidos |
+| Despliegue | **nada desplegado**: corre solo en `localhost:3000` |
+
+### Qué está construido
+
+Login, panel con menú filtrado por rol y sus **20 vistas**, agenda con
+creación y estados de turno, ficha del cliente, cobros, caja con arqueo,
+portal público de reserva y las 6 páginas de marketing (los 9 rubros son
+una sola ruta).
+
+**Lo que falta y por qué**, para no confundirlo con un olvido:
+
+- **Portal del cliente logueado** (mis turnos, mi ficha) — depende de la
+  decisión 1 del README: cómo entra el cliente. No está tomada.
+- **Edición** en Servicios, Ajustes y Usuarios: hoy leen. Cambiar un precio
+  no toca los turnos ya agendados y eso hay que decirlo en pantalla; y dar
+  de alta usuarios toca Supabase Auth, no solo la tabla.
+- **Sala de espera** deduce quién llegó por la hora: el esquema no tiene
+  marca de llegada.
+- **Egresos de caja**: no hay tabla, y meterlos como cobros negativos es una
+  decisión de modelo.
+- **Fidelidad al pixel** de las páginas de marketing: están con la estructura
+  y los textos del diseño, extraídos con un script, pero no recreadas
+  elemento por elemento.
+
+### Una decisión de rutas
+
+`DESPLIEGUE` proponía `/peluqueria` para la landing de rubro, pero `/[slug]`
+es el portal de un local: un local con el slug `peluqueria` chocaría con la
+landing. Los rubros quedaron en `/rubros/[rubro]`.
 
 Falta crear `sofia@`, `recepcion@` y `caja@studiokuna.com.py` para poder probar
 el menú filtrado por rol; sin ellas, 14 comprobaciones de `03-pruebas.sql`
