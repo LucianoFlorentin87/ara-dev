@@ -2,8 +2,8 @@
  * Contenido de las páginas de marketing.
  *
  * Extraído con un script de los .dc.html de `diseno/`, no transcrito a
- * mano: los textos son exactamente los que se diseñaron. Los iconos se
- * descartaron; el resto va tal cual.
+ * mano: los textos son exactamente los que se diseñaron. Los iconos vienen como el
+ * markup interno del <svg>, igual que en el diseño.
  */
 
 export const FUNCIONES = [
@@ -11,61 +11,71 @@ export const FUNCIONES = [
     "n": "01",
     "titulo": "Agenda sin doble reserva",
     "texto": "Turnos por profesional y por recurso: sillón, cabina, camilla o consultorio. Si el horario ya está tomado, el sistema no lo deja guardar.",
-    "tono": "brand"
+    "tono": "brand",
+    "icono": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"4\"></rect><path d=\"M8 3v4M16 3v4M3 11h18\"></path>"
   },
   {
     "n": "02",
     "titulo": "Reserva online",
     "texto": "Un link para compartir por WhatsApp o Instagram. El cliente elige servicio, profesional y horario libre, y el turno entra directo a tu agenda.",
-    "tono": "warm"
+    "tono": "warm",
+    "icono": "<path d=\"M9 15 15 9\"></path><path d=\"M11 6.5 13 4.5a4 4 0 0 1 5.7 5.7l-2 2\"></path><path d=\"M13 17.5l-2 2a4 4 0 0 1-5.7-5.7l2-2\"></path>"
   },
   {
     "n": "03",
     "titulo": "Ficha e historial",
     "texto": "Datos, notas, fotos y todo lo que se le hizo al cliente, con el detalle propio de tu rubro. Nadie tiene que acordarse de nada.",
-    "tono": "brand"
+    "tono": "brand",
+    "icono": "<path d=\"M6 3h9l4 4v14H6z\"></path><path d=\"M9 12h7M9 16h5\"></path>"
   },
   {
     "n": "04",
     "titulo": "Caja y cobros",
     "texto": "Apertura y cierre de turno, corte de efectivo con la diferencia calculada, medios de pago y comprobante en PDF de cada cobro.",
-    "tono": "brand"
+    "tono": "brand",
+    "icono": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"13\" rx=\"3\"></rect><path d=\"M3 11h18M7 15.5h3\"></path>"
   },
   {
     "n": "05",
     "titulo": "Servicios y precios",
     "texto": "Tu catálogo con duración y precio, usado en la agenda, en la reserva online y en el cobro. Un solo lugar donde actualizarlo.",
-    "tono": "warm"
+    "tono": "warm",
+    "icono": "<path d=\"M4 7h16v10H4z\"></path><circle cx=\"12\" cy=\"12\" r=\"2.4\"></circle>"
   },
   {
     "n": "06",
     "titulo": "Recordatorios por WhatsApp",
     "texto": "El mensaje sale armado y abre WhatsApp listo para enviar. Sin proveedor de mensajería de por medio ni costo por mensaje.",
-    "tono": "brand"
+    "tono": "brand",
+    "icono": "<path d=\"M20 15a3 3 0 0 1-3 3H8l-4 3V6a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3z\"></path>"
   },
   {
     "n": "07",
     "titulo": "Recall de inactivos",
     "texto": "Lista de clientes que no vuelven hace 3, 6 o 12 meses, con un botón para escribirles. La plata que ya está en tu base de datos.",
-    "tono": "warm"
+    "tono": "warm",
+    "icono": "<path d=\"M3 12a9 9 0 1 0 3-6.7\"></path><path d=\"M3 4v5h5\"></path>"
   },
   {
     "n": "08",
     "titulo": "Reportes de ingresos",
     "texto": "Facturación del período, producción por profesional y servicios más vendidos. Todo exportable a CSV para tu contador.",
-    "tono": "brand"
+    "tono": "brand",
+    "icono": "<path d=\"M4 20V9M10 20V4M16 20v-7M22 20H2\"></path>"
   },
   {
     "n": "09",
     "titulo": "Equipo con roles",
     "texto": "Cuatro roles con permisos configurables: dueño, profesional, recepción y cajero. La recepción no entra a los ingresos si no querés.",
-    "tono": "brand"
+    "tono": "brand",
+    "icono": "<circle cx=\"9\" cy=\"8\" r=\"3.4\"></circle><path d=\"M3 20a6 6 0 0 1 12 0\"></path><path d=\"M17 20a5.5 5.5 0 0 0-3-4.9 3.4 3.4 0 0 0 0-6.2\"></path>"
   },
   {
     "n": "10",
     "titulo": "Stock de productos",
     "texto": "Insumos y productos de venta con stock mínimo y aviso cuando se está por terminar. Se descuenta al cobrar.",
-    "tono": "warm"
+    "tono": "warm",
+    "icono": "<path d=\"M4 8l8-4 8 4v8l-8 4-8-4z\"></path><path d=\"M4 8l8 4 8-4M12 12v8\"></path>"
   }
 ]
 
