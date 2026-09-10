@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useActionState, useEffect, useRef, useState } from 'react'
+import { cambiarEstado, type EstadoCambio } from './acciones'
 
 export type Bloque = {
   id: string
@@ -8,10 +9,26 @@ export type Bloque = {
   servicio: string
   rango: string
   precio: string
+  estado: string
   top: number
   alto: number
   tipo: 'confirmado' | 'online' | 'pendiente'
 }
+
+const inicialCambio: EstadoCambio = { error: null, ok: false }
+
+// El orden en que suceden de verdad: confirmar, atender, cerrar. Cancelar
+// y ausente quedan aparte porque son salidas, no pasos.
+const PASOS = [
+  ['confirmado', 'Confirmado'],
+  ['en_atencion', 'En atención'],
+  ['terminado', 'Terminado'],
+] as const
+
+const SALIDAS = [
+  ['ausente', 'No vino'],
+  ['cancelado', 'Cancelar'],
+] as const
 
 export type Profesional = {
   id: string
@@ -35,7 +52,19 @@ export function Grilla({
   horaAhora: string
 }) {
   const [filtro, setFiltro] = useState<string | null>(null)
+  const [elegido, setElegido] = useState<Bloque | null>(null)
+  const [estado, accion, pendiente] = useActionState(cambiarEstado, inicialCambio)
+  const dialogo = useRef<HTMLDialogElement>(null)
   const columnas = `56px repeat(${profesionales.length}, minmax(0, 1fr))`
+
+  useEffect(() => {
+    if (estado.ok) dialogo.current?.close()
+  }, [estado.ok])
+
+  function abrir(b: Bloque) {
+    setElegido(b)
+    dialogo.current?.showModal()
+  }
 
   return (
     <>
@@ -251,6 +280,7 @@ export function Grilla({
                   data-tipo={b.tipo}
                   style={{ top: `${b.top}px`, height: `${b.alto}px` }}
                   title={`${b.cliente} · ${b.servicio} · ${b.rango}`}
+                  onClick={() => abrir(b)}
                 >
                   <span
                     style={{
@@ -314,6 +344,103 @@ export function Grilla({
           )}
         </div>
       </div>
+
+      <dialog ref={dialogo} className="dialogo">
+        {elegido && (
+          <>
+            <h2
+              style={{
+                fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
+                fontWeight: 700,
+                fontSize: '20px',
+                letterSpacing: '-0.03em',
+                margin: '0 0 4px',
+              }}
+            >
+              {elegido.cliente}
+            </h2>
+            <p
+              style={{
+                fontSize: '13.5px',
+                lineHeight: 1.5,
+                color: 'var(--ink-2)',
+                margin: '0 0 18px',
+              }}
+            >
+              {elegido.servicio} · {elegido.rango} · {elegido.precio}
+              <span style={{ display: 'block' }}>
+                Ahora está <strong>{elegido.estado.replace('_', ' ')}</strong>.
+              </span>
+            </p>
+
+            <form action={accion}>
+              <input type="hidden" name="turno" value={elegido.id} />
+
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                {PASOS.map(([valor, label]) => (
+                  <button
+                    key={valor}
+                    type="submit"
+                    name="estado"
+                    value={valor}
+                    className="pastilla"
+                    data-activo={elegido.estado === valor}
+                    disabled={pendiente || elegido.estado === valor}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  flexWrap: 'wrap',
+                  marginTop: '10px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid var(--line-soft)',
+                }}
+              >
+                {SALIDAS.map(([valor, label]) => (
+                  <button
+                    key={valor}
+                    type="submit"
+                    name="estado"
+                    value={valor}
+                    className="pastilla"
+                    disabled={pendiente || elegido.estado === valor}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+
+              {estado.error && (
+                <p role="alert" className="aviso-error">
+                  {estado.error}
+                </p>
+              )}
+            </form>
+
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '20px',
+              }}
+            >
+              <button
+                type="button"
+                className="boton-suave"
+                onClick={() => dialogo.current?.close()}
+              >
+                Cerrar
+              </button>
+            </div>
+          </>
+        )}
+      </dialog>
     </>
   )
 }

@@ -213,6 +213,7 @@ export default async function Agenda({
           servicio: srv?.nombre ?? '',
           rango: `${horaDe(t.inicio)}–${horaDe(t.fin)}`,
           precio: guaranies(Number(t.precio_congelado)),
+          estado: t.estado,
           top: desde * PX + 2,
           alto: dur * PX - 4,
           // El durazno es "vino por el link"; el punteado, "todavía sin

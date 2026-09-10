@@ -78,3 +78,58 @@ export async function crearTurno(
   revalidatePath('/panel/agenda')
   return { error: null, ok: true }
 }
+
+export type EstadoCambio = { error: string | null; ok: boolean }
+
+const PERMITIDOS = ['confirmado', 'en_atencion', 'terminado', 'ausente', 'cancelado'] as const
+export type EstadoTurnoValor = (typeof PERMITIDOS)[number]
+
+/**
+ * Cambia el estado de un turno.
+ *
+ * Pasarlo a `terminado` no es solo cosmético: dispara el trigger que
+ * descuenta la sesión del paquete y actualiza la última visita del
+ * cliente. Por eso la app no lleva su propia cuenta de nada.
+ *
+ * Ojo con un efecto lateral del esquema: `turno_valida_horario` también
+ * corre en el update de `estado`, así que cerrar un turno viejo vuelve a
+ * validar el horario del local. Si ese horario cambió, o si le cayó un
+ * bloqueo encima, la base lo rechaza aunque el turno ya haya ocurrido.
+ */
+export async function cambiarEstado(
+  _previo: EstadoCambio,
+  datos: FormData
+): Promise<EstadoCambio> {
+  const sesion = await sesionActual()
+  if (!sesion) return { error: 'Se cerró la sesión. Volvé a entrar.', ok: false }
+
+  const turno = String(datos.get('turno') ?? '')
+  const estado = String(datos.get('estado') ?? '') as EstadoTurnoValor
+
+  if (!turno) return { error: 'Falta el turno.', ok: false }
+  if (!PERMITIDOS.includes(estado)) {
+    return { error: 'Ese estado no existe.', ok: false }
+  }
+
+  const supabase = await crearClienteServidor()
+  const { error } = await supabase
+    .from('turnos')
+    .update({ estado })
+    .eq('id', turno)
+
+  if (error) {
+    if (error.code === '23P01') {
+      return { error: 'Al reactivarlo choca con otro turno.', ok: false }
+    }
+    if (error.code === 'P0001') {
+      return { error: error.message, ok: false }
+    }
+    if (error.code === '42501') {
+      return { error: 'Tu rol no puede cambiar turnos.', ok: false }
+    }
+    return { error: 'No se pudo cambiar el estado.', ok: false }
+  }
+
+  revalidatePath('/panel/agenda')
+  return { error: null, ok: true }
+}
