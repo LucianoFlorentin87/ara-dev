@@ -14,7 +14,13 @@ Paso a paso, desde cero hasta una URL funcionando. Unos 30 minutos.
 | Esquema | `01`, `02` y `03` corridos: 22 tablas, 44 políticas, 38 pruebas en verde |
 | Cuenta de la dueña | `dueno@studiokuna.com.py`, confirmada y con contraseña |
 | Aplicación | Next 16.3, los 7 puntos del orden de trabajo construidos |
-| Despliegue | **nada desplegado**: corre solo en `localhost:3000` |
+| Repositorio | `LucianoFlorentin87/ara-dev`, rama `main` |
+| **Producción** | **https://ara-dev-beta.vercel.app** |
+| Site URL de Supabase | apunta a Vercel; `localhost:3000/**` sigue en las redirecciones |
+
+Cada push a `main` despliega solo. Las ramas tienen su propia URL de
+vista previa, y el patrón `https://*-lucianoflorentinamarilla-9362.vercel.app/**`
+ya está en las redirecciones para que el login funcione también ahí.
 
 ### Qué está construido
 
