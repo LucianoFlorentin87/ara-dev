@@ -1026,3 +1026,77 @@ button.cta-solido:disabled {
   background: color-mix(in oklab, var(--warm) 26%, transparent);
   color: var(--warm-700);
 }
+
+/* ---- El menú lateral en durazno ----
+   La portada usa el durazno como el color que te llama; acá lo lleva toda
+   la navegación, para que el panel tenga los dos colores de la marca y no
+   solo violeta con acentos.
+
+   El relleno del item activo es `--warm` con `--on-warm` encima: ese par
+   existe en el CSS del diseño justamente para eso y funciona igual en tema
+   claro y oscuro. `--warm-solid` no sirve acá: es un marrón oscuro para
+   texto blanco, y sobre el durazno claro no se lee como durazno. */
+.menu-lateral {
+  --tinta-menu: color-mix(in oklab, var(--warm) 34%, transparent);
+  background: var(--warm-50);
+  border-right: 1px solid var(--tinta-menu);
+}
+.menu-lateral .cabecera-menu,
+.menu-lateral .pie-menu {
+  border-color: var(--tinta-menu);
+}
+/* El selector de local y los contadores quedan en superficie plana: el
+   violeta de --surface-2 sobre el durazno se ensucia. */
+.menu-lateral .selector-local {
+  background: var(--surface);
+  border-color: var(--tinta-menu);
+}
+.menu-lateral .selector-local:hover {
+  background: var(--surface);
+  border-color: var(--warm);
+}
+.menu-lateral .badge-menu {
+  background: var(--surface);
+  color: var(--ink-2);
+}
+.menu-lateral .item-menu:hover {
+  background: color-mix(in oklab, var(--warm) 24%, transparent);
+  color: var(--ink);
+}
+.menu-lateral .item-menu[data-activo='true'],
+.menu-lateral .item-menu[data-activo='true']:hover {
+  background: var(--warm);
+  color: var(--on-warm);
+}
+.menu-lateral .item-menu[data-activo='true'] .badge-menu,
+.menu-lateral .item-menu[data-activo='true'] .badge-menu[data-tono='alerta'] {
+  background: rgba(255, 255, 255, 0.42);
+  color: var(--on-warm);
+}
+.menu-lateral .badge-menu[data-tono='alerta'] {
+  background: var(--warm-solid);
+  color: #fff;
+}
+
+/* El selector de rol de la lista de usuarios. */
+.select-rol {
+  appearance: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: border-color .16s, color .16s;
+}
+.select-rol:hover:not(:disabled) {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.select-rol:disabled {
+  cursor: default;
+  opacity: .6;
+}

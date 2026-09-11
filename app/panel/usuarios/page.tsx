@@ -3,6 +3,9 @@ import { sesionActual } from '@/lib/sesion'
 import { crearClienteServidor } from '@/lib/supabase/servidor'
 import { ETIQUETA_ROL, type Rol, iniciales } from '@/lib/menu'
 import { Vista, Panel, Fila, Vacio, Rejilla } from '../ui'
+import { NuevoUsuario } from './nuevo'
+import { FilaUsuario } from './fila'
+import { hayClaveAdmin } from './acciones'
 
 const QUE_VE: Record<Rol, string> = {
   dueno: 'Todo el panel',
@@ -43,6 +46,7 @@ export default async function Usuarios() {
       .map((p) => [p.usuario_id as string, p.nombre_publico])
   )
   const sinCuenta = (profesionales ?? []).filter((p) => p.activo && !p.usuario_id)
+  const hayClave = await hayClaveAdmin()
 
   return (
     <Vista>
@@ -50,39 +54,30 @@ export default async function Usuarios() {
         <Panel
           titulo="Quién entra al sistema"
           ayuda={`${(usuarios ?? []).length} cuentas`}
+          accion={
+            <NuevoUsuario
+              hayClave={hayClave}
+              sinCuenta={sinCuenta.map((p) => ({ id: p.id, nombre: p.nombre_publico }))}
+            />
+          }
         >
           {(usuarios ?? []).length === 0 ? (
             <Vacio>No hay usuarios cargados.</Vacio>
           ) : (
             (usuarios ?? []).map((u) => (
-              <Fila key={u.id} tenue={!u.activo}>
-                <span
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '999px',
-                    background: 'var(--neutral-solid)',
-                    color: '#fff',
-                    fontSize: '11px',
-                    fontWeight: 700,
-                    display: 'grid',
-                    placeItems: 'center',
-                    flex: 'none',
-                  }}
-                >
-                  {iniciales(u.nombre)}
-                </span>
-                <span style={{ flex: 1, minWidth: '150px' }}>
-                  <span style={{ display: 'block', fontWeight: 600 }}>{u.nombre}</span>
-                  <span
-                    style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-2)' }}
-                  >
-                    {u.email}
-                    {porUsuario.has(u.id) ? ` · atiende como ${porUsuario.get(u.id)}` : ''}
-                  </span>
-                </span>
-                <span className="chip">{ETIQUETA_ROL[u.rol as Rol]}</span>
-              </Fila>
+              <FilaUsuario
+                key={u.id}
+                usuario={{
+                  id: u.id,
+                  nombre: u.nombre,
+                  email: u.email,
+                  rol: u.rol as Rol,
+                  activo: u.activo,
+                  atiendeComo: porUsuario.get(u.id) ?? null,
+                }}
+                esYo={u.id === sesion.usuarioId}
+                iniciales={iniciales(u.nombre)}
+              />
             ))
           )}
         </Panel>
@@ -140,18 +135,6 @@ export default async function Usuarios() {
         </div>
       </Rejilla>
 
-      <p
-        style={{
-          fontSize: '12.5px',
-          color: 'var(--ink-2)',
-          marginTop: '16px',
-          lineHeight: 1.55,
-        }}
-      >
-        Crear e invitar usuarios todavía no está: alta y baja de cuentas tocan
-        Supabase Auth, no solo esta tabla, y conviene resolverlo junto con la
-        pantalla de alta del local.
-      </p>
     </Vista>
   )
 }

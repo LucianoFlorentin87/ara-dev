@@ -132,9 +132,8 @@ export default async function PanelLayout({ children }: LayoutProps<'/panel'>) {
       }}
     >
       <aside
+        className="menu-lateral"
         style={{
-          borderRight: '1px solid var(--line-soft)',
-          background: 'var(--surface)',
           display: 'flex',
           flexDirection: 'column',
           minWidth: 0,
@@ -143,7 +142,10 @@ export default async function PanelLayout({ children }: LayoutProps<'/panel'>) {
           height: '100vh',
         }}
       >
-        <div style={{ padding: '16px 18px 14px', borderBottom: '1px solid var(--line-soft)' }}>
+        <div
+          className="cabecera-menu"
+          style={{ padding: '16px 18px 14px', borderBottom: '1px solid var(--line-soft)' }}
+        >
           <div
             style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '14px' }}
           >
@@ -224,7 +226,10 @@ export default async function PanelLayout({ children }: LayoutProps<'/panel'>) {
         />
 
         {plan && (
-          <div style={{ borderTop: '1px solid var(--line-soft)', padding: '14px 18px' }}>
+          <div
+            className="pie-menu"
+            style={{ borderTop: '1px solid var(--line-soft)', padding: '14px 18px' }}
+          >
             <div
               style={{
                 fontSize: '11px',
