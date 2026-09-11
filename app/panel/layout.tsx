@@ -86,12 +86,32 @@ export default async function PanelLayout({ children }: LayoutProps<'/panel'>) {
     return dias >= 45
   }).length
 
+  // Turnos que ya se atendieron hoy y todavía nadie cobró. El precio lo
+  // puso la base al agendar, así que el contador es exacto sin que nadie
+  // cargue nada.
+  //
+  // La consulta de cobros va después y solo por los ids de hoy: preguntar
+  // por todos los cobros con turno crece con el historial del local, y esto
+  // corre en cada vista del panel. Si no terminó nada todavía, ni se pregunta.
+  const terminadosHoy = deHoy.filter((t) => t.estado === 'terminado')
+  let porCobrar = 0
+  if (terminadosHoy.length > 0) {
+    const { data: cobrados } = await supabase
+      .from('cobros')
+      .select('turno_id')
+      .eq('anulado', false)
+      .in('turno_id', terminadosHoy.map((t) => t.id))
+    const yaCobrados = new Set((cobrados ?? []).map((c) => c.turno_id))
+    porCobrar = terminadosHoy.filter((t) => !yaCobrados.has(t.id)).length
+  }
+
   const contadores: Record<string, number> = {
     'lista-espera': (espera ?? []).length,
     'sala-espera': enSala + atendiendo,
     comunicacion: (turnosManana ?? []).length,
     stock: bajos,
     recall: dormidos,
+    caja: porCobrar,
   }
 
   const zona = [RUBROS[sesion.local.rubro] ?? sesion.local.rubro]
@@ -197,7 +217,11 @@ export default async function PanelLayout({ children }: LayoutProps<'/panel'>) {
           </div>
         </div>
 
-        <Navegacion grupos={gruposVisibles(sesion.rol)} contadores={contadores} />
+        <Navegacion
+          grupos={gruposVisibles(sesion.rol)}
+          contadores={contadores}
+          avisos={['stock', 'recall', 'caja']}
+        />
 
         {plan && (
           <div style={{ borderTop: '1px solid var(--line-soft)', padding: '14px 18px' }}>
@@ -365,6 +389,7 @@ export default async function PanelLayout({ children }: LayoutProps<'/panel'>) {
           cajaAbierta={caja ? horaDe(caja.abierta_en) : null}
           turnosHoy={deHoy.length}
           enSala={enSala}
+          porCobrar={porCobrar}
         />
 
         {children}

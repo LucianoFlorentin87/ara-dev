@@ -7,9 +7,12 @@ import type { Grupo } from '@/lib/menu'
 export function Navegacion({
   grupos,
   contadores = {},
+  avisos = [],
 }: {
   grupos: Grupo[]
   contadores?: Record<string, number>
+  /** Vistas cuyo contador es un aviso: se dibuja en durazno. */
+  avisos?: string[]
 }) {
   const ruta = usePathname()
 
@@ -51,7 +54,14 @@ export function Navegacion({
                 >
                   {it.label}
                 </span>
-                {cuenta > 0 && <span className="badge-menu">{cuenta}</span>}
+                {cuenta > 0 && (
+                  <span
+                    className="badge-menu"
+                    data-tono={avisos.includes(it.vista) ? 'alerta' : undefined}
+                  >
+                    {cuenta}
+                  </span>
+                )}
               </Link>
             )
           })}

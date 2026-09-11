@@ -1,9 +1,10 @@
 import { redirect } from 'next/navigation'
 import { sesionActual } from '@/lib/sesion'
 import { crearClienteServidor } from '@/lib/supabase/servidor'
-import { horaDe, guaranies } from '@/lib/tiempo'
+import { horaDe, guaranies, hoyISO, instanteDe, sumarDias } from '@/lib/tiempo'
 import { AbrirCaja } from './abrir'
 import { Arqueo } from './arqueo'
+import { PanelPorCobrar, type PorCobrar } from './por-cobrar'
 
 const panel = {
   background: 'var(--surface)',
@@ -63,14 +64,67 @@ export default async function Caja() {
     )
   }
 
-  const { data: cobros } = await supabase
-    .from('cobros')
-    .select('id, monto, medio, concepto, anulado, created_at, clientes(nombre, apellido)')
-    .eq('caja_id', caja.id)
-    .order('created_at')
+  const hoy = hoyISO()
+
+  const [{ data: cobros }, { data: terminados }] = await Promise.all([
+    supabase
+      .from('cobros')
+      .select('id, monto, medio, concepto, anulado, created_at, clientes(nombre, apellido)')
+      .eq('caja_id', caja.id)
+      .order('created_at'),
+    // Los turnos que ya se atendieron hoy. El que no tenga cobro va a la
+    // lista de "Por cobrar": el precio ya lo puso la base al agendar, así
+    // que nadie tiene que volver a escribirlo.
+    supabase
+      .from('turnos')
+      .select(
+        'id, inicio, precio_congelado, sena_pagada, clientes(nombre, apellido), servicios(nombre), profesionales(nombre_publico)'
+      )
+      .eq('estado', 'terminado')
+      .gte('inicio', instanteDe(hoy, '00:00').toISOString())
+      .lt('inicio', instanteDe(sumarDias(hoy, 1), '00:00').toISOString())
+      .order('inicio'),
+  ])
 
   const uno = <T,>(x: T | T[] | null): T | null =>
     Array.isArray(x) ? (x[0] ?? null) : x
+
+  // Solo los cobros de esos turnos: preguntar por todos los cobros con
+  // turno crece con el historial del local y acá no hace falta.
+  const { data: cobrados } =
+    (terminados ?? []).length > 0
+      ? await supabase
+          .from('cobros')
+          .select('turno_id')
+          .eq('anulado', false)
+          .in('turno_id', (terminados ?? []).map((t) => t.id))
+      : { data: [] as { turno_id: string | null }[] }
+
+  const yaCobrados = new Set((cobrados ?? []).map((c) => c.turno_id))
+
+  // El que ya pagó todo con la seña no debe nada: no va a la lista.
+  const pendientes = (terminados ?? [])
+    .filter((t) => !yaCobrados.has(t.id))
+    .map((t) => ({ t, saldo: Number(t.precio_congelado) - Number(t.sena_pagada ?? 0) }))
+    .filter(({ saldo }) => saldo > 0)
+
+  const porCobrar: PorCobrar[] = pendientes.map(({ t, saldo }) => {
+    const cli = uno(t.clientes) as { nombre: string; apellido: string | null } | null
+    const srv = uno(t.servicios) as { nombre: string } | null
+    const pro = uno(t.profesionales) as { nombre_publico: string } | null
+    const sena = Number(t.sena_pagada ?? 0)
+    return {
+      id: t.id,
+      hora: horaDe(t.inicio),
+      cliente: [cli?.nombre, cli?.apellido].filter(Boolean).join(' '),
+      servicio: srv?.nombre ?? 'Turno',
+      profesional: pro?.nombre_publico ?? '',
+      monto: guaranies(saldo),
+      sena: sena > 0 ? guaranies(sena) : null,
+    }
+  })
+
+  const totalPorCobrar = pendientes.reduce((a, { saldo }) => a + saldo, 0)
 
   const abrio = uno(caja.usuarios) as { nombre: string } | null
   const validos = (cobros ?? []).filter((c) => !c.anulado)
@@ -189,15 +243,22 @@ export default async function Caja() {
                     {m.cliente}
                   </span>
                 </span>
-                <span className="chip">{m.medio}</span>
+                <span className="chip" data-tono={m.anulado ? 'alerta' : undefined}>
+                  {m.medio}
+                </span>
                 <span
                   style={{
-                    fontWeight: 600,
+                    fontWeight: m.anulado ? 700 : 600,
                     fontSize: '13.5px',
                     fontVariantNumeric: 'tabular-nums',
                     textDecoration: m.anulado ? 'line-through' : 'none',
+                    color: m.anulado ? 'var(--warm-700)' : undefined,
+                    flex: 'none',
+                    minWidth: '104px',
+                    textAlign: 'right',
                   }}
                 >
+                  {m.anulado ? '− ' : '+ '}
                   {guaranies(m.monto)}
                 </span>
                 <span
@@ -218,6 +279,8 @@ export default async function Caja() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <PanelPorCobrar turnos={porCobrar} total={guaranies(totalPorCobrar)} />
+
           <div style={panel}>
             <h3 style={tituloPanel}>Total del turno</h3>
             <div

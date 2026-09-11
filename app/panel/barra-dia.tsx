@@ -15,10 +15,12 @@ export function BarraDia({
   cajaAbierta,
   turnosHoy,
   enSala,
+  porCobrar = 0,
 }: {
   cajaAbierta: string | null
   turnosHoy: number
   enSala: number
+  porCobrar?: number
 }) {
   const ruta = usePathname()
   const params = useSearchParams()
@@ -108,11 +110,20 @@ export function BarraDia({
             Caja cerrada
           </Link>
         )}
+        {/* Lo que está esperando a alguien va en durazno, igual que en la
+            portada. Un turno sin cobrar es plata que todavía no entró. */}
+        {porCobrar > 0 && (
+          <Link href="/panel/caja" className="pastilla-aviso">
+            {porCobrar} sin cobrar
+          </Link>
+        )}
         <span>
           {turnosHoy} {turnosHoy === 1 ? 'turno' : 'turnos'}
         </span>
         <span>·</span>
-        <span>{enSala} en sala de espera</span>
+        <span style={enSala > 0 ? { color: 'var(--warm-700)', fontWeight: 600 } : undefined}>
+          {enSala} en sala de espera
+        </span>
       </div>
     </div>
   )

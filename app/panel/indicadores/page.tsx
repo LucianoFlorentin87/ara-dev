@@ -140,7 +140,7 @@ export default async function Indicadores() {
       .order('inicio'),
     supabase
       .from('cobros')
-      .select('monto, anulado, created_at')
+      .select('monto, anulado, created_at, turno_id')
       .gte('created_at', instanteDe(sumarDias(hoy, -20), '00:00').toISOString()),
     supabase.from('clientes').select('id, nombre, apellido, ultima_visita, fecha_nac'),
     supabase.from('productos').select('nombre, stock, stock_minimo').eq('activo', true),
@@ -210,6 +210,22 @@ export default async function Indicadores() {
 
   // --- Requiere atención: cada aviso sale de un dato, no de una lista fija ---
   const alertas: { titulo: string; detalle: string; tag: string; tono: string; href: string }[] = []
+
+  // Turnos atendidos que todavía nadie cobró. Es el aviso más caro de
+  // ignorar: es plata trabajada que no entró a la caja.
+  const cobradosIds = new Set(validos.map((c) => c.turno_id).filter(Boolean))
+  const sinCobrar = turnosDe(hoy).filter(
+    (t) => t.estado === 'terminado' && !cobradosIds.has(t.id)
+  )
+  if (sinCobrar.length > 0) {
+    alertas.push({
+      titulo: `${sinCobrar.length} ${sinCobrar.length === 1 ? 'turno atendido' : 'turnos atendidos'} sin cobrar`,
+      detalle: 'Están esperando en Caja, con el precio ya cargado',
+      tag: 'Caja',
+      tono: 'coral',
+      href: '/panel/caja',
+    })
+  }
 
   const enMora = (paquetes ?? []).filter(
     (p) => Number(p.saldo_pendiente) > 0 && p.vence_el && p.vence_el < hoy
