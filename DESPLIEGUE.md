@@ -161,6 +161,13 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbG...
 La tercera **no** lleva `NEXT_PUBLIC_`: ese prefijo es lo que hace que Next la
 meta en el bundle del navegador. Sin prefijo, solo existe en el servidor.
 
+`SUPABASE_SERVICE_ROLE_KEY` dejó de ser opcional: la usa el alta de usuarios
+de **Panel → Usuarios y permisos**, que es lo único del sistema que tiene que
+escribir en `auth.users`. Si falta, esa pantalla deshabilita el botón y
+explica por qué; el resto del panel anda igual. Tiene que estar en
+`.env.local` **y** en las variables de entorno de Vercel (Production y
+Preview), y después hay que volver a desplegar para que la tome.
+
 ### La conexión
 
 Tres archivos. La diferencia entre ellos es de dónde sale la sesión, y por eso
