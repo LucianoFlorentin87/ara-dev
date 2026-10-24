@@ -88,3 +88,25 @@ summary::-webkit-details-marker { display: none; }
 }
 @keyframes pulseDot { 0%,100% { opacity: .35; transform: scale(.85) } 50% { opacity: 1; transform: scale(1) } }
 @keyframes flotar { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-9px) } }
+
+/* Portada "noche": la landing principal en negro monocromo.
+   Siempre oscura, no depende del tema claro/oscuro. El violeta de la marca
+   queda como acento mínimo (brillo de fondo y puntos de estado). */
+.noche {
+  --n-bg: #000000;
+  --n-surface: #0b0a10;
+  --n-surface-2: #13111b;
+  --n-line: rgba(255,255,255,.12);
+  --n-line-2: rgba(255,255,255,.24);
+  --n-ink: #ffffff;
+  --n-ink-2: rgba(255,255,255,.72);
+  --n-ink-3: rgba(255,255,255,.45);
+  --n-glass: rgba(0,0,0,.42);
+  --n-glass-2: rgba(255,255,255,.08);
+  --n-acento: #a985ff;
+  --n-acento-suave: rgba(169,133,255,.16);
+  --n-calido: #ffab6e;
+  --n-brillo: rgba(106,43,224,.55);
+  --n-brillo-2: rgba(143,69,18,.35);
+  --n-sombra: 0 30px 80px -30px rgba(0,0,0,.9);
+}
