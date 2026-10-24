@@ -1149,3 +1149,191 @@
     font-size: 12.5px;
   }
 }
+
+/* =====================================================================
+   Páginas heredadas del diseño original (marketing, login, alta).
+   Sus colores ya cambian con los tokens redefinidos en .noche; acá se
+   ajusta lo que los tokens no alcanzan: pesos de título, forma de los
+   botones y los estados "sólidos" que pasan a blanco con letra negra.
+   ===================================================================== */
+
+/* Títulos: Geist liviano, como la portada. Los estilos van en línea en
+   esas páginas, por eso el !important (acotado a .noche). */
+.noche :is(h1, h2) {
+  font-weight: 400 !important;
+  letter-spacing: -0.025em !important;
+}
+.noche h3 {
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+}
+.noche strong {
+  font-weight: 500;
+}
+
+/* Botones en mono, rectos, como los segmentados */
+.noche :is(.cta-blanco, .cta-linea, .cta-solido, .cta-suave, .boton-plan, .boton-primario, .boton-atras, .boton-punteado) {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: none;
+  transform: none;
+}
+.noche :is(.cta-blanco, .cta-linea, .cta-solido, .cta-suave) {
+  padding: 13px 20px;
+}
+.noche :is(.cta-blanco, .cta-linea, .cta-solido, .cta-suave, .boton-plan, .boton-primario, .boton-atras):hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Primarios: blanco con letra negra */
+.noche :is(.cta-blanco, .cta-solido, .boton-primario, .boton-plan[data-destacado='true']) {
+  background: var(--n-ink);
+  color: var(--n-bg);
+  border: 1px solid var(--n-ink);
+}
+.noche :is(.cta-blanco, .cta-solido, .boton-primario, .boton-plan[data-destacado='true']):hover:not(:disabled) {
+  background: var(--n-ink-2);
+  border-color: var(--n-ink-2);
+  color: var(--n-bg);
+}
+
+/* Secundarios: vidrio con borde fino */
+.noche :is(.cta-linea, .cta-suave, .boton-plan, .boton-atras) {
+  background: var(--n-glass);
+  color: var(--n-ink);
+  border: 1px solid var(--n-line-2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.noche :is(.cta-linea, .cta-suave, .boton-plan, .boton-atras):hover:not(:disabled) {
+  background: var(--n-glass-2);
+  border-color: var(--n-ink-3);
+  color: var(--n-ink);
+}
+
+/* El paso activo del alta lleva el número en un círculo blanco
+   translúcido: queda oscuro con borde claro para que se siga leyendo. */
+.noche .paso-alta[data-activo='true'] {
+  background: var(--n-surface-2);
+  color: var(--n-ink);
+  border-color: var(--n-ink);
+}
+
+/* Estados activos que antes eran violeta sólido */
+.noche :is(.tab-rubro, .opcion-rubro)[data-activo='true'],
+.noche .tilde[data-activo='true'],
+.noche .perilla[data-on='true'],
+.noche .tag[data-tono='tinta'] {
+  background: var(--n-ink);
+  color: var(--n-bg);
+  border-color: var(--n-ink);
+}
+.noche .opcion-rubro[data-activo='true']:hover {
+  color: var(--n-bg);
+}
+.noche .perilla[data-on='true'] > span {
+  background: var(--n-bg);
+}
+
+/* Pastillas y pestañas: rectas y en mono */
+.noche :is(.tab-rubro, .pastilla-rubro, .pildora, .pastilla) {
+  border-radius: 4px;
+  box-shadow: none;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12.5px;
+}
+.noche :is(.tab-rubro, .pastilla-rubro):hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--n-ink-3);
+  color: var(--n-ink);
+}
+
+/* Tarjetas */
+.noche :is(.tarjeta-mk, .faq-mk, .paso-alta, .opcion-rubro) {
+  box-shadow: none;
+}
+.noche :is(.paso-alta, .opcion-rubro) {
+  border-radius: 6px;
+}
+.noche :is(.paso-alta, .opcion-rubro):hover {
+  transform: none;
+  border-color: var(--n-line-2);
+}
+.noche .tarjeta-mk {
+  border-radius: 6px;
+}
+.noche .tarjeta-mk[data-hover='true']:hover {
+  transform: none;
+  border-color: var(--n-line-2);
+}
+.noche .faq-mk {
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid var(--n-line);
+  margin: 0;
+  padding: 18px 0;
+}
+.noche .faq-mk summary {
+  font-weight: 400;
+}
+
+/* Campos de formulario */
+.noche .campo {
+  border-radius: 4px;
+  background: var(--n-surface);
+  border-color: var(--n-line-2);
+  color: var(--n-ink);
+}
+.noche .campo::placeholder {
+  color: var(--n-ink-3);
+}
+.noche .campo:focus {
+  border-color: var(--n-ink);
+  box-shadow: 0 0 0 3px var(--n-glass-2);
+}
+.noche .campo:-webkit-autofill {
+  -webkit-text-fill-color: var(--n-ink);
+  -webkit-box-shadow: 0 0 0 40px var(--n-surface) inset;
+  caret-color: var(--n-ink);
+}
+.noche input[type='checkbox'] {
+  accent-color: var(--n-ink);
+}
+
+.noche .enlace-nav {
+  color: var(--n-ink-2);
+}
+.noche .enlace-nav:hover,
+.noche .enlace-nav[data-activo='true'] {
+  color: var(--n-ink);
+}
+
+/* El encabezado fijo de las páginas internas (en la portada flota) */
+.n-cabecera[data-fijo='true'] {
+  position: sticky;
+  top: 0;
+  background: color-mix(in oklab, var(--n-bg) 72%, transparent);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--n-line);
+}
+.n-cabecera[data-fijo='true'] .n-cabecera-fila {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+/* Panel derecho del login y la recuperación */
+.n-panel-auth {
+  background:
+    radial-gradient(70% 60% at 80% 20%, var(--n-brillo) 0%, transparent 70%),
+    radial-gradient(50% 50% at 100% 100%, var(--n-brillo-2) 0%, transparent 70%),
+    var(--n-surface) !important;
+  border-left: 1px solid var(--n-line);
+}

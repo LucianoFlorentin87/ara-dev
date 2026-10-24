@@ -17,7 +17,7 @@ const inicial: EstadoAlta = { error: null }
 const tarjeta = {
   background: 'var(--surface)',
   border: '1px solid var(--line-soft)',
-  borderRadius: '30px',
+  borderRadius: 'var(--r-lg)',
   padding: '30px 28px',
   boxShadow: 'var(--sh-1)',
 } as const
@@ -167,7 +167,7 @@ export function Asistente() {
             style={{
               height: '100%',
               width: `${((paso + 1) / 5) * 100}%`,
-              background: 'var(--brand-solid)',
+              background: 'var(--brand)',
               transition: 'width .3s cubic-bezier(.2,.7,.3,1)',
             }}
           />
@@ -364,7 +364,7 @@ export function Asistente() {
               style={{
                 marginTop: '18px',
                 padding: '16px 18px',
-                borderRadius: '14px',
+                borderRadius: 'var(--r-md)',
                 background: 'var(--surface-2)',
                 border: '1px solid var(--line-soft)',
               }}
@@ -549,7 +549,7 @@ export function Asistente() {
               style={{
                 marginTop: '22px',
                 padding: '18px 20px',
-                borderRadius: '16px',
+                borderRadius: 'var(--r-md)',
                 background: 'var(--brand-50)',
                 border: '1px solid var(--brand-100)',
               }}

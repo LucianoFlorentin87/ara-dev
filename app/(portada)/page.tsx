@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { CSSProperties, ReactNode } from 'react'
 import { RUBROS } from '@/lib/rubros'
 import { FAQ_ARRANQUE, FAQ_PRECIOS, PASOS } from '@/lib/marketing'
-import { Flecha, ICONOS, Mas, Tilde } from './iconos'
+import { Flecha, ICONOS, Mas, Tilde } from '../_noche/iconos'
 import { PestanasRubros } from './pestanas-rubros'
 import { AGENDA_HERO, ESTADISTICAS, ETIQUETA_PORTADA, FILAS, RECALL } from './portada-datos'
 

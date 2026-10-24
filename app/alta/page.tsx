@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { crearClienteServidor } from '@/lib/supabase/servidor'
+import { claseNoche } from '../_noche/marco'
 import { Asistente } from './asistente'
 
 export const metadata = {
@@ -18,7 +19,7 @@ export default async function Alta() {
   if (!data.user) redirect('/login?volver=/alta')
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className={claseNoche} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Asistente />
     </div>
   )

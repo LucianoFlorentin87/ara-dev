@@ -3,7 +3,7 @@
 import { useId, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import Link from 'next/link'
 import type { Rubro } from '@/lib/rubros'
-import { Flecha } from './iconos'
+import { Flecha } from '../_noche/iconos'
 
 /**
  * Los nueve rubros como pestañas. Cada pestaña muestra la agenda de ejemplo

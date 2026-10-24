@@ -110,3 +110,43 @@ summary::-webkit-details-marker { display: none; }
   --n-brillo-2: rgba(143,69,18,.35);
   --n-sombra: 0 30px 80px -30px rgba(0,0,0,.9);
 }
+
+/* Las páginas que vienen del diseño original usan los tokens de siempre
+   (--bg, --surface, --brand…). Dentro de .noche se redefinen para que se
+   vean en el estilo nuevo sin tocar su código. Regla que se mantiene:
+   los *-solid siguen llevando texto blanco, por eso acá son oscuros. */
+.noche {
+  --bg: #000000;
+  --surface: #0b0a10;
+  --surface-2: #13111b;
+  --line: rgba(255,255,255,.16);
+  --line-soft: rgba(255,255,255,.10);
+  --ink: #ffffff;
+  --ink-2: rgba(255,255,255,.66);
+
+  --brand: #ffffff;
+  --brand-700: rgba(255,255,255,.78);
+  --brand-300: rgba(255,255,255,.40);
+  --brand-100: rgba(255,255,255,.18);
+  --brand-50: rgba(255,255,255,.06);
+  --brand-solid: #1c1929;
+  --brand-solid-700: #262236;
+
+  --warm: #ffab6e;
+  --warm-700: #ffc79c;
+  --warm-50: rgba(255,171,110,.08);
+  --warm-solid: #2a1d14;
+  --on-warm: #2a1508;
+  --neutral-solid: #2b2838;
+
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 8px;
+  --r-xl: 10px;
+  --sh-1: none;
+  --sh-2: 0 20px 50px -24px rgba(0,0,0,.9);
+  --sh-3: 0 30px 80px -30px rgba(0,0,0,.95);
+
+  --fuente-titulos: var(--font-geist-sans);
+  --fuente-texto: var(--font-geist-sans);
+}
