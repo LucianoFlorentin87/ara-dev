@@ -60,7 +60,7 @@ export default async function LandingRubro({ params }: PageProps<'/rubros/[rubro
               position: 'absolute',
               inset: 0,
               background:
-                'linear-gradient(200deg, rgba(76,21,181,.94) 0%, rgba(106,43,224,.86) 42%, rgba(26,16,48,.72) 100%)',
+                'radial-gradient(60% 55% at 78% 30%, var(--n-brillo) 0%, transparent 70%), linear-gradient(200deg, color-mix(in oklab, var(--n-surface-2) 97%, transparent) 0%, color-mix(in oklab, var(--n-bg) 92%, transparent) 100%)',
             }}
           />
           <div

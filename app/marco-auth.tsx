@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { claseNoche } from './_noche/marco'
 
 const ventajas = [
   'Turnos sin doble reserva',
@@ -8,7 +9,7 @@ const ventajas = [
 
 /**
  * El marco de dos columnas del diseño: formulario a la izquierda, panel
- * violeta a la derecha. Lo comparten el login y la recuperación de
+ * de marca a la derecha. Va en el estilo "noche", igual que el sitio. Lo comparten el login y la recuperación de
  * contraseña para que se vean como la misma pantalla.
  */
 export function MarcoAuth({
@@ -22,6 +23,7 @@ export function MarcoAuth({
 }) {
   return (
     <div
+      className={claseNoche}
       style={{
         minHeight: '100vh',
         display: 'grid',
@@ -111,6 +113,7 @@ export function MarcoAuth({
       </div>
 
       <div
+        className="n-panel-auth"
         style={{
           background: 'var(--brand-solid)',
           color: '#fff',
@@ -137,9 +140,10 @@ export function MarcoAuth({
         />
         <div style={{ position: 'relative', maxWidth: '420px' }}>
           <div
+            className="n-mono"
             style={{
               fontSize: '12px',
-              fontWeight: 600,
+              fontWeight: 500,
               letterSpacing: '.1em',
               textTransform: 'uppercase',
               opacity: 0.85,
@@ -151,7 +155,7 @@ export function MarcoAuth({
           <div
             style={{
               fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
-              fontWeight: 700,
+              fontWeight: 400,
               fontSize: 'clamp(28px, 3.4vw, 40px)',
               lineHeight: 1.08,
               letterSpacing: '-0.035em',
@@ -165,7 +169,8 @@ export function MarcoAuth({
               <div
                 key={v}
                 style={{
-                  background: 'rgba(255,255,255,.14)',
+                  background: 'var(--n-glass)',
+                  border: '1px solid var(--n-line)',
                   borderRadius: 'var(--r-md)',
                   padding: '14px 16px',
                   display: 'flex',

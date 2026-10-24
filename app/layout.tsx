@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Outfit, Manrope } from 'next/font/google'
 import './ara.css'
 import './componentes.css'
+import './_noche/noche.css'
 
 // Outfit para títulos, Manrope para texto. Los dos con los pesos que usa el diseño.
 const outfit = Outfit({

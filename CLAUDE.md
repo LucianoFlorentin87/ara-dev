@@ -43,6 +43,17 @@ Recrealos fiel al pixel. No hay etapa de diseño visual pendiente y no hace falt
 Los archivos de `diseno/` son referencia, no código a copiar. La excepción es
 `turnalia.css`, que se copia tal cual.
 
+## Estilo "noche" (sitio público y acceso)
+
+Desde octubre 2026 el sitio público (portada, rubros, sistema, funciones,
+cómo arranca, precios) y las pantallas de acceso (login, alta, recuperar)
+van en el estilo "noche": fondo negro, Geist y Geist Mono. Se activa con
+`claseNoche` de `app/_noche/marco.tsx`, que redefine los tokens de siempre
+dentro de `.noche` (ver el final de `turnalia.css`). Las páginas heredadas
+no se reescribieron: toman el estilo por los tokens y por los ajustes de
+`app/_noche/noche.css`. El panel y el portal siguen con el diseño original
+de `diseno/`. No mezclar: nada de `.noche` dentro del panel.
+
 ## Datos de la demo
 
 Local ficticio **Studio Kuña**. Equipo: Carla Domínguez (dueña), Sofía Ramírez,
