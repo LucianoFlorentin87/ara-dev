@@ -1,20 +1,25 @@
 import type { Metadata } from 'next'
-import { Outfit, Manrope } from 'next/font/google'
+import localFont from 'next/font/local'
 import './ara.css'
 import './componentes.css'
 import './_noche/noche.css'
 
-// Outfit para títulos, Manrope para texto. Los dos con los pesos que usa el diseño.
-const outfit = Outfit({
+// Outfit para títulos, Manrope para texto. Van como archivos locales
+// (paquetes @fontsource-variable) y no desde Google Fonts: así el build no
+// depende de que Google responda. Son las mismas fuentes, en versión
+// variable, que cubren todos los pesos que usa el diseño.
+const outfit = localFont({
+  src: '../node_modules/@fontsource-variable/outfit/files/outfit-latin-wght-normal.woff2',
   variable: '--fuente-titulos',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+  weight: '100 900',
+  display: 'swap',
 })
 
-const manrope = Manrope({
+const manrope = localFont({
+  src: '../node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2',
   variable: '--fuente-texto',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: '200 800',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
