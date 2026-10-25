@@ -7,7 +7,6 @@ import {
   CATALOGOS,
   PASOS,
   DIAS_BASE,
-  EQUIPO,
   slugDe,
 } from './datos'
 import { darDeAlta, type EstadoAlta } from './acciones'
@@ -49,22 +48,7 @@ const fila = {
   flexWrap: 'wrap',
 } as const
 
-function chip(tono: string) {
-  const neutro = tono === 'neutro'
-  return {
-    flex: 'none',
-    fontSize: '11.5px',
-    fontWeight: 700,
-    padding: '5px 11px',
-    borderRadius: '999px',
-    whiteSpace: 'nowrap' as const,
-    background: neutro ? 'var(--surface-2)' : 'var(--brand-50)',
-    color: neutro ? 'var(--ink-2)' : 'var(--brand-700)',
-    border: '1px solid ' + (neutro ? 'var(--line-soft)' : 'var(--brand-100)'),
-  }
-}
-
-export function Asistente() {
+export function Asistente({ nombreUsuario, correo }: { nombreUsuario: string; correo: string }) {
   const [paso, setPaso] = useState(0)
   const [rubro, setRubro] = useState<string>('Peluquería')
   const [nombreLocal, setNombreLocal] = useState('')
@@ -382,7 +366,7 @@ export function Asistente() {
                 Tu link va a ser
               </div>
               <div style={{ fontSize: '15px', fontWeight: 600, wordBreak: 'break-all' }}>
-                ara.com.py/{slug}
+                /{slug}
               </div>
             </div>
           </div>
@@ -498,9 +482,7 @@ export function Asistente() {
                 </div>
               )
             })}
-            <button type="button" className="boton-punteado">
-              Agregar otro servicio
-            </button>
+            <p>Después del alta podés agregar más servicios desde el catálogo del panel.</p>
           </div>
         )}
 
@@ -508,43 +490,9 @@ export function Asistente() {
         {paso === 4 && (
           <div style={tarjeta}>
             <h1 style={tituloPaso}>¿Quién trabaja con vos?</h1>
-            <p style={bajadaPaso}>
-              Cada persona recibe una invitación por correo y elige su propia
-              contraseña. Vos definís qué puede ver.
-            </p>
-            {EQUIPO.map((e, i) => (
-              <div key={e.mail} style={fila}>
-                <span
-                  style={{
-                    flex: 'none',
-                    width: '38px',
-                    height: '38px',
-                    borderRadius: '999px',
-                    display: 'grid',
-                    placeItems: 'center',
-                    fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
-                    fontWeight: 700,
-                    fontSize: '13px',
-                    color: '#fff',
-                    background: i === 0 ? 'var(--brand-solid)' : 'var(--neutral-solid)',
-                  }}
-                >
-                  {e.ini}
-                </span>
-                <span style={{ flex: 1, minWidth: '150px' }}>
-                  <span style={{ display: 'block', fontSize: '14.5px', fontWeight: 600 }}>
-                    {e.nombre}
-                  </span>
-                  <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-2)' }}>
-                    {e.mail}
-                  </span>
-                </span>
-                <span style={chip(e.tono)}>{e.rol}</span>
-              </div>
-            ))}
-            <button type="button" className="boton-punteado">
-              Invitar a alguien más
-            </button>
+            <p style={bajadaPaso}>Tu cuenta será la dueña del local. También creamos tu perfil de profesional para que puedas recibir reservas.</p>
+            <p><strong>{nombreUsuario}</strong><br />{correo}</p>
+            <p>Después podés cargar profesionales y crear las cuentas del equipo desde el panel. No se envían invitaciones en este paso.</p>
             <div
               style={{
                 marginTop: '22px',
@@ -566,7 +514,7 @@ export function Asistente() {
                 Ya está: el local queda listo
               </h3>
               <p style={{ fontSize: '13.5px', lineHeight: 1.6, color: 'var(--ink-2)', margin: 0 }}>
-                Al terminar te llevamos al panel con tu catálogo y tu equipo cargados, y
+                Al terminar te llevamos al panel con tu catálogo y tu perfil cargados, y
                 con el link de reserva listo para compartir. Los 14 días de prueba
                 empiezan hoy.
               </p>
@@ -619,6 +567,7 @@ export function Asistente() {
               <button
                 type="button"
                 className="cta-solido"
+                disabled={paso === 1 && (!nombreLocal.trim() || nombreLocal.length > 100 || !/^[a-z0-9-]{3,40}$/.test(slugDe(nombreLocal)))}
                 onClick={() => setPaso((p) => Math.min(4, p + 1))}
               >
                 Siguiente

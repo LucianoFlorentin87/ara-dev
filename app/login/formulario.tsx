@@ -76,7 +76,7 @@ export function Formulario({ volver = '' }: { volver?: string }) {
           margin: '16px 0 22px',
         }}
       >
-        <label
+        <span
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -86,14 +86,8 @@ export function Formulario({ volver = '' }: { volver?: string }) {
             cursor: 'pointer',
           }}
         >
-          <input
-            type="checkbox"
-            name="recordar"
-            defaultChecked
-            style={{ width: '16px', height: '16px', accentColor: 'var(--brand)' }}
-          />
-          No cerrar sesión
-        </label>
+          Sesión protegida
+        </span>
         <Link href="/recuperar" style={{ fontSize: '13.5px', textDecoration: 'none' }}>
           ¿Olvidaste la contraseña?
         </Link>
@@ -108,6 +102,8 @@ export function Formulario({ volver = '' }: { volver?: string }) {
       <button type="submit" className="boton-primario" disabled={pendiente}>
         {pendiente ? 'Entrando…' : 'Entrar'}
       </button>
+
+      <p style={{ fontSize: '13.5px' }}><Link href="/registro">¿No tenés cuenta? Crear mi cuenta de prueba</Link></p>
 
       <div
         style={{

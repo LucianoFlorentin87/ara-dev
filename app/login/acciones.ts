@@ -2,6 +2,7 @@
 
 import { redirect } from 'next/navigation'
 import { crearClienteServidor } from '@/lib/supabase/servidor'
+import { destinoAuth } from '@/lib/auth-destino'
 
 export type EstadoLogin = { error: string | null }
 
@@ -32,7 +33,7 @@ export async function entrar(
   // aceptan rutas propias: un `volver` con host ajeno sería un redirect
   // abierto servido desde nuestro dominio.
   const volver = String(datos.get('volver') ?? '')
-  redirect(/^\/[^/]/.test(volver) ? volver : '/panel')
+  redirect(destinoAuth(volver))
 }
 
 export async function salir() {

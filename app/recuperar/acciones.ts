@@ -19,7 +19,7 @@ export async function pedirRecuperacion(
 
   const supabase = await crearClienteServidor()
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origen}/recuperar/nueva`,
+    redirectTo: `${origen}/auth/callback?next=/recuperar/nueva`,
   })
 
   // No se distingue si el correo existe: decirlo convierte esta pantalla en

@@ -1,14 +1,9 @@
 import { crearClienteServidor } from '@/lib/supabase/servidor'
 import { sesionActual } from '@/lib/sesion'
 import { hoyISO } from '@/lib/tiempo'
+import { celdaCsv } from '@/lib/csv'
 
-/**
- * Exporta a CSV lo que la sesión tenga permitido leer.
- *
- * No usa `service_role`: corre con la sesión de quien pide, así que RLS
- * decide qué filas salen. Una recepcionista que exporte clientes no se
- * lleva las fichas, porque la política no se las deja leer.
- */
+/** Exportación exclusiva del dueño; las filas también pasan por RLS. */
 
 const TABLAS: Record<string, { columnas: string; orden: string }> = {
   clientes: {
@@ -34,19 +29,13 @@ const TABLAS: Record<string, { columnas: string; orden: string }> = {
   },
 }
 
-/** Comillas dobles y separador punto y coma: es lo que abre Excel en es-PY. */
-function celda(v: unknown): string {
-  if (v === null || v === undefined) return ''
-  const s = String(v)
-  return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s
-}
-
 export async function GET(pedido: Request) {
   const sesion = await sesionActual()
   if (!sesion) return new Response('Sin sesión', { status: 401 })
+  if (sesion.rol !== 'dueno') return new Response('Sin permiso para exportar', { status: 403 })
 
   const tabla = new URL(pedido.url).searchParams.get('tabla') ?? ''
-  const def = TABLAS[tabla]
+  const def = Object.hasOwn(TABLAS, tabla) ? TABLAS[tabla] : undefined
   if (!def) return new Response('Tabla no exportable', { status: 400 })
 
   const supabase = await crearClienteServidor()
@@ -61,13 +50,15 @@ export async function GET(pedido: Request) {
   const encabezados = def.columnas.split(',').map((c) => c.trim())
   const cuerpo = [
     encabezados.join(';'),
-    ...filas.map((f) => encabezados.map((c) => celda(f[c])).join(';')),
+    ...filas.map((f) => encabezados.map((c) => celdaCsv(f[c])).join(';')),
   ].join('\r\n')
 
   // BOM para que Excel reconozca el UTF-8 y no rompa los acentos.
   return new Response('﻿' + cuerpo, {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
+      'Cache-Control': 'private, no-store',
+      'X-Content-Type-Options': 'nosniff',
       'Content-Disposition': `attachment; filename="ara-${tabla}-${hoyISO()}.csv"`,
     },
   })

@@ -9,7 +9,7 @@ export const metadata = {
 
 // Pendiente del cliente: el WhatsApp real y los precios de verdad. Gs. 150.000
 // y Gs. 350.000 son los marcadores del diseño.
-const WA = 'https://wa.me/595981000000'
+const WA = 'https://wa.me/595983991460'
 
 const titulo = {
   fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',

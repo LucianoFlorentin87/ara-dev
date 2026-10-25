@@ -43,3 +43,7 @@ next-env.d.ts
 # Copia temporal de diseno/ para poder abrir los .dc.html en el navegador
 # y comparar contra lo construido. No va al repo.
 /public/diseno/
+
+# Estado local de la CLI de Supabase
+/supabase/.temp/
+/.supabase/

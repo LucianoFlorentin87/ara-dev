@@ -20,8 +20,8 @@ export async function generateMetadata({ params }: PageProps<'/rubros/[rubro]'>)
   }
 }
 
-// Pendiente del cliente: el WhatsApp real. Hoy es el marcador del diseño.
-const WA = 'https://wa.me/595981000000'
+// Contacto de Ára confirmado por el responsable del sitio.
+const WA = 'https://wa.me/595983991460'
 
 const h2 = {
   fontFamily: 'var(--fuente-titulos), Outfit, sans-serif',
