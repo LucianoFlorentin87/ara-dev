@@ -15,6 +15,7 @@ export default async function Login({ searchParams }: PageProps<'/login'>) {
       bajada="Con tu usuario del local. Cada rol ve solo lo que le corresponde."
     >
       <Formulario volver={volver} />
+      {params.enlace === 'invalido' && <p role="alert">El enlace venció o no es válido. Pedí otro y abrilo en el mismo navegador.</p>}
     </MarcoAuth>
   )
 }

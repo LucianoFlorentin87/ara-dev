@@ -286,32 +286,6 @@ export default async function PanelLayout({ children }: LayoutProps<'/panel'>) {
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <label style={{ position: 'relative', display: 'block' }}>
-              <span className="solo-lectores">Buscar</span>
-              <input
-                type="search"
-                placeholder="Buscar cliente, turno o cobro"
-                className="buscador-panel"
-              />
-              <span
-                aria-hidden
-                style={{
-                  position: 'absolute',
-                  right: '8px',
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  fontSize: '10.5px',
-                  fontWeight: 700,
-                  color: 'var(--ink-2)',
-                  border: '1px solid var(--line)',
-                  borderRadius: '6px',
-                  padding: '1px 5px',
-                }}
-              >
-                ⌘K
-              </span>
-            </label>
-
             <Link
               href="/panel/comunicacion"
               className="boton-icono"

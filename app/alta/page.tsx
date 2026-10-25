@@ -16,11 +16,14 @@ export const metadata = {
 export default async function Alta() {
   const supabase = await crearClienteServidor()
   const { data } = await supabase.auth.getUser()
-  if (!data.user) redirect('/login?volver=/alta')
+  if (!data.user) redirect('/registro')
+
+  const { data: miembro } = await supabase.from('usuarios').select('id').eq('auth_id', data.user.id).limit(1)
+  if (miembro?.length) redirect('/panel')
 
   return (
     <div className={claseNoche} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Asistente />
+      <Asistente nombreUsuario={String(data.user.user_metadata?.nombre ?? data.user.email?.split('@')[0] ?? 'Dueño')} correo={data.user.email ?? ''} />
     </div>
   )
 }

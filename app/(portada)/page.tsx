@@ -12,8 +12,8 @@ export const metadata = {
     'Turnos sin doble reserva, reserva online para tus clientes, caja al cierre del día y la ficha de cada persona con su historial.',
 }
 
-// Pendiente del cliente: el WhatsApp real. Hoy es el marcador del diseño.
-const WA = 'https://wa.me/595981000000'
+// Contacto de Ára confirmado por el responsable del sitio.
+const WA = 'https://wa.me/595983991460'
 
 // Pendiente del cliente: los precios reales. Gs. 150.000 y Gs. 350.000 son
 // los marcadores del diseño, igual que en /precios.
